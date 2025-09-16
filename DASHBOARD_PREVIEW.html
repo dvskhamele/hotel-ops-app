@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Operations Dashboard - Visual Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .notification-bell {
+            position: relative;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #dbeafe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-weight: bold;
+        }
+        
+        /* Navigation */
+        .nav {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 30px;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            color: #2563eb;
+            background-color: #f8fafc;
+        }
+        
+        .nav-item.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8fafc;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border-top: 4px solid #2563eb;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #2563eb;
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        /* Quick Actions */
+        .section {
+            padding: 0 30px 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .action-button {
+            background: #eff6ff;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2563eb;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .action-button:hover {
+            background: #dbeafe;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+        }
+        
+        /* Recent Activity */
+        .activity-list {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .icon-request {
+            background: #2563eb;
+        }
+        
+        .icon-room {
+            background: #10b981;
+        }
+        
+        .icon-maintenance {
+            background: #f59e0b;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+        
+        .activity-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .activity-time {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+        
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-top: 30px;
+        }
+        
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 1.2rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f8fafc;
+            padding: 15px 20px;
+            text-align: left;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background: #f8fafc;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-inprogress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-clean {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-dirty {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-inspected {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .priority-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .priority-low {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+        
+        .priority-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .priority-high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        /* Two Column Layout */
+        .columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .nav-list {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-hotel"></i> Hotel Operations
+            </div>
+            <div class="user-controls">
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">AU</div>
+                    <span>Admin User</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </li>
+                <li class="nav-item" data-page="rooms">
+                    <i class="fas fa-bed"></i> Rooms
+                </li>
+                <li class="nav-item" data-page="requests">
+                    <i class="fas fa-clipboard-list"></i> Requests
+                </li>
+                <li class="nav-item" data-page="staff">
+                    <i class="fas fa-users"></i> Staff
+                </li>
+                <li class="nav-item" data-page="inventory">
+                    <i class="fas fa-boxes"></i> Inventory
+                </li>
+                <li class="nav-item" data-page="analytics">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </li>
+                <li class="nav-item" data-page="departments">
+                    <i class="fas fa-building"></i> Departments
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Pending Requests</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-bed"></i>
+                </div>
+                <div class="stat-number">42</div>
+                <div class="stat-label">Occupied Rooms</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-door-open"></i>
+                </div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Available Rooms</div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions & Recent Activity -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">Quick Actions</div>
+            </div>
+            
+            <div class="columns">
+                <div>
+                    <div class="quick-actions-grid">
+                        <button class="action-button">
+                            <div class="action-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <span>View Requests</span>
+                        </button>
+                        
+                        <button class="action-button">
+                            <div class="action-icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <span>Manage Rooms</span>
+                        </button>
+                        
+                        <button class="action-button">
+                            <div class="action-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span>View Analytics</span>
+                        </button>
+                        
+                        <button class="action-button">
+                            <div class="action-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span>Department Coordination</span>
+                        </button>
+                    </div>
+                    
+                    <div class="section-header" style="margin-top: 30px;">
+                        <div class="section-title">Room Status</div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <i class="fas fa-bed"></i> Room Status Overview
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Room</th>
+                                    <th>Status</th>
+                                    <th>Last Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>101</td>
+                                    <td><span class="status-badge status-clean">Clean</span></td>
+                                    <td>2 hours ago</td>
+                                </tr>
+                                <tr>
+                                    <td>102</td>
+                                    <td><span class="status-badge status-dirty">Dirty</span></td>
+                                    <td>5 hours ago</td>
+                                </tr>
+                                <tr>
+                                    <td>103</td>
+                                    <td><span class="status-badge status-inspected">Inspected</span></td>
+                                    <td>1 day ago</td>
+                                </tr>
+                                <tr>
+                                    <td>104</td>
+                                    <td><span class="status-badge status-dirty">Dirty</span></td>
+                                    <td>3 hours ago</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="activity-list">
+                        <div class="section-header">
+                            <div class="section-title">Recent Activity</div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon icon-request">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">New request created</div>
+                                <div class="activity-desc">John Doe - Extra towels (Room 205)</div>
+                                <div class="activity-time">2 minutes ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon icon-room">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Room status updated</div>
+                                <div class="activity-desc">Room 103 marked as Clean</div>
+                                <div class="activity-time">1 hour ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon icon-request">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Request completed</div>
+                                <div class="activity-desc">Room service delivered to Room 102</div>
+                                <div class="activity-time">15 minutes ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon icon-maintenance">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Maintenance request</div>
+                                <div class="activity-desc">Leaky faucet reported in Room 302</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-header" style="margin-top: 30px;">
+                        <div class="section-title">Recent Requests</div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <i class="fas fa-clipboard-list"></i> Recent Requests
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Guest</th>
+                                    <th>Room</th>
+                                    <th>Request</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>205</td>
+                                    <td>Extra towels</td>
+                                    <td><span class="priority-badge priority-medium">Medium</span></td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>102</td>
+                                    <td>Room service</td>
+                                    <td><span class="priority-badge priority-high">High</span></td>
+                                    <td><span class="status-badge status-inprogress">In Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Robert Johnson</td>
+                                    <td>302</td>
+                                    <td>Maintenance</td>
+                                    <td><span class="priority-badge priority-low">Low</span></td>
+                                    <td><span class="status-badge status-completed">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // In a real app, you would load the corresponding page content here
+                alert(`Navigating to ${this.textContent.trim()} page`);
+            });
+        });
+    </script>
+</body>
+</html>

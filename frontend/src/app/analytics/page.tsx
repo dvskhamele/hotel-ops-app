@@ -252,7 +252,7 @@ export default function Analytics() {
                     <p className="text-sm font-medium text-slate-600">Completion Rate</p>
                     <p className="text-3xl font-bold text-emerald-600">
                       {requestTrends.requestStatusDistribution 
-                        ? Math.round(requestTrends.requestStatusDistribution.find(s => s.status === 'COMPLETED')?.percentage || 0) 
+                        ? Math.round(requestTrends.requestStatusDistribution.find((s: any) => s.status === 'COMPLETED')?.percentage || 0) 
                         : 0}%
                     </p>
                   </div>

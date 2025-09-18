@@ -6,7 +6,9 @@ import { useRouter } from 'next/navigation'
 import Header from '../../components/Header'
 import HousekeepingAnalytics from '../../components/HousekeepingAnalytics'
 import StaffLeaderboard from '../../components/StaffLeaderboard'
+import MobileNavigation from '../../components/MobileNavigation'
 import apiService from '../../utils/apiService'
+import MobileDashboard from './page-mobile'
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -31,19 +33,30 @@ export default function Dashboard() {
     foodService: 95
   })
   const [timeRange, setTimeRange] = useState('7d') // For charts
+  const [isMobile, setIsMobile] = useState(false)
 
   const router = useRouter()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      // Mock user data for prototype
-      setUser({ name: 'Admin User', role: 'ADMIN' } as any);
-      setIsLoggedIn(true)
-      fetchDashboardData()
-    } else {
-      // If no token, ensure we're showing the login form
-      setIsLoggedIn(false)
+    // Check if user is on mobile device
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkIsMobile()
+    window.addEventListener('resize', checkIsMobile)
+    
+    // For prototype, always allow access and mock login
+    const token = localStorage.getItem('token') || 'mock-token';
+    localStorage.setItem('token', token);
+    
+    // Mock user data for prototype
+    setUser({ name: 'Admin User', role: 'ADMIN' } as any);
+    setIsLoggedIn(true)
+    fetchDashboardData()
+    
+    return () => {
+      window.removeEventListener('resize', checkIsMobile)
     }
   }, [router])
 
@@ -138,6 +151,49 @@ export default function Dashboard() {
     }
   }
 
+  const getStatusClass = (status: string) => {
+    switch (status) {
+      case 'PENDING':
+        return 'bg-amber-100 text-amber-800'
+      case 'IN_PROGRESS':
+        return 'bg-blue-100 text-blue-800'
+      case 'COMPLETED':
+        return 'bg-emerald-100 text-emerald-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getPriorityClass = (priority: string) => {
+    switch (priority) {
+      case 'LOW':
+        return 'bg-gray-100 text-gray-800'
+      case 'MEDIUM':
+        return 'bg-amber-100 text-amber-800'
+      case 'HIGH':
+        return 'bg-rose-100 text-rose-800'
+      case 'URGENT':
+        return 'bg-rose-100 text-rose-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getDepartmentClass = (department: string) => {
+    switch (department) {
+      case 'HOUSEKEEPING':
+        return 'bg-blue-100 text-blue-800'
+      case 'MAINTENANCE':
+        return 'bg-amber-100 text-amber-800'
+      case 'CONCIERGE':
+        return 'bg-emerald-100 text-emerald-800'
+      case 'FOOD_SERVICE':
+        return 'bg-rose-100 text-rose-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
   // Function to generate chart data for occupancy
   const generateOccupancyData = () => {
     const data = []
@@ -214,6 +270,11 @@ export default function Dashboard() {
         </div>
       </div>
     )
+  }
+
+  // Render mobile dashboard for small screens
+  if (isMobile) {
+    return <MobileDashboard />
   }
 
   return (

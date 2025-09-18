@@ -1,60 +1,89 @@
-# HotelOps - Hotel Operations Management System
+# Hotel Operations Management System
 
-A beautiful, fully functional hotel operations management system built with Next.js and Vercel.
+A comprehensive hotel management system with features for room status tracking, guest request management, staff scheduling, and analytics.
 
 ## Features
 
-- Real-time dashboard with hotel metrics
-- Room management system
-- Staff scheduling and task assignment
-- Guest request tracking
-- Inventory management
-- Department coordination
-- Analytics and reporting
-- Mobile-responsive design
+- **Dashboard Analytics**: Real-time insights into hotel performance
+- **Room Management**: Track room status, housekeeping tasks, and maintenance requests
+- **Guest Request System**: Streamline guest requests with priority management
+- **Staff Management**: Track staff performance, schedules, and department assignments
+- **Inventory Tracking**: Monitor hotel inventory levels with automated alerts
+- **Reporting & Analytics**: Generate detailed reports on occupancy, revenue, and staff performance
 
-## Prerequisites
+## Pricing
 
-1. Node.js (v14 or higher)
-2. A Vercel account
-3. A modern web browser
+- **Template**: $0 - Basic frontend template with core UI components
+- **Backend**: $5000 - Complete backend API with database integration
+- **Full Application**: $10,000 - Complete hotel management system with frontend and backend
+
+## Technologies
+
+- **Frontend**: Next.js 13+, TypeScript, Tailwind CSS, React
+- **Backend**: Node.js, Express
+- **Database**: MongoDB (in full version)
+- **Authentication**: JWT
+- **Deployment**: Vercel
 
 ## Getting Started
 
-### Automated Deployment with Vercel
+### Prerequisites
 
-1. **Connect to Vercel**
-   - Go to [vercel.com](https://vercel.com) and sign up/log in
-   - Create a new project from your GitHub repository
+- Node.js (v16 or higher)
+- npm or yarn
 
-2. **Configure Environment Variables**
-   - In your Vercel project settings, go to "Environment Variables"
-   - Add any required variables (e.g., API keys, database URLs)
+### Installation
 
-3. **Set Build Settings**
-   - Framework Preset: Next.js
-   - Root Directory: `frontend`
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
 
-4. **Deploy to Vercel**
-   - Push your code to GitHub and import the project to Vercel
-   - Or use Vercel CLI: `vercel --prod`
+2. Install dependencies:
+   ```bash
+   cd hotel-ops-app
+   npm install
+   ```
 
-## Architecture
+3. Build the frontend:
+   ```bash
+   cd frontend
+   npm run build
+   cd ..
+   ```
 
-- **Frontend**: Next.js with React (App Router)
-- **Backend**: Vercel Serverless Functions
-- **Database**: JSON files (simulated)
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel
+4. Start the server:
+   ```bash
+   npm start
+   ```
 
-## Customization
+5. Open your browser to http://localhost:3001
 
-1. Modify the API routes in `backend/src/` to change API responses
-2. Update the UI components in `frontend/src/components/` to change the look and feel
-3. Add new pages by creating files in `frontend/src/app/`
+## Deployment
+
+### Vercel Deployment
+
+1. Push the code to a GitHub repository
+2. Connect the repository to Vercel
+3. Vercel will automatically detect the project and deploy it
+
+### Environment Variables
+
+For production deployment, set the following environment variables:
+
+- `PORT` - Port to run the server on (default: 3001)
+- `NODE_ENV` - Environment (development/production)
+
+## Development
+
+To run in development mode:
+
+```bash
+npm run dev
+```
+
+This will start both the frontend and backend servers.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License

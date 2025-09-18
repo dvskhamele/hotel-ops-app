@@ -3,7 +3,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
                      (typeof window !== 'undefined' ? '/api' : 'http://localhost:3001/api');
 
 // In production, use real API instead of mock data
-const USE_MOCK_DATA = false;
+// For this prototype, we'll use mock data with localStorage persistence
+const USE_MOCK_DATA = true;
 
 // Types for our API responses
 interface LoginResponse {
@@ -535,6 +536,11 @@ class APIService {
     if (USE_MOCK_DATA) {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 300));
+      // Try to get from localStorage first
+      const storedStaff = localStorage.getItem('hotelStaff');
+      if (storedStaff) {
+        return JSON.parse(storedStaff);
+      }
       return {
         staff: [
           { id: 1, name: 'John Smith', role: 'Manager', status: 'ACTIVE' },
@@ -566,10 +572,26 @@ class APIService {
   }
 
   async updateStaffStatus(staffId: number, status: string): Promise<any> {
-    // In production, always use mock data
+    // In production, always use mock data and store in localStorage
     if (USE_MOCK_DATA) {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
+      // Update localStorage
+      const storedStaff = localStorage.getItem('hotelStaff');
+      let staffData = storedStaff ? JSON.parse(storedStaff) : {
+        staff: [
+          { id: 1, name: 'John Smith', role: 'Manager', status: 'ACTIVE' },
+          { id: 2, name: 'Jane Doe', role: 'Housekeeping', status: 'ACTIVE' },
+          { id: 3, name: 'Robert Johnson', role: 'Maintenance', status: 'ON_BREAK' }
+        ]
+      };
+      
+      const staffIndex = staffData.staff.findIndex((staff: any) => staff.id === staffId);
+      if (staffIndex !== -1) {
+        staffData.staff[staffIndex] = { ...staffData.staff[staffIndex], status };
+        localStorage.setItem('hotelStaff', JSON.stringify(staffData));
+      }
+      
       return {
         success: true,
         staff: {
@@ -766,6 +788,11 @@ class APIService {
     if (USE_MOCK_DATA) {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 300));
+      // Try to get from localStorage first
+      const storedInventory = localStorage.getItem('hotelInventory');
+      if (storedInventory) {
+        return JSON.parse(storedInventory);
+      }
       return {
         inventory: [
           { id: 1, name: 'Towels', quantity: 100, minStock: 50 },
@@ -797,10 +824,26 @@ class APIService {
   }
 
   async updateInventoryQuantity(inventoryId: number, quantity: number): Promise<any> {
-    // In production, always use mock data
+    // In production, always use mock data and store in localStorage
     if (USE_MOCK_DATA) {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
+      // Update localStorage
+      const storedInventory = localStorage.getItem('hotelInventory');
+      let inventoryData = storedInventory ? JSON.parse(storedInventory) : {
+        inventory: [
+          { id: 1, name: 'Towels', quantity: 100, minStock: 50 },
+          { id: 2, name: 'Soap', quantity: 200, minStock: 75 },
+          { id: 3, name: 'Shampoo', quantity: 150, minStock: 60 }
+        ]
+      };
+      
+      const inventoryIndex = inventoryData.inventory.findIndex((item: any) => item.id === inventoryId);
+      if (inventoryIndex !== -1) {
+        inventoryData.inventory[inventoryIndex] = { ...inventoryData.inventory[inventoryIndex], quantity };
+        localStorage.setItem('hotelInventory', JSON.stringify(inventoryData));
+      }
+      
       return {
         success: true,
         inventory: {
@@ -847,6 +890,11 @@ class APIService {
     if (USE_MOCK_DATA) {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 300));
+      // Try to get from localStorage first
+      const storedDepartments = localStorage.getItem('hotelDepartments');
+      if (storedDepartments) {
+        return JSON.parse(storedDepartments);
+      }
       return {
         departments: [
           { id: 1, name: 'HOUSEKEEPING', description: 'Housekeeping Department' },

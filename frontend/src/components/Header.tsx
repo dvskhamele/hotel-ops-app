@@ -40,21 +40,27 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
     { name: 'Departments', href: '/departments', icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4' }
   ]
 
+  // For mobile, we'll show only the most important navigation items
+  const mobileNavItems = navItems.filter(item => 
+    ['Dashboard', 'Guests', 'Rooms', 'Requests', 'Staff'].includes(item.name)
+  )
+
   return (
-    <header className="bg-white shadow">
+    <header className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-3">
           <div className="flex items-center">
-            <Link href="/dashboard" className="text-2xl font-bold text-slate-800 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-teal-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <Link href="/dashboard" className="text-xl font-bold text-slate-800 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-teal-600 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
               </svg>
-              HotelOps
+              <span className="hidden sm:inline">HotelOps</span>
+              <span className="sm:hidden">HO</span>
             </Link>
           </div>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -64,21 +70,23 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                 </svg>
-                {item.name}
+                <span className="truncate max-w-[100px]">{item.name}</span>
               </Link>
             ))}
           </nav>
           
-          <div className="flex items-center space-x-4">
-            <NotificationComponent user={user} />
+          <div className="flex items-center space-x-3">
+            <div className="hidden sm:block">
+              <NotificationComponent user={user} />
+            </div>
             <div className="relative group">
               <button className="flex items-center text-sm font-medium text-slate-700 hover:text-slate-900">
-                <span className="mr-2">{user?.name || 'User'}</span>
+                <span className="mr-1 hidden md:inline">{user?.name || 'User'}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-50">
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-50">
                 <button
                   onClick={onLogout}
                   className="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
@@ -102,19 +110,22 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
         
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-slate-200">
-            <nav className="flex flex-col space-y-2">
-              {navItems.map((item) => (
+          <div className="md:hidden py-3 border-t border-slate-200">
+            <div className="flex justify-between mb-3">
+              <NotificationComponent user={user} />
+            </div>
+            <nav className="grid grid-cols-3 gap-2">
+              {mobileNavItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`${pathname === item.href ? 'text-teal-600 bg-teal-50' : 'text-slate-600'} px-3 py-2 rounded-md text-base font-medium flex items-center`}
+                  className={`${pathname === item.href ? 'text-teal-600 bg-teal-50' : 'text-slate-600'} px-2 py-2 rounded-md text-xs font-medium flex flex-col items-center justify-center text-center h-16`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                   </svg>
-                  {item.name}
+                  <span className="truncate w-full">{item.name}</span>
                 </Link>
               ))}
             </nav>

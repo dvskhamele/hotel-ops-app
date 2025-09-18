@@ -503,11 +503,44 @@ app.get('/api/departments', (req, res) => {
 });
 
 // Serve static files from the frontend build
-app.use(express.static(path.join(__dirname, 'frontend/out')));
+// Handle both local development and Vercel deployment paths
+const frontendPath = path.join(__dirname, 'frontend/out');
+
+// Always serve static files from the frontend build directory
+app.use(express.static(frontendPath));
 
 // Serve frontend for all other routes (this should be last)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/out/index.html'));
+  // For static export with Next.js, we should serve index.html for all routes
+  // to let client-side routing handle the navigation
+  const indexPath = path.join(frontendPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    // Fallback to API response if frontend files are not found
+    res.json({ 
+      message: 'Hotel Operations Management API', 
+      version: '1.0.0',
+      description: 'This is the backend API for HotelOps. For the frontend, please visit the deployed frontend URL.',
+      available_endpoints: [
+        'GET /api/dashboard/stats',
+        'GET /api/dashboard/activity',
+        'GET /api/rooms',
+        'PUT /api/rooms/:id/status',
+        'GET /api/staff',
+        'PUT /api/staff/:id/status',
+        'GET /api/requests',
+        'POST /api/requests',
+        'PUT /api/requests/:id/status',
+        'PUT /api/requests/:id/assign',
+        'GET /api/reports/request-metrics',
+        'GET /api/reports/staff-performance',
+        'GET /api/inventory',
+        'PUT /api/inventory/:id/quantity',
+        'GET /api/departments'
+      ]
+    });
+  }
 });
 
 // Start server

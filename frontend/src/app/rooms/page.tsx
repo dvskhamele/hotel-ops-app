@@ -14,6 +14,7 @@ export default function Rooms() {
   const [user, setUser] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showAddRoomModal, setShowAddRoomModal] = useState(false)
+  const [showEditRoomModal, setShowEditRoomModal] = useState(false)
   const [newRoom, setNewRoom] = useState({
     number: '',
     floor: 1,

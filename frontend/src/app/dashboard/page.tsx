@@ -348,7 +348,7 @@ export default function Dashboard() {
                     style={{ height: `${(data.occupancy / 100) * 200}px` }}
                   ></div>
                   <div className="text-xs text-slate-600 mt-1 group-hover:text-slate-800 transition-colors">
-                    {data.day}
+                    {data.date}
                   </div>
                 </div>
               ))}
@@ -385,7 +385,7 @@ export default function Dashboard() {
                     style={{ height: `${(data.revenue / 15000) * 200}px` }}
                   ></div>
                   <div className="text-xs text-slate-600 mt-1 group-hover:text-slate-800 transition-colors">
-                    {data.day}
+                    {data.date}
                   </div>
                 </div>
               ))}

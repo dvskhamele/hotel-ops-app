@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# HotelOps Deployment Script for Netlify
+# HotelOps Deployment Script for Vercel
 
-echo "Preparing HotelOps application for Netlify deployment..."
+echo "Preparing HotelOps application for Vercel deployment..."
 
 # Create a deployment package
 echo "Creating deployment package..."
@@ -13,8 +13,6 @@ cd /Users/test/startups/hotelmanagement/hotel-ops-app
 # Create a temporary directory for deployment
 mkdir -p deployment
 cp -r frontend deployment/
-cp -r netlify deployment/
-cp netlify.toml deployment/
 cp README.md deployment/
 cp package.json deployment/
 
@@ -23,7 +21,7 @@ cat > deployment/package.json << EOF
 {
   "name": "hotel-ops-app-deployment",
   "version": "1.0.0",
-  "description": "Hotel Operations Management System for Netlify Deployment",
+  "description": "Hotel Operations Management System for Vercel Deployment",
   "scripts": {
     "build": "cd frontend && npm run build"
   },
@@ -39,12 +37,12 @@ EOF
 
 echo "Deployment package created successfully!"
 echo ""
-echo "To deploy to Netlify:"
+echo "To deploy to Vercel:"
 echo "1. Create a new GitHub repository"
 echo "2. Push the contents of the 'deployment' directory to your repository"
-echo "3. Connect Netlify to your repository"
-echo "4. Set build command to: cd frontend && npm run build"
-echo "5. Set publish directory to: frontend/.next"
+echo "3. Connect Vercel to your repository"
+echo "4. Set framework preset to: Next.js"
+echo "5. Set root directory to: frontend"
 echo "6. Deploy!"
 
 echo ""

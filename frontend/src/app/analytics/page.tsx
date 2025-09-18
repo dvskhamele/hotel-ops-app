@@ -4,71 +4,127 @@ import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 
 export default function Analytics() {
-  const [user, setUser] = useState(null)
-  const [timeRange, setTimeRange] = useState('30d')
-  const [selectedMetric, setSelectedMetric] = useState('revenue')
+  const [user, setUser] = useState<any>(null)
+  const [activeTab, setActiveTab] = useState('overview')
+  const [responseTimeStats, setResponseTimeStats] = useState<any>({})
+  const [productivityStats, setProductivityStats] = useState<any>({})
+  const [requestTrends, setRequestTrends] = useState<any>({})
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    // Get user from localStorage
     const token = localStorage.getItem('token')
     if (token) {
-      // In a real app, we would decode the token to get user info
-      // For now, we'll just set a default user
       setUser({ name: 'Admin User', role: 'ADMIN' } as any)
+      fetchAnalyticsData()
     }
   }, [])
+
+  const fetchAnalyticsData = async () => {
+    try {
+      setLoading(true)
+      
+      // Mock data for prototype
+      const mockResponseTimeStats = {
+        averageResponseTime: 32,
+        responseTimeTrend: [
+          { date: '2023-05-01', responseTime: 35 },
+          { date: '2023-05-02', responseTime: 30 },
+          { date: '2023-05-03', responseTime: 32 },
+          { date: '2023-05-04', responseTime: 28 },
+          { date: '2023-05-05', responseTime: 34 },
+          { date: '2023-05-06', responseTime: 31 },
+          { date: '2023-05-07', responseTime: 33 }
+        ],
+        departmentResponseTimes: [
+          { department: 'Housekeeping', averageTime: 28 },
+          { department: 'Maintenance', averageTime: 45 },
+          { department: 'Food & Beverage', averageTime: 22 },
+          { department: 'Front Office', averageTime: 18 }
+        ]
+      }
+      
+      const mockProductivityStats = {
+        overallProductivity: 87,
+        departmentProductivity: [
+          { department: 'Housekeeping', productivity: 92 },
+          { department: 'Maintenance', productivity: 87 },
+          { department: 'Food & Beverage', productivity: 95 },
+          { department: 'Front Office', productivity: 89 }
+        ],
+        topPerformers: [
+          { name: 'Alice Johnson', department: 'Housekeeping', productivity: 96 },
+          { name: 'Mike Thompson', department: 'Food & Beverage', productivity: 94 },
+          { name: 'Robert Wilson', department: 'Maintenance', productivity: 91 }
+        ],
+        productivityTrend: [
+          { date: '2023-05-01', productivity: 85 },
+          { date: '2023-05-02', productivity: 86 },
+          { date: '2023-05-03', productivity: 88 },
+          { date: '2023-05-04', productivity: 87 },
+          { date: '2023-05-05', productivity: 89 },
+          { date: '2023-05-06', productivity: 88 },
+          { date: '2023-05-07', productivity: 90 }
+        ]
+      }
+      
+      const mockRequestTrends = {
+        totalRequests: 124,
+        requestTypes: [
+          { type: 'Housekeeping', count: 45, percentage: 36 },
+          { type: 'Maintenance', count: 28, percentage: 23 },
+          { type: 'Food & Beverage', count: 32, percentage: 26 },
+          { type: 'Front Office', count: 19, percentage: 15 }
+        ],
+        peakRequestTimes: [
+          { hour: '08:00', count: 12 },
+          { hour: '09:00', count: 18 },
+          { hour: '10:00', count: 22 },
+          { hour: '11:00', count: 15 },
+          { hour: '12:00', count: 8 },
+          { hour: '13:00', count: 6 },
+          { hour: '14:00', count: 10 },
+          { hour: '15:00', count: 14 },
+          { hour: '16:00', count: 19 }
+        ],
+        requestStatusDistribution: [
+          { status: 'PENDING', count: 12, percentage: 10 },
+          { status: 'IN_PROGRESS', count: 8, percentage: 6 },
+          { status: 'COMPLETED', count: 104, percentage: 84 }
+        ]
+      }
+      
+      setResponseTimeStats(mockResponseTimeStats)
+      setProductivityStats(mockProductivityStats)
+      setRequestTrends(mockRequestTrends)
+      
+      setError('')
+    } catch (err) {
+      console.error('Error fetching analytics data:', err)
+      setError('Failed to fetch analytics data')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const exportReport = () => {
+    // In a real implementation, this would call the export API
+    // For prototype, we'll just show a message
+    alert('Report exported successfully!')
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
     window.location.href = '/'
   }
 
-  // Generate mock data for charts
-  const generateRevenueData = () => {
-    const data = []
-    const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90
-    for (let i = days - 1; i >= 0; i--) {
-      const date = new Date()
-      date.setDate(date.getDate() - i)
-      data.push({
-        date: date.toISOString().split('T')[0],
-        revenue: Math.floor(Math.random() * 15000) + 5000, // Random between 5000-20000
-        bookings: Math.floor(Math.random() * 30) + 10, // Random between 10-40
-        occupancy: Math.floor(Math.random() * 40) + 60 // Random between 60-100%
-      })
-    }
-    return data
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+      </div>
+    )
   }
-
-  const generateDepartmentData = () => {
-    return [
-      { department: 'Housekeeping', requests: 142, completion: 96 },
-      { department: 'Maintenance', requests: 78, completion: 92 },
-      { department: 'Food & Beverage', requests: 205, completion: 98 },
-      { department: 'Front Desk', requests: 89, completion: 94 },
-      { department: 'Concierge', requests: 64, completion: 90 }
-    ]
-  }
-
-  const generateGuestSatisfactionData = () => {
-    return [
-      { category: 'Room Cleanliness', score: 94 },
-      { category: 'Staff Friendliness', score: 92 },
-      { category: 'Check-in Process', score: 89 },
-      { category: 'Facilities', score: 91 },
-      { category: 'Value for Money', score: 87 }
-    ]
-  }
-
-  const revenueData = generateRevenueData()
-  const departmentData = generateDepartmentData()
-  const satisfactionData = generateGuestSatisfactionData()
-
-  // Calculate totals
-  const totalRevenue = revenueData.reduce((sum, day) => sum + day.revenue, 0)
-  const avgDailyRevenue = totalRevenue / revenueData.length
-  const totalBookings = revenueData.reduce((sum, day) => sum + day.bookings, 0)
-  const avgOccupancy = revenueData.reduce((sum, day) => sum + day.occupancy, 0) / revenueData.length
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -77,284 +133,336 @@ export default function Analytics() {
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">Analytics Dashboard</h2>
-            <p className="text-slate-600">Comprehensive insights into hotel performance</p>
+            <h2 className="text-2xl font-bold text-slate-800">Analytics & Reporting</h2>
+            <p className="text-slate-600">Insights into hotel operations performance</p>
           </div>
-          <div className="flex space-x-2">
-            <button 
-              className={`px-3 py-1 rounded text-sm ${timeRange === '7d' ? 'bg-teal-500 text-white' : 'bg-slate-100 text-slate-700'}`}
-              onClick={() => setTimeRange('7d')}
+          <button 
+            className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-6 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
+            onClick={exportReport}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+            Export Report
+          </button>
+        </div>
+
+        {error && (
+          <div className="bg-rose-50 text-rose-700 p-4 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
+
+        {/* Tab Navigation */}
+        <div className="bg-white rounded-xl shadow p-2 mb-6">
+          <div className="flex space-x-1">
+            <button
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                activeTab === 'overview'
+                  ? 'bg-teal-100 text-teal-800'
+                  : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
+              }`}
+              onClick={() => setActiveTab('overview')}
             >
-              7D
+              Overview
             </button>
-            <button 
-              className={`px-3 py-1 rounded text-sm ${timeRange === '30d' ? 'bg-teal-500 text-white' : 'bg-slate-100 text-slate-700'}`}
-              onClick={() => setTimeRange('30d')}
+            <button
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                activeTab === 'response-times'
+                  ? 'bg-teal-100 text-teal-800'
+                  : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
+              }`}
+              onClick={() => setActiveTab('response-times')}
             >
-              30D
+              Response Times
             </button>
-            <button 
-              className={`px-3 py-1 rounded text-sm ${timeRange === '90d' ? 'bg-teal-500 text-white' : 'bg-slate-100 text-slate-700'}`}
-              onClick={() => setTimeRange('90d')}
+            <button
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                activeTab === 'productivity'
+                  ? 'bg-teal-100 text-teal-800'
+                  : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
+              }`}
+              onClick={() => setActiveTab('productivity')}
             >
-              90D
+              Productivity
+            </button>
+            <button
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                activeTab === 'trends'
+                  ? 'bg-teal-100 text-teal-800'
+                  : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
+              }`}
+              onClick={() => setActiveTab('trends')}
+            >
+              Request Trends
             </button>
           </div>
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-emerald-500">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-slate-500">Total Revenue</p>
-                <p className="text-2xl font-bold text-slate-800 mt-1">₹{totalRevenue.toLocaleString()}</p>
-              </div>
-              <div className="bg-emerald-100 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4">
-              <span className="text-xs text-emerald-500">↑ 12% from previous period</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-blue-500">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-slate-500">Avg. Daily Revenue</p>
-                <p className="text-2xl font-bold text-slate-800 mt-1">₹{avgDailyRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
-              </div>
-              <div className="bg-blue-100 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4">
-              <span className="text-xs text-emerald-500">↑ 8% from previous period</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-amber-500">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-slate-500">Total Bookings</p>
-                <p className="text-2xl font-bold text-slate-800 mt-1">{totalBookings}</p>
-              </div>
-              <div className="bg-amber-100 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4">
-              <span className="text-xs text-rose-500">↓ 3% from previous period</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-purple-500">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-slate-500">Avg. Occupancy</p>
-                <p className="text-2xl font-bold text-slate-800 mt-1">{avgOccupancy.toFixed(1)}%</p>
-              </div>
-              <div className="bg-purple-100 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4">
-              <span className="text-xs text-emerald-500">↑ 5% from previous period</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Revenue Chart */}
-          <div className="bg-white rounded-2xl shadow-md p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">Revenue Trend</h3>
-              <div className="flex space-x-2">
-                <button 
-                  className={`text-xs px-2 py-1 rounded ${selectedMetric === 'revenue' ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-600'}`}
-                  onClick={() => setSelectedMetric('revenue')}
-                >
-                  Revenue
-                </button>
-                <button 
-                  className={`text-xs px-2 py-1 rounded ${selectedMetric === 'bookings' ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-600'}`}
-                  onClick={() => setSelectedMetric('bookings')}
-                >
-                  Bookings
-                </button>
-                <button 
-                  className={`text-xs px-2 py-1 rounded ${selectedMetric === 'occupancy' ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-600'}`}
-                  onClick={() => setSelectedMetric('occupancy')}
-                >
-                  Occupancy
-                </button>
-              </div>
-            </div>
-            <div className="h-80 flex items-end space-x-2 mt-8">
-              {revenueData.map((data, index) => (
-                <div key={index} className="flex flex-col items-center flex-1">
-                  <div className="text-xs text-slate-500 mb-1">
-                    {selectedMetric === 'revenue' ? `₹${(data.revenue / 1000).toFixed(1)}k` : 
-                     selectedMetric === 'bookings' ? data.bookings : 
-                     `${data.occupancy}%`}
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white rounded-xl shadow p-6 border-l-4 border-teal-500">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium text-slate-600">Avg. Response Time</p>
+                    <p className="text-3xl font-bold text-teal-600">{responseTimeStats.averageResponseTime} min</p>
                   </div>
-                  <div 
-                    className="w-full bg-gradient-to-t from-teal-500 to-teal-400 rounded-t-lg hover:from-teal-600 hover:to-teal-500 transition-all duration-300"
-                    style={{ 
-                      height: `${selectedMetric === 'revenue' ? (data.revenue / 20000) * 80 : 
-                               selectedMetric === 'bookings' ? (data.bookings / 40) * 80 : 
-                               (data.occupancy / 100) * 80}%` 
-                    }}
-                  ></div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {new Date(data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  <div className="p-3 bg-teal-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                   </div>
                 </div>
-              ))}
+              </div>
+              
+              <div className="bg-white rounded-xl shadow p-6 border-l-4 border-blue-500">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium text-slate-600">Overall Productivity</p>
+                    <p className="text-3xl font-bold text-blue-600">{productivityStats.overallProductivity}%</p>
+                  </div>
+                  <div className="p-3 bg-blue-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow p-6 border-l-4 border-amber-500">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium text-slate-600">Total Requests</p>
+                    <p className="text-3xl font-bold text-amber-600">{requestTrends.totalRequests}</p>
+                  </div>
+                  <div className="p-3 bg-amber-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow p-6 border-l-4 border-emerald-500">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-medium text-slate-600">Completion Rate</p>
+                    <p className="text-3xl font-bold text-emerald-600">
+                      {requestTrends.requestStatusDistribution 
+                        ? Math.round(requestTrends.requestStatusDistribution.find(s => s.status === 'COMPLETED')?.percentage || 0) 
+                        : 0}%
+                    </p>
+                  </div>
+                  <div className="p-3 bg-emerald-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Department Performance */}
-          <div className="bg-white rounded-2xl shadow-md p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">Department Performance</h3>
-              <button className="text-sm text-teal-600 hover:text-teal-800 font-medium">View Details</button>
-            </div>
-            <div className="space-y-4 mt-8">
-              {departmentData.map((dept, index) => (
-                <div key={index}>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium text-slate-700">{dept.department}</span>
-                    <span className="text-sm font-medium text-slate-700">{dept.completion}%</span>
-                  </div>
-                  <div className="w-full bg-slate-200 rounded-full h-2.5">
-                    <div
-                      className="h-2.5 rounded-full bg-gradient-to-r from-teal-400 to-teal-600"
-                      style={{ width: `${dept.completion}%` }}
-                    ></div>
-                  </div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {dept.requests} requests
-                  </div>
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Response Time Trend */}
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Response Time Trend</h3>
+                <div className="h-64 flex items-end space-x-2">
+                  {responseTimeStats.responseTimeTrend?.map((point: any, index: number) => (
+                    <div key={index} className="flex flex-col items-center flex-1">
+                      <div 
+                        className="w-full bg-gradient-to-t from-teal-500 to-teal-400 rounded-t-md"
+                        style={{ height: `${(point.responseTime / 50) * 100}%` }}
+                      ></div>
+                      <span className="text-xs text-slate-500 mt-2">{point.date.split('-')[2]}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+              </div>
 
-        {/* Additional Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Guest Satisfaction */}
-          <div className="bg-white rounded-2xl shadow-md p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">Guest Satisfaction</h3>
-              <button className="text-sm text-teal-600 hover:text-teal-800 font-medium">View Survey</button>
-            </div>
-            <div className="space-y-4 mt-8">
-              {satisfactionData.map((item, index) => (
-                <div key={index}>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium text-slate-700">{item.category}</span>
-                    <span className="text-sm font-medium text-slate-700">{item.score}%</span>
-                  </div>
-                  <div className="w-full bg-slate-200 rounded-full h-2.5">
-                    <div
-                      className="h-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-600"
-                      style={{ width: `${item.score}%` }}
-                    ></div>
-                  </div>
+              {/* Productivity Trend */}
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Productivity Trend</h3>
+                <div className="h-64 flex items-end space-x-2">
+                  {productivityStats.productivityTrend?.map((point: any, index: number) => (
+                    <div key={index} className="flex flex-col items-center flex-1">
+                      <div 
+                        className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-md"
+                        style={{ height: `${point.productivity}%` }}
+                      ></div>
+                      <span className="text-xs text-slate-500 mt-2">{point.date.split('-')[2]}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Occupancy by Room Type */}
-          <div className="bg-white rounded-2xl shadow-md p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">Occupancy by Room Type</h3>
-              <button className="text-sm text-teal-600 hover:text-teal-800 font-medium">View Details</button>
-            </div>
-            <div className="space-y-4 mt-8">
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Standard Rooms</span>
-                  <span className="text-sm font-medium text-slate-700">72%</span>
-                </div>
-                <div className="w-full bg-slate-200 rounded-full h-2.5">
-                  <div
-                    className="h-2.5 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"
-                    style={{ width: '72%' }}
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Deluxe Rooms</span>
-                  <span className="text-sm font-medium text-slate-700">85%</span>
-                </div>
-                <div className="w-full bg-slate-200 rounded-full h-2.5">
-                  <div
-                    className="h-2.5 rounded-full bg-gradient-to-r from-purple-400 to-purple-600"
-                    style={{ width: '85%' }}
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Suites</span>
-                  <span className="text-sm font-medium text-slate-700">92%</span>
-                </div>
-                <div className="w-full bg-slate-200 rounded-full h-2.5">
-                  <div
-                    className="h-2.5 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600"
-                    style={{ width: '92%' }}
-                  ></div>
-                </div>
+        {/* Response Times Tab */}
+        {activeTab === 'response-times' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-xl shadow p-6">
+              <h3 className="text-lg font-semibold text-slate-800 mb-4">Average Response Time by Department</h3>
+              <div className="space-y-4">
+                {responseTimeStats.departmentResponseTimes?.map((dept: any, index: number) => (
+                  <div key={index} className="border border-slate-200 rounded-lg p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-medium text-slate-800">{dept.department}</h4>
+                      <span className="text-lg font-bold text-slate-800">{dept.averageTime} min</span>
+                    </div>
+                    <div className="w-full bg-slate-200 rounded-full h-2">
+                      <div 
+                        className="bg-gradient-to-r from-teal-500 to-teal-600 h-2 rounded-full" 
+                        style={{ width: `${(dept.averageTime / 60) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Performance Insights */}
-        <div className="bg-white rounded-2xl shadow-md p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-slate-800">Performance Insights</h3>
-            <button className="text-sm text-teal-600 hover:text-teal-800 font-medium">Export Report</button>
+        {/* Productivity Tab */}
+        {activeTab === 'productivity' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Department Productivity</h3>
+                <div className="space-y-4">
+                  {productivityStats.departmentProductivity?.map((dept: any, index: number) => (
+                    <div key={index} className="border border-slate-200 rounded-lg p-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-medium text-slate-800">{dept.department}</h4>
+                        <span className="text-lg font-bold text-slate-800">{dept.productivity}%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" 
+                          style={{ width: `${dept.productivity}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Top Performers</h3>
+                <div className="space-y-4">
+                  {productivityStats.topPerformers?.map((performer: any, index: number) => (
+                    <div key={index} className="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                          <span className="text-white font-medium">{performer.name.charAt(0)}</span>
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-slate-900">{performer.name}</div>
+                          <div className="text-sm text-slate-500">{performer.department}</div>
+                        </div>
+                      </div>
+                      <div className="text-lg font-bold text-slate-800">{performer.productivity}%</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="border border-blue-200 bg-blue-50 rounded-lg p-4">
-              <div className="flex justify-between items-start">
-                <h4 className="font-medium text-blue-800">Peak Performance</h4>
+        )}
+
+        {/* Request Trends Tab */}
+        {activeTab === 'trends' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Request Types Distribution</h3>
+                <div className="space-y-4">
+                  {requestTrends.requestTypes?.map((type: any, index: number) => (
+                    <div key={index} className="border border-slate-200 rounded-lg p-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-medium text-slate-800">{type.type}</h4>
+                        <span className="text-lg font-bold text-slate-800">{type.percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-amber-500 to-amber-600 h-2 rounded-full" 
+                          style={{ width: `${type.percentage}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-sm text-slate-500 mt-1">{type.count} requests</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="text-xl font-bold text-blue-700 mt-2">Friday-Sunday</p>
-              <p className="text-sm text-blue-600">Highest occupancy and revenue</p>
+
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Peak Request Times</h3>
+                <div className="h-64 flex items-end space-x-2">
+                  {requestTrends.peakRequestTimes?.map((time: any, index: number) => (
+                    <div key={index} className="flex flex-col items-center flex-1">
+                      <div 
+                        className="w-full bg-gradient-to-t from-rose-500 to-rose-400 rounded-t-md"
+                        style={{ height: `${(time.count / 25) * 100}%` }}
+                      ></div>
+                      <span className="text-xs text-slate-500 mt-2">{time.hour}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="border border-amber-200 bg-amber-50 rounded-lg p-4">
-              <div className="flex justify-between items-start">
-                <h4 className="font-medium text-amber-800">Improvement Area</h4>
+
+            <div className="bg-white rounded-xl shadow p-6">
+              <h3 className="text-lg font-semibold text-slate-800 mb-4">Request Status Distribution</h3>
+              <div className="flex justify-center">
+                <div className="w-64 h-64 relative">
+                  {requestTrends.requestStatusDistribution && (
+                    <>
+                      {/* PENDING - 10% (36 degrees) */}
+                      <div className="absolute inset-0 rounded-full border-8 border-amber-500" style={{ clipPath: 'polygon(50% 50%, 50% 0%, 61.8% 11.8%)' }}></div>
+                      
+                      {/* IN_PROGRESS - 6% (21.6 degrees) */}
+                      <div className="absolute inset-0 rounded-full border-8 border-blue-500" style={{ clipPath: 'polygon(50% 50%, 61.8% 11.8%, 70.7% 29.3%)' }}></div>
+                      
+                      {/* COMPLETED - 84% (302.4 degrees) */}
+                      <div className="absolute inset-0 rounded-full border-8 border-emerald-500" style={{ clipPath: 'polygon(50% 50%, 70.7% 29.3%, 50% 100%)' }}></div>
+                    </>
+                  )}
+                  <div className="absolute inset-8 rounded-full bg-white"></div>
+                  
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-2xl font-bold text-slate-800">{requestTrends.totalRequests}</span>
+                    <span className="text-sm text-slate-600">Total Requests</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-xl font-bold text-amber-700 mt-2">Check-in Process</p>
-              <p className="text-sm text-amber-600">Satisfaction score: 89%</p>
-            </div>
-            <div className="border border-emerald-200 bg-emerald-50 rounded-lg p-4">
-              <div className="flex justify-between items-start">
-                <h4 className="font-medium text-emerald-800">Top Performer</h4>
+              
+              <div className="flex justify-center mt-6 space-x-6">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-amber-500 rounded-full mr-2"></div>
+                  <span className="text-sm text-slate-600">
+                    Pending ({requestTrends.requestStatusDistribution?.find((s: any) => s.status === 'PENDING')?.percentage || 0}%)
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                  <span className="text-sm text-slate-600">
+                    In Progress ({requestTrends.requestStatusDistribution?.find((s: any) => s.status === 'IN_PROGRESS')?.percentage || 0}%)
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-emerald-500 rounded-full mr-2"></div>
+                  <span className="text-sm text-slate-600">
+                    Completed ({requestTrends.requestStatusDistribution?.find((s: any) => s.status === 'COMPLETED')?.percentage || 0}%)
+                  </span>
+                </div>
               </div>
-              <p className="text-xl font-bold text-emerald-700 mt-2">Food & Beverage</p>
-              <p className="text-sm text-emerald-600">98% completion rate</p>
             </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   )

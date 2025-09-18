@@ -59,6 +59,10 @@ class HotelService {
     return await this.db.find('rooms', {});
   }
 
+  async getRoomById(roomId) {
+    return await this.db.findById('rooms', roomId);
+  }
+
   async updateRoomStatus(roomId, status) {
     const room = await this.db.findById('rooms', roomId);
     if (room) {
@@ -101,6 +105,10 @@ class HotelService {
     }
   }
 
+  async logActivity(activityData) {
+    return await this.db.create('activity', activityData);
+  }
+
   // Staff service
   async getAllStaff() {
     return await this.db.find('staff', {});
@@ -132,6 +140,41 @@ class HotelService {
   // Requests service
   async getAllRequests() {
     return await this.db.find('requests', {});
+  }
+
+  async getRequestById(requestId) {
+    return await this.db.findById('requests', requestId);
+  }
+
+  async createRequest(requestData) {
+    // Generate new ID
+    const allRequests = await this.getAllRequests();
+    const newId = allRequests.length > 0 ? Math.max(...allRequests.map(r => r.id)) + 1 : 1;
+    
+    const newRequest = {
+      id: newId,
+      guestName: requestData.guestName,
+      roomNumber: requestData.roomNumber,
+      title: requestData.title,
+      department: requestData.department,
+      priority: requestData.priority,
+      status: requestData.status,
+      createdAt: new Date().toISOString(),
+      comments: []
+    };
+    
+    const createdRequest = await this.db.create('requests', newRequest);
+    
+    // Log activity
+    await this.db.create('activity', {
+      type: 'request',
+      title: 'New guest request',
+      description: `${requestData.guestName} - ${requestData.title} (${requestData.department})`,
+      timestamp: new Date().toISOString(),
+      status: 'PENDING'
+    });
+    
+    return createdRequest;
   }
 
   async updateRequestStatus(requestId, status) {
@@ -173,6 +216,23 @@ class HotelService {
       
       return newRequest;
     }
+  }
+
+  async assignRequestToStaff(requestId, staffId) {
+    const request = await this.db.findById('requests', requestId);
+    if (request) {
+      return await this.db.update('requests', requestId, { assignedTo: staffId });
+    }
+    return null;
+  }
+
+  async addCommentToRequest(requestId, commentData) {
+    const request = await this.db.findById('requests', requestId);
+    if (request) {
+      const updatedComments = request.comments ? [...request.comments, commentData] : [commentData];
+      return await this.db.update('requests', requestId, { comments: updatedComments });
+    }
+    return null;
   }
 
   // Inventory service

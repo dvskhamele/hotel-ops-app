@@ -16,35 +16,45 @@ A beautiful, fully functional hotel operations management system built with Next
 
 ### Prerequisites
 
-1. A GitHub account
+1. A GitHub account (you're already logged in)
 2. A Netlify account
 
-### Deployment Steps
+### Automated Deployment with Netlify
 
-1. **Push to GitHub**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: HotelOps application"
-   git branch -M main
-   git remote add origin https://github.com/yourusername/hotel-ops-app.git
-   git push -u origin main
-   ```
-
-2. **Connect to Netlify**
+1. **Connect to Netlify**
    - Go to [netlify.com](https://netlify.com) and sign up/log in
    - Click "Add new site" → "Import an existing project"
    - Connect to your GitHub account
-   - Select your hotel-ops-app repository
+   - Select your `hotel-ops-app` repository
    - Configure the deployment settings:
      - **Build command**: `cd frontend && npm run build`
      - **Publish directory**: `frontend/.next`
    - Click "Deploy site"
 
-3. **Wait for Deployment**
-   - Netlify will automatically build and deploy your site
-   - This typically takes 2-5 minutes
-   - Your site will be available at a URL like `https://your-site-name.netlify.app`
+### Manual Deployment Steps
+
+If you prefer to deploy manually:
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/dvskhamele/hotel-ops-app.git
+   cd hotel-ops-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+3. **Build the application**
+   ```bash
+   npm run build
+   ```
+
+4. **Deploy to Netlify**
+   - Drag and drop the `frontend/.next` directory to Netlify's deploy interface
+   - Or use Netlify CLI: `netlify deploy --prod`
 
 ### How It Works
 

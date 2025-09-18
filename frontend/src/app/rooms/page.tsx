@@ -31,22 +31,23 @@ export default function Rooms() {
     }
   }, [])
 
-  const fetchRooms = async () => {
+    const fetchRooms = async () => {
     try {
-      setLoading(true)
-      const roomData = await apiService.getRooms()
-      setRooms(roomData.rooms)
+      setLoading(true);
+      const roomData = await apiService.getRooms();
+      setRooms(roomData.rooms);
       
       // Calculate stats
-      const clean = roomData.rooms.filter((r: any) => r.status === 'CLEAN').length
-      const dirty = roomData.rooms.filter((r: any) => r.status === 'DIRTY').length
-      const inspected = roomData.rooms.filter((r: any) => r.status === 'INSPECTED').length
-      const outOfOrder = roomData.rooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length
-      setStats({ clean, dirty, inspected, outOfOrder, total: roomData.rooms.length })
-      setError('')
+      const clean = roomData.rooms.filter((r: any) => r.status === 'CLEAN').length;
+      const dirty = roomData.rooms.filter((r: any) => r.status === 'DIRTY').length;
+      const inspected = roomData.rooms.filter((r: any) => r.status === 'INSPECTED').length;
+      const outOfOrder = roomData.rooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
+      setStats({ clean, dirty, inspected, outOfOrder, total: roomData.rooms.length });
+      setError('');
     } catch (err) {
-      console.error('Error fetching rooms:', err)
-      setError('Failed to load rooms. Using mock data.')
+      console.error('Error fetching rooms:', err);
+      setError('This is a Demo version - In the real version, you will get actual data from the backend');
+      
       // Use mock data if API fails
       const mockRooms = [
         { id: 1, number: '101', floor: 1, type: 'Standard', status: 'CLEAN', updatedAt: new Date().toISOString() },
@@ -61,40 +62,64 @@ export default function Rooms() {
         { id: 10, number: '302', floor: 3, type: 'Standard', status: 'DIRTY', updatedAt: new Date(Date.now() - 3600000).toISOString() },
         { id: 11, number: '303', floor: 3, type: 'Deluxe', status: 'INSPECTED', updatedAt: new Date(Date.now() - 7200000).toISOString() },
         { id: 12, number: '304', floor: 3, type: 'Suite', status: 'CLEAN', updatedAt: new Date().toISOString() }
-      ]
+      ];
       
-      setRooms(mockRooms)
+      setRooms(mockRooms);
       
       // Calculate stats
-      const clean = mockRooms.filter((r: any) => r.status === 'CLEAN').length
-      const dirty = mockRooms.filter((r: any) => r.status === 'DIRTY').length
-      const inspected = mockRooms.filter((r: any) => r.status === 'INSPECTED').length
-      const outOfOrder = mockRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length
-      setStats({ clean, dirty, inspected, outOfOrder, total: mockRooms.length })
+      const clean = mockRooms.filter((r: any) => r.status === 'CLEAN').length;
+      const dirty = mockRooms.filter((r: any) => r.status === 'DIRTY').length;
+      const inspected = mockRooms.filter((r: any) => r.status === 'INSPECTED').length;
+      const outOfOrder = mockRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
+      setStats({ clean, dirty, inspected, outOfOrder, total: mockRooms.length });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const updateRoomStatus = async (roomId: number, newStatus: string) => {
     try {
-      await apiService.updateRoomStatus(roomId, newStatus)
-      // Update local state
-      setRooms(rooms.map(room => 
-        room.id === roomId ? { ...room, status: newStatus, updatedAt: new Date().toISOString() } : room
-      ))
+      await apiService.updateRoomStatus(roomId, newStatus);
       
-      // Refresh stats
-      const clean = rooms.filter(r => r.status === 'CLEAN' || (r.id === roomId && newStatus === 'CLEAN')).length
-      const dirty = rooms.filter(r => r.status === 'DIRTY' || (r.id === roomId && newStatus === 'DIRTY')).length
-      const inspected = rooms.filter(r => r.status === 'INSPECTED' || (r.id === roomId && newStatus === 'INSPECTED')).length
-      const outOfOrder = rooms.filter(r => r.status === 'OUT_OF_ORDER' || (r.id === roomId && newStatus === 'OUT_OF_ORDER')).length
-      setStats({ clean, dirty, inspected, outOfOrder, total: stats.total })
+      // Update local state
+      setRooms(rooms.map((room: any) => 
+        room.id === roomId ? { ...room, status: newStatus, updatedAt: new Date().toISOString() } : room
+      ));
+      
+      // Update stats
+      const updatedRooms = rooms.map((room: any) => 
+        room.id === roomId ? { ...room, status: newStatus } : room
+      );
+      
+      const clean = updatedRooms.filter((r: any) => r.status === 'CLEAN').length;
+      const dirty = updatedRooms.filter((r: any) => r.status === 'DIRTY').length;
+      const inspected = updatedRooms.filter((r: any) => r.status === 'INSPECTED').length;
+      const outOfOrder = updatedRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
+      setStats({ clean, dirty, inspected, outOfOrder, total: updatedRooms.length });
+      
+      // Show success message
+      setError('This is a Demo version - Changes saved successfully in localStorage');
     } catch (error) {
-      console.error('Error updating room status:', error)
-      alert('Failed to update room status')
+      console.error('Error updating room status:', error);
+      setError('This is a Demo version - In the real version, you will get actual data from the backend');
+      
+      // Update local state even if API fails (for demo purposes)
+      setRooms(rooms.map((room: any) => 
+        room.id === roomId ? { ...room, status: newStatus, updatedAt: new Date().toISOString() } : room
+      ));
+      
+      // Update stats
+      const updatedRooms = rooms.map((room: any) => 
+        room.id === roomId ? { ...room, status: newStatus } : room
+      );
+      
+      const clean = updatedRooms.filter((r: any) => r.status === 'CLEAN').length;
+      const dirty = updatedRooms.filter((r: any) => r.status === 'DIRTY').length;
+      const inspected = updatedRooms.filter((r: any) => r.status === 'INSPECTED').length;
+      const outOfOrder = updatedRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
+      setStats({ clean, dirty, inspected, outOfOrder, total: updatedRooms.length });
     }
-  }
+  };
 
   const getStatusClass = (status: string) => {
     switch (status) {
@@ -243,7 +268,7 @@ export default function Rooms() {
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6">
+          <div className="bg-amber-50 text-amber-700 p-4 rounded-lg mb-6">
             {error}
           </div>
         )}
@@ -275,8 +300,7 @@ export default function Rooms() {
               <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-1">Search</label>
               <input
                 type="text"
-                id="search"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 placeholder="Room number or type"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -286,7 +310,7 @@ export default function Rooms() {
               <label htmlFor="statusFilter" className="block text-sm font-medium text-slate-700 mb-1">Status</label>
               <select
                 id="statusFilter"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
               >
@@ -301,7 +325,7 @@ export default function Rooms() {
               <label htmlFor="floorFilter" className="block text-sm font-medium text-slate-700 mb-1">Floor</label>
               <select
                 id="floorFilter"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 value={selectedFloor}
                 onChange={(e) => setSelectedFloor(e.target.value)}
               >
@@ -316,7 +340,7 @@ export default function Rooms() {
               <label htmlFor="sortBy" className="block text-sm font-medium text-slate-700 mb-1">Sort By</label>
               <select
                 id="sortBy"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
               >
@@ -346,7 +370,7 @@ export default function Rooms() {
         {/* Room Grid Visualization */}
         <div className="bg-white rounded-xl shadow p-6 mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-slate-800">Room Visualization</h3>
+            <h3 className="text-lg font-semibold text-slate-800">Interactive Room Map</h3>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-slate-600">Sort:</span>
               <button 
@@ -364,41 +388,218 @@ export default function Rooms() {
             </div>
           </div>
           
-          {/* Room Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {sortedRooms.map((room: any) => (
-              <div 
-                key={room.id} 
-                className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md ${room.status === 'CLEAN' ? 'border-emerald-200 bg-emerald-50' : room.status === 'DIRTY' ? 'border-amber-200 bg-amber-50' : room.status === 'INSPECTED' ? 'border-blue-200 bg-blue-50' : 'border-rose-200 bg-rose-50'}`}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-bold text-slate-800">Room {room.number}</h4>
-                    <p className="text-sm text-slate-600">{room.type}</p>
-                  </div>
-                  <div className={`p-1 rounded-full ${room.status === 'CLEAN' ? 'bg-emerald-100' : room.status === 'DIRTY' ? 'bg-amber-100' : room.status === 'INSPECTED' ? 'bg-blue-100' : 'bg-rose-100'}`}>
-                    {getStatusIcon(room.status)}
-                  </div>
+          {/* Room Map Visualization */}
+          <div className="mb-6">
+            {/* Floor Selector */}
+            <div className="flex space-x-2 mb-4">
+              {[1, 2, 3].map((floor) => (
+                <button
+                  key={floor}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    selectedFloor === floor.toString() || selectedFloor === ''
+                      ? 'bg-teal-500 text-white'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                  onClick={() => setSelectedFloor(selectedFloor === floor.toString() ? '' : floor.toString())}
+                >
+                  Floor {floor}
+                </button>
+              ))}
+            </div>
+            
+            {/* Interactive Floor Plan */}
+            <div className="border border-slate-200 rounded-xl p-6 bg-slate-50 relative">
+              {/* Legend */}
+              <div className="flex flex-wrap gap-4 mb-6">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-emerald-500 rounded mr-2"></div>
+                  <span className="text-sm text-slate-700">Clean</span>
                 </div>
-                <div className="mt-3">
-                  <span className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}>
-                    {getStatusText(room.status)}
-                  </span>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-amber-500 rounded mr-2"></div>
+                  <span className="text-sm text-slate-700">Dirty</span>
                 </div>
-                <div className="mt-3 flex justify-between items-center">
-                  <select
-                    className="text-xs px-2 py-1 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-teal-500"
-                    value={room.status}
-                    onChange={(e) => updateRoomStatus(room.id, e.target.value)}
-                  >
-                    <option value="CLEAN">Clean</option>
-                    <option value="DIRTY">Dirty</option>
-                    <option value="INSPECTED">Inspected</option>
-                    <option value="OUT_OF_ORDER">Out of Order</option>
-                  </select>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+                  <span className="text-sm text-slate-700">Inspected</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-rose-500 rounded mr-2"></div>
+                  <span className="text-sm text-slate-700">Out of Order</span>
                 </div>
               </div>
-            ))}
+              
+              {/* Floor Plan Visualization */}
+              <div className="relative">
+                {/* Floor 1 */}
+                {(!selectedFloor || selectedFloor === '1') && (
+                  <div className={`mb-8 ${selectedFloor && selectedFloor !== '1' ? 'opacity-50' : ''}`}>
+                    <h4 className="text-md font-medium text-slate-800 mb-3">Floor 1</h4>
+                    <div className="grid grid-cols-4 gap-4">
+                      {sortedRooms
+                        .filter((room) => room.floor === 1)
+                        .map((room) => (
+                          <div
+                            key={room.id}
+                            className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
+                              room.status === 'CLEAN'
+                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                : room.status === 'DIRTY'
+                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
+                                : room.status === 'INSPECTED'
+                                ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
+                            }`}
+                            onClick={() => updateRoomStatus(room.id, room.status === 'CLEAN' ? 'DIRTY' : room.status === 'DIRTY' ? 'INSPECTED' : room.status === 'INSPECTED' ? 'CLEAN' : 'DIRTY')}
+                          >
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="font-bold text-slate-800">Room {room.number}</h4>
+                                <p className="text-sm text-slate-600">{room.type}</p>
+                              </div>
+                              <div
+                                className={`p-1 rounded-full ${
+                                  room.status === 'CLEAN'
+                                    ? 'bg-emerald-100'
+                                    : room.status === 'DIRTY'
+                                    ? 'bg-amber-100'
+                                    : room.status === 'INSPECTED'
+                                    ? 'bg-blue-100'
+                                    : 'bg-rose-100'
+                                }`}
+                              >
+                                {getStatusIcon(room.status)}
+                              </div>
+                            </div>
+                            <div className="mt-3">
+                              <span
+                                className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}
+                              >
+                                {getStatusText(room.status)}
+                              </span>
+                            </div>
+                            <div className="mt-2 text-xs text-slate-500">
+                              Click to change status
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Floor 2 */}
+                {(!selectedFloor || selectedFloor === '2') && (
+                  <div className={`mb-8 ${selectedFloor && selectedFloor !== '2' ? 'opacity-50' : ''}`}>
+                    <h4 className="text-md font-medium text-slate-800 mb-3">Floor 2</h4>
+                    <div className="grid grid-cols-4 gap-4">
+                      {sortedRooms
+                        .filter((room) => room.floor === 2)
+                        .map((room) => (
+                          <div
+                            key={room.id}
+                            className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
+                              room.status === 'CLEAN'
+                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                : room.status === 'DIRTY'
+                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
+                                : room.status === 'INSPECTED'
+                                ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
+                            }`}
+                            onClick={() => updateRoomStatus(room.id, room.status === 'CLEAN' ? 'DIRTY' : room.status === 'DIRTY' ? 'INSPECTED' : room.status === 'INSPECTED' ? 'CLEAN' : 'DIRTY')}
+                          >
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="font-bold text-slate-800">Room {room.number}</h4>
+                                <p className="text-sm text-slate-600">{room.type}</p>
+                              </div>
+                              <div
+                                className={`p-1 rounded-full ${
+                                  room.status === 'CLEAN'
+                                    ? 'bg-emerald-100'
+                                    : room.status === 'DIRTY'
+                                    ? 'bg-amber-100'
+                                    : room.status === 'INSPECTED'
+                                    ? 'bg-blue-100'
+                                    : 'bg-rose-100'
+                                }`}
+                              >
+                                {getStatusIcon(room.status)}
+                              </div>
+                            </div>
+                            <div className="mt-3">
+                              <span
+                                className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}
+                              >
+                                {getStatusText(room.status)}
+                              </span>
+                            </div>
+                            <div className="mt-2 text-xs text-slate-500">
+                              Click to change status
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Floor 3 */}
+                {(!selectedFloor || selectedFloor === '3') && (
+                  <div className={`${selectedFloor && selectedFloor !== '3' ? 'opacity-50' : ''}`}>
+                    <h4 className="text-md font-medium text-slate-800 mb-3">Floor 3</h4>
+                    <div className="grid grid-cols-4 gap-4">
+                      {sortedRooms
+                        .filter((room) => room.floor === 3)
+                        .map((room) => (
+                          <div
+                            key={room.id}
+                            className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
+                              room.status === 'CLEAN'
+                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                : room.status === 'DIRTY'
+                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
+                                : room.status === 'INSPECTED'
+                                ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
+                            }`}
+                            onClick={() => updateRoomStatus(room.id, room.status === 'CLEAN' ? 'DIRTY' : room.status === 'DIRTY' ? 'INSPECTED' : room.status === 'INSPECTED' ? 'CLEAN' : 'DIRTY')}
+                          >
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="font-bold text-slate-800">Room {room.number}</h4>
+                                <p className="text-sm text-slate-600">{room.type}</p>
+                              </div>
+                              <div
+                                className={`p-1 rounded-full ${
+                                  room.status === 'CLEAN'
+                                    ? 'bg-emerald-100'
+                                    : room.status === 'DIRTY'
+                                    ? 'bg-amber-100'
+                                    : room.status === 'INSPECTED'
+                                    ? 'bg-blue-100'
+                                    : 'bg-rose-100'
+                                }`}
+                              >
+                                {getStatusIcon(room.status)}
+                              </div>
+                            </div>
+                            <div className="mt-3">
+                              <span
+                                className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}
+                              >
+                                {getStatusText(room.status)}
+                              </span>
+                            </div>
+                            <div className="mt-2 text-xs text-slate-500">
+                              Click to change status
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -418,8 +619,18 @@ export default function Rooms() {
               </thead>
               <tbody className="bg-white divide-y divide-slate-200">
                 {sortedRooms.map((room: any) => (
-                  <tr key={room.id} className="hover:bg-slate-50 transition-all duration-300">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <tr 
+                    key={room.id} 
+                    className="hover:bg-slate-50 transition-all duration-300 cursor-pointer"
+                    onClick={() => setShowEditRoomModal(true)}
+                  >
+                    <td 
+                      className="px-6 py-4 whitespace-nowrap cursor-pointer hover:bg-slate-100 transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowEditRoomModal(true);
+                      }}
+                    >
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
                           <span className="text-white font-bold">{room.number}</span>
@@ -429,26 +640,54 @@ export default function Rooms() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                    <td 
+                      className="px-6 py-4 whitespace-nowrap text-sm text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Show floor edit modal
+                        alert(`Edit floor for room ${room.number}`);
+                      }}
+                    >
                       Floor {room.floor}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                    <td 
+                      className="px-6 py-4 whitespace-nowrap text-sm text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Show type edit modal
+                        alert(`Edit type for room ${room.number}`);
+                      }}
+                    >
                       {room.type}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td 
+                      className="px-6 py-4 whitespace-nowrap cursor-pointer hover:bg-slate-100 transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Show status edit modal
+                      }}
+                    >
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(room.status)}`}>
                         {getStatusText(room.status)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <td 
+                      className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 cursor-pointer hover:bg-slate-100 transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Show date edit modal
+                        alert(`Last updated: ${room.updatedAt ? new Date(room.updatedAt).toLocaleString() : 'N/A'}`);
+                      }}
+                    >
                       {room.updatedAt ? new Date(room.updatedAt).toLocaleString() : 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
                         <select
-                          className="px-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                          className="px-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm text-slate-800 bg-white"
                           value={room.status}
                           onChange={(e) => updateRoomStatus(room.id, e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <option value="CLEAN">Clean</option>
                           <option value="DIRTY">Dirty</option>
@@ -486,7 +725,7 @@ export default function Rooms() {
                   <label className="block text-sm font-medium text-slate-700 mb-1">Room Number</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                     placeholder="Enter room number"
                     value={newRoom.number}
                     onChange={(e) => setNewRoom({...newRoom, number: e.target.value})}
@@ -495,7 +734,7 @@ export default function Rooms() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Floor</label>
                   <select
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                     value={newRoom.floor}
                     onChange={(e) => setNewRoom({...newRoom, floor: parseInt(e.target.value)})}
                   >
@@ -508,7 +747,7 @@ export default function Rooms() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Room Type</label>
                   <select
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                     value={newRoom.type}
                     onChange={(e) => setNewRoom({...newRoom, type: e.target.value})}
                   >
@@ -520,7 +759,7 @@ export default function Rooms() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Initial Status</label>
                   <select
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                     value={newRoom.status}
                     onChange={(e) => setNewRoom({...newRoom, status: e.target.value})}
                   >

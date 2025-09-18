@@ -1,9 +1,9 @@
 // API Service for Hotel Operations Management
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 
-                     (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:3000/api');
+                     (typeof window !== 'undefined' ? '/api' : 'http://localhost:3001/api');
 
-// In production, always use mock data
-const USE_MOCK_DATA = process.env.NODE_ENV === 'production';
+// In production, use real API instead of mock data
+const USE_MOCK_DATA = false;
 
 // Types for our API responses
 interface LoginResponse {
@@ -138,21 +138,6 @@ interface DepartmentsResponse {
 class APIService {
   // Authentication
   async login(email: string, password: string): Promise<LoginResponse> {
-    // In production, always use mock data
-    if (USE_MOCK_DATA) {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      return {
-        user: {
-          id: 1,
-          email: email,
-          name: email.split('@')[0],
-          role: 'ADMIN'
-        },
-        token: 'mock-jwt-token'
-      };
-    }
-
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -163,15 +148,13 @@ class APIService {
       });
 
       if (!response.ok) {
-        throw new Error('Login failed');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
 
       return response.json();
     } catch (error) {
+      console.error('Login error:', error);
       // For prototype, return mock data if backend is not available
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('Backend not available, using mock data for login');
-      }
       return {
         user: {
           id: 1,
@@ -186,36 +169,15 @@ class APIService {
 
   // Dashboard
   async getDashboardStats(): Promise<DashboardStats> {
-    // In production, always use mock data
-    if (USE_MOCK_DATA) {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 300));
-      return {
-        stats: {
-          pendingRequests: 12,
-          occupiedRooms: 65,
-          availableRooms: 35,
-          revenueToday: 12500,
-          occupancyRate: 65,
-          staffActive: 24,
-          maintenanceRequests: 8,
-          avgResponseTime: 32,
-          guestSatisfaction: 94
-        }
-      };
-    }
-
     try {
       const response = await fetch(`${API_BASE_URL}/dashboard/stats`);
       if (!response.ok) {
-        throw new Error('Failed to fetch dashboard stats');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
+      console.error('Dashboard stats error:', error);
       // For prototype, return mock data if backend is not available
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('Backend not available, using mock data for dashboard stats');
-      }
       return {
         stats: {
           pendingRequests: 12,
@@ -270,7 +232,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/dashboard/activity`);
       if (!response.ok) {
-        throw new Error('Failed to fetch dashboard activity');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -332,7 +294,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/rooms`);
       if (!response.ok) {
-        throw new Error('Failed to fetch dashboard rooms');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -389,7 +351,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/requests`);
       if (!response.ok) {
-        throw new Error('Failed to fetch dashboard requests');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -438,7 +400,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/dashboard/performance`);
       if (!response.ok) {
-        throw new Error('Failed to fetch dashboard performance');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -482,7 +444,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/rooms`);
       if (!response.ok) {
-        throw new Error('Failed to fetch rooms');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -547,7 +509,7 @@ class APIService {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update room status');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
 
       return response.json();
@@ -585,7 +547,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/staff`);
       if (!response.ok) {
-        throw new Error('Failed to fetch staff');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -628,7 +590,7 @@ class APIService {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update staff status');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
 
       return response.json();
@@ -687,7 +649,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/requests`);
       if (!response.ok) {
-        throw new Error('Failed to fetch requests');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -778,7 +740,7 @@ class APIService {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update request status');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
 
       return response.json();
@@ -816,7 +778,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/inventory`);
       if (!response.ok) {
-        throw new Error('Failed to fetch inventory');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {
@@ -898,7 +860,7 @@ class APIService {
     try {
       const response = await fetch(`${API_BASE_URL}/departments`);
       if (!response.ok) {
-        throw new Error('Failed to fetch departments');
+        throw new Error('This is a Demo version - In the real version, you will get actual data from the backend');
       }
       return response.json();
     } catch (error) {

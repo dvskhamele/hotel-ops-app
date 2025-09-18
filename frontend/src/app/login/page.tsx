@@ -9,14 +9,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState('admin@hotelops.com')
   const [password, setPassword] = useState('password123')
 
-  useEffect(() => {
-    // Auto-login after a short delay
-    const timer = setTimeout(() => {
-      handleLoginAuto();
-    }, 1000);
+  // useEffect(() => {
+  //   // Auto-login after a short delay
+  //   const timer = setTimeout(() => {
+  //     handleLoginAuto();
+  //   }, 1000);
     
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const handleLoginAuto = () => {
     // Mock login - accept any credentials
@@ -46,7 +46,7 @@ export default function LoginPage() {
               type="email"
               id="email"
               autoComplete="email"
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800 bg-white"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -58,7 +58,7 @@ export default function LoginPage() {
               type="password"
               id="password"
               autoComplete="current-password"
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800 bg-white"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

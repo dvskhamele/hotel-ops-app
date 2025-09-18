@@ -134,6 +134,40 @@ const requestStatusHandler = createHandler(async (service, req, res) => {
   }
 });
 
+// Create new request handler
+const createRequestHandler = createHandler(async (service, req, res) => {
+  if (req.method === 'POST') {
+    const { guestName, roomNumber, title, department, priority, description } = req.body;
+    const request = await service.createRequest({ guestName, roomNumber, title, department, priority, description });
+    res.status(201).json(request);
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
+  }
+});
+
+// Get requests by department handler
+const requestsByDepartmentHandler = createHandler(async (service, req, res) => {
+  if (req.method === 'GET') {
+    const { department } = req.query;
+    const requests = await service.getRequestsByDepartment(department);
+    res.status(200).json({ requests });
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
+  }
+});
+
+// Assign request to staff handler
+const assignRequestHandler = createHandler(async (service, req, res) => {
+  if (req.method === 'PUT') {
+    const { staffId } = req.body;
+    const requestId = parseInt(req.query.id || req.params.id);
+    const request = await service.assignRequestToStaff(requestId, staffId);
+    res.status(200).json(request);
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
+  }
+});
+
 // Inventory handlers
 const inventoryHandler = createHandler(async (service, req, res) => {
   if (req.method === 'GET') {

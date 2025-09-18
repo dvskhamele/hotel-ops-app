@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   // Remove the rewrites configuration to avoid proxy issues
 }
 

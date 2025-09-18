@@ -12,6 +12,7 @@ export default function Requests() {
   const [user, setUser] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showNewRequestModal, setShowNewRequestModal] = useState(false)
+  const [viewMode, setViewMode] = useState<'table' | 'kanban'>('table')
   const [newRequest, setNewRequest] = useState({
     guestName: '',
     roomNumber: '',
@@ -86,6 +87,28 @@ export default function Requests() {
         status: 'IN_PROGRESS',
         createdAt: new Date(Date.now() - 18000000).toISOString(),
         description: 'Air conditioning unit not cooling properly in room 104'
+      },
+      { 
+        id: 6, 
+        guestName: 'Sarah Johnson', 
+        roomNumber: '405', 
+        title: 'Late checkout', 
+        department: 'Front Office', 
+        priority: 'MEDIUM', 
+        status: 'PENDING',
+        createdAt: new Date(Date.now() - 21600000).toISOString(),
+        description: 'Guest requested late checkout until 2 PM'
+      },
+      { 
+        id: 7, 
+        guestName: 'David Wilson', 
+        roomNumber: '208', 
+        title: 'Extra pillows', 
+        department: 'Housekeeping', 
+        priority: 'LOW', 
+        status: 'COMPLETED',
+        createdAt: new Date(Date.now() - 25200000).toISOString(),
+        description: 'Guest needs 2 extra pillows'
       }
     ]
     
@@ -131,6 +154,21 @@ export default function Requests() {
     }
   }
 
+  const getDepartmentColor = (department: string) => {
+    switch (department) {
+      case 'Housekeeping':
+        return 'border-l-teal-500'
+      case 'Maintenance':
+        return 'border-l-amber-500'
+      case 'Food & Beverage':
+        return 'border-l-rose-500'
+      case 'Front Office':
+        return 'border-l-blue-500'
+      default:
+        return 'border-l-slate-500'
+    }
+  }
+
   // Filter requests based on selected filters and search term
   const filteredRequests = requests.filter(request => {
     const departmentMatch = selectedDepartment 
@@ -149,6 +187,13 @@ export default function Requests() {
       : true
     return departmentMatch && statusMatch && priorityMatch && searchMatch
   })
+
+  // Group requests by status for Kanban view
+  const groupedRequests = {
+    PENDING: filteredRequests.filter(r => r.status === 'PENDING'),
+    IN_PROGRESS: filteredRequests.filter(r => r.status === 'IN_PROGRESS'),
+    COMPLETED: filteredRequests.filter(r => r.status === 'COMPLETED')
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -188,15 +233,35 @@ export default function Requests() {
             <h2 className="text-2xl font-bold text-slate-800">Guest Requests</h2>
             <p className="text-slate-600">Manage today's guest requests</p>
           </div>
-          <button 
-            className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
-            onClick={() => setShowNewRequestModal(true)}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-            </svg>
-            New Request
-          </button>
+          <div className="flex gap-2">
+            <button 
+              className={`px-4 py-2 rounded-lg transition duration-300 flex items-center ${viewMode === 'table' ? 'bg-teal-500 text-white' : 'bg-white text-slate-700 border border-slate-300'}`}
+              onClick={() => setViewMode('table')}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Table
+            </button>
+            <button 
+              className={`px-4 py-2 rounded-lg transition duration-300 flex items-center ${viewMode === 'kanban' ? 'bg-teal-500 text-white' : 'bg-white text-slate-700 border border-slate-300'}`}
+              onClick={() => setViewMode('kanban')}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+              </svg>
+              Kanban
+            </button>
+            <button 
+              className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
+              onClick={() => setShowNewRequestModal(true)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              New Request
+            </button>
+          </div>
         </div>
 
         {/* Quick Stats */}
@@ -226,8 +291,7 @@ export default function Requests() {
               <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-1">Search</label>
               <input
                 type="text"
-                id="search"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 placeholder="Guest, room, or request"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -237,7 +301,7 @@ export default function Requests() {
               <label htmlFor="departmentFilter" className="block text-sm font-medium text-slate-700 mb-1">Department</label>
               <select
                 id="departmentFilter"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 value={selectedDepartment}
                 onChange={(e) => setSelectedDepartment(e.target.value)}
               >
@@ -251,7 +315,7 @@ export default function Requests() {
               <label htmlFor="statusFilter" className="block text-sm font-medium text-slate-700 mb-1">Status</label>
               <select
                 id="statusFilter"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
               >
@@ -277,70 +341,267 @@ export default function Requests() {
           </div>
         </div>
 
-        {/* Requests List - Simplified for daily operations */}
-        <div className="bg-white rounded-xl shadow overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Guest & Room</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Request</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Department</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Priority</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-slate-200">
-                {filteredRequests.map((request: any) => (
-                  <tr key={request.id} className="hover:bg-slate-50 transition-all duration-300">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
-                          <span className="text-white font-medium">{request.guestName.charAt(0)}</span>
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-slate-900">{request.guestName}</div>
-                          <div className="text-sm text-slate-500">Room {request.roomNumber}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-slate-900">{request.title}</div>
-                      <div className="text-sm text-slate-500">{request.description}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                      {request.department}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityClass(request.priority)}`}>
-                        {request.priority}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(request.status)}`}>
-                        {request.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
-                        <select
-                          className="px-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-                          value={request.status}
-                          onChange={(e) => updateRequestStatus(request.id, e.target.value)}
-                        >
-                          <option value="PENDING">Pending</option>
-                          <option value="IN_PROGRESS">In Progress</option>
-                          <option value="COMPLETED">Completed</option>
-                        </select>
-                      </div>
-                    </td>
+        {/* View Mode: Table or Kanban */}
+        {viewMode === 'table' ? (
+          /* Requests List - Simplified for daily operations */
+          <div className="bg-white rounded-xl shadow overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-slate-200">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Guest & Room</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Request</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Department</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Priority</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-slate-200">
+                  {filteredRequests.map((request: any) => (
+                    <tr key={request.id} className="hover:bg-slate-50 transition-all duration-300">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
+                            <span className="text-white font-medium">{request.guestName.charAt(0)}</span>
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-slate-900">{request.guestName}</div>
+                            <div className="text-sm text-slate-500">Room {request.roomNumber}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-medium text-slate-900">{request.title}</div>
+                        <div className="text-sm text-slate-500">{request.description}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                        {request.department}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityClass(request.priority)}`}>
+                          {request.priority}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(request.status)}`}>
+                          {request.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-2">
+                          <select
+                            className="px-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm text-slate-800 bg-white"
+                            value={request.status}
+                            onChange={(e) => updateRequestStatus(request.id, e.target.value)}
+                          >
+                            <option value="PENDING">Pending</option>
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="COMPLETED">Completed</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        ) : (
+          /* Kanban Board View */
+          <div className="bg-white rounded-xl shadow p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Pending Column */}
+              <div className="border border-slate-200 rounded-xl bg-slate-50">
+                <div className="p-4 border-b border-slate-200">
+                  <h3 className="font-medium text-slate-800 flex items-center">
+                    <span className="w-3 h-3 rounded-full bg-amber-500 mr-2"></span>
+                    Pending
+                    <span className="ml-2 bg-amber-100 text-amber-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                      {groupedRequests.PENDING.length}
+                    </span>
+                  </h3>
+                </div>
+                <div className="p-4 space-y-4 min-h-[400px]">
+                  {groupedRequests.PENDING.map((request) => (
+                    <div 
+                      key={request.id} 
+                      className={`bg-white rounded-lg shadow p-4 border-l-4 ${getDepartmentColor(request.department)} transition-all duration-300 hover:shadow-md`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-medium text-slate-800">{request.title}</h4>
+                          <p className="text-sm text-slate-600 mt-1">{request.description}</p>
+                        </div>
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${getPriorityClass(request.priority)}`}>
+                          {request.priority}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex justify-between items-center">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
+                            <span className="text-white text-xs font-medium">{request.guestName.charAt(0)}</span>
+                          </div>
+                          <div className="ml-2">
+                            <p className="text-xs font-medium text-slate-800">{request.guestName}</p>
+                            <p className="text-xs text-slate-500">Room {request.roomNumber}</p>
+                          </div>
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {new Date(request.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </div>
+                      <div className="mt-3 flex justify-between items-center">
+                        <span className="text-xs px-2 py-1 bg-slate-100 text-slate-800 rounded">
+                          {request.department}
+                        </span>
+                        <button 
+                          className="text-xs text-teal-600 hover:text-teal-800 font-medium"
+                          onClick={() => updateRequestStatus(request.id, 'IN_PROGRESS')}
+                        >
+                          Start
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {groupedRequests.PENDING.length === 0 && (
+                    <div className="text-center py-8 text-slate-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      <p className="mt-2">No pending requests</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* In Progress Column */}
+              <div className="border border-slate-200 rounded-xl bg-slate-50">
+                <div className="p-4 border-b border-slate-200">
+                  <h3 className="font-medium text-slate-800 flex items-center">
+                    <span className="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>
+                    In Progress
+                    <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                      {groupedRequests.IN_PROGRESS.length}
+                    </span>
+                  </h3>
+                </div>
+                <div className="p-4 space-y-4 min-h-[400px]">
+                  {groupedRequests.IN_PROGRESS.map((request) => (
+                    <div 
+                      key={request.id} 
+                      className={`bg-white rounded-lg shadow p-4 border-l-4 ${getDepartmentColor(request.department)} transition-all duration-300 hover:shadow-md`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-medium text-slate-800">{request.title}</h4>
+                          <p className="text-sm text-slate-600 mt-1">{request.description}</p>
+                        </div>
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${getPriorityClass(request.priority)}`}>
+                          {request.priority}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex justify-between items-center">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
+                            <span className="text-white text-xs font-medium">{request.guestName.charAt(0)}</span>
+                          </div>
+                          <div className="ml-2">
+                            <p className="text-xs font-medium text-slate-800">{request.guestName}</p>
+                            <p className="text-xs text-slate-500">Room {request.roomNumber}</p>
+                          </div>
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {new Date(request.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </div>
+                      <div className="mt-3 flex justify-between items-center">
+                        <span className="text-xs px-2 py-1 bg-slate-100 text-slate-800 rounded">
+                          {request.department}
+                        </span>
+                        <button 
+                          className="text-xs text-teal-600 hover:text-teal-800 font-medium"
+                          onClick={() => updateRequestStatus(request.id, 'COMPLETED')}
+                        >
+                          Complete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {groupedRequests.IN_PROGRESS.length === 0 && (
+                    <div className="text-center py-8 text-slate-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="mt-2">No requests in progress</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Completed Column */}
+              <div className="border border-slate-200 rounded-xl bg-slate-50">
+                <div className="p-4 border-b border-slate-200">
+                  <h3 className="font-medium text-slate-800 flex items-center">
+                    <span className="w-3 h-3 rounded-full bg-emerald-500 mr-2"></span>
+                    Completed
+                    <span className="ml-2 bg-emerald-100 text-emerald-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                      {groupedRequests.COMPLETED.length}
+                    </span>
+                  </h3>
+                </div>
+                <div className="p-4 space-y-4 min-h-[400px]">
+                  {groupedRequests.COMPLETED.map((request) => (
+                    <div 
+                      key={request.id} 
+                      className={`bg-white rounded-lg shadow p-4 border-l-4 ${getDepartmentColor(request.department)} transition-all duration-300 hover:shadow-md`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-medium text-slate-800">{request.title}</h4>
+                          <p className="text-sm text-slate-600 mt-1">{request.description}</p>
+                        </div>
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${getPriorityClass(request.priority)}`}>
+                          {request.priority}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex justify-between items-center">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
+                            <span className="text-white text-xs font-medium">{request.guestName.charAt(0)}</span>
+                          </div>
+                          <div className="ml-2">
+                            <p className="text-xs font-medium text-slate-800">{request.guestName}</p>
+                            <p className="text-xs text-slate-500">Room {request.roomNumber}</p>
+                          </div>
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {new Date(request.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </div>
+                      <div className="mt-3 flex justify-between items-center">
+                        <span className="text-xs px-2 py-1 bg-slate-100 text-slate-800 rounded">
+                          {request.department}
+                        </span>
+                        <span className="text-xs text-emerald-600 font-medium">
+                          Completed
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  {groupedRequests.COMPLETED.length === 0 && (
+                    <div className="text-center py-8 text-slate-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="mt-2">No completed requests</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Daily Operations Notes */}
         <div className="mt-8 bg-white rounded-xl shadow p-6">
@@ -396,7 +657,7 @@ export default function Requests() {
                     <label className="block text-sm font-medium text-slate-700 mb-1">Guest Name</label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                       placeholder="Guest name"
                       value={newRequest.guestName}
                       onChange={(e) => setNewRequest({...newRequest, guestName: e.target.value})}
@@ -406,7 +667,7 @@ export default function Requests() {
                     <label className="block text-sm font-medium text-slate-700 mb-1">Room</label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                       placeholder="Room number"
                       value={newRequest.roomNumber}
                       onChange={(e) => setNewRequest({...newRequest, roomNumber: e.target.value})}
@@ -416,17 +677,17 @@ export default function Requests() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Request</label>
                   <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    placeholder="What does the guest need?"
-                    value={newRequest.title}
-                    onChange={(e) => setNewRequest({...newRequest, title: e.target.value})}
-                  />
+                      type="text"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
+                      placeholder="What does the guest need?"
+                      value={newRequest.title}
+                      onChange={(e) => setNewRequest({...newRequest, title: e.target.value})}
+                    />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Department</label>
                   <select 
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                     value={newRequest.department}
                     onChange={(e) => setNewRequest({...newRequest, department: e.target.value})}
                   >
@@ -439,7 +700,7 @@ export default function Requests() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Priority</label>
                   <select 
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                     value={newRequest.priority}
                     onChange={(e) => setNewRequest({...newRequest, priority: e.target.value})}
                   >

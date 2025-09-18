@@ -1,0 +1,17 @@
+# Directories
+node_modules/
+frontend/
+backend/
+.git/
+
+# Files
+*.md
+*.json
+*.sh
+.env*
+!.env.production
+
+# Ignore all except the static files we need
+!_next/
+!*.html
+!*.txt

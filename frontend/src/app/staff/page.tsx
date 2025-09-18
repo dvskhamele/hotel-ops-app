@@ -187,8 +187,7 @@ export default function Staff() {
               <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-1">Search</label>
               <input
                 type="text"
-                id="search"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
                 placeholder="Name, position, or email"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}

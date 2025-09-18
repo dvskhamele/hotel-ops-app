@@ -1,22 +1,33 @@
-// Mock PMS (Opera) API Integration Service
+// PMS Integration Service
 class PMSIntegrationService {
   constructor(apiUrl, apiKey) {
     this.apiUrl = apiUrl;
     this.apiKey = apiKey;
   }
 
-  // Fetch room status from PMS
+  // Get room status from PMS
   async getRoomStatus(roomId) {
     try {
       // In a real implementation, this would call the PMS API
-      // For our prototype, we'll return mock data
+      // For prototype, we'll return mock data
+      console.log(`Fetching room status for room ${roomId} from PMS`);
+      
+      // Mock response
       return {
-        roomId,
-        status: 'CLEAN', // or 'DIRTY', 'INSPECTED', 'OUT_OF_ORDER'
-        lastUpdated: new Date().toISOString()
+        success: true,
+        room: {
+          id: roomId,
+          number: roomId.toString(),
+          status: 'CLEAN', // This would come from the PMS
+          updatedAt: new Date().toISOString()
+        }
       };
     } catch (error) {
-      throw new Error(`Failed to fetch room status: ${error.message}`);
+      console.error('Error fetching room status from PMS:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 
@@ -24,48 +35,114 @@ class PMSIntegrationService {
   async updateRoomStatus(roomId, status) {
     try {
       // In a real implementation, this would call the PMS API
-      // For our prototype, we'll just return success
+      // For prototype, we'll just log the update
+      console.log(`Updating room ${roomId} status to ${status} in PMS`);
+      
       return {
         success: true,
-        roomId,
-        status,
-        timestamp: new Date().toISOString()
+        message: `Room ${roomId} status updated to ${status} in PMS`
       };
     } catch (error) {
-      throw new Error(`Failed to update room status: ${error.message}`);
+      console.error('Error updating room status in PMS:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 
-  // Fetch guest information from PMS
-  async getGuestInfo(guestId) {
+  // Sync all room statuses with PMS
+  async syncRoomStatuses() {
+    try {
+      // In a real implementation, this would fetch all rooms from PMS
+      // and update our local database
+      console.log('Syncing room statuses with PMS');
+      
+      // Mock response
+      return {
+        success: true,
+        message: 'Room statuses synced with PMS',
+        updatedRooms: 0 // This would be the actual count
+      };
+    } catch (error) {
+      console.error('Error syncing room statuses with PMS:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  // Get guest requests from PMS
+  async getGuestRequests() {
     try {
       // In a real implementation, this would call the PMS API
-      // For our prototype, we'll return mock data
+      // For prototype, we'll return mock data
+      console.log('Fetching guest requests from PMS');
+      
+      // Mock response
       return {
-        guestId,
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+1234567890',
-        roomNumber: '101'
+        success: true,
+        requests: [
+          {
+            id: 1,
+            guestName: 'John Doe',
+            roomNumber: '205',
+            title: 'Extra towels needed',
+            department: 'Housekeeping',
+            priority: 'MEDIUM',
+            status: 'PENDING',
+            createdAt: new Date().toISOString()
+          }
+        ]
       };
     } catch (error) {
-      throw new Error(`Failed to fetch guest info: ${error.message}`);
+      console.error('Error fetching guest requests from PMS:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 
-  // Create a new guest request in PMS
+  // Create guest request in PMS
   async createGuestRequest(requestData) {
     try {
       // In a real implementation, this would call the PMS API
-      // For our prototype, we'll just return success
+      // For prototype, we'll just log the creation
+      console.log('Creating guest request in PMS:', requestData);
+      
       return {
         success: true,
-        requestId: Math.floor(Math.random() * 10000),
-        ...requestData,
-        timestamp: new Date().toISOString()
+        message: 'Guest request created in PMS',
+        requestId: Date.now() // Mock ID
       };
     } catch (error) {
-      throw new Error(`Failed to create guest request: ${error.message}`);
+      console.error('Error creating guest request in PMS:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  // Update guest request status in PMS
+  async updateGuestRequestStatus(requestId, status) {
+    try {
+      // In a real implementation, this would call the PMS API
+      // For prototype, we'll just log the update
+      console.log(`Updating guest request ${requestId} status to ${status} in PMS`);
+      
+      return {
+        success: true,
+        message: `Guest request ${requestId} status updated to ${status} in PMS`
+      };
+    } catch (error) {
+      console.error('Error updating guest request status in PMS:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 }

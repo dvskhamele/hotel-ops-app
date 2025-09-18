@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import Header from '../../components/Header'
+import HousekeepingAnalytics from '../../components/HousekeepingAnalytics'
+import StaffLeaderboard from '../../components/StaffLeaderboard'
 import apiService from '../../utils/apiService'
 
 export default function Dashboard() {
@@ -29,6 +32,8 @@ export default function Dashboard() {
   })
   const [timeRange, setTimeRange] = useState('7d') // For charts
 
+  const router = useRouter()
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -36,8 +41,11 @@ export default function Dashboard() {
       setUser({ name: 'Admin User', role: 'ADMIN' } as any);
       setIsLoggedIn(true)
       fetchDashboardData()
+    } else {
+      // If no token, ensure we're showing the login form
+      setIsLoggedIn(false)
     }
-  }, [])
+  }, [router])
 
   const fetchDashboardData = async () => {
     try {
@@ -173,13 +181,15 @@ export default function Dashboard() {
             setUser({ name: 'Admin User', role: 'ADMIN' } as any)
             setIsLoggedIn(true)
             fetchDashboardData()
+            // Redirect to dashboard after login
+            router.push('/dashboard')
           }}>
             <div className="mb-4">
               <label htmlFor="email" className="block text-slate-700 mb-2">Email</label>
               <input
                 type="email"
                 id="email"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800 bg-white"
                 placeholder="Enter your email"
                 defaultValue="admin@hotelops.com"
               />
@@ -189,7 +199,7 @@ export default function Dashboard() {
               <input
                 type="password"
                 id="password"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800 bg-white"
                 placeholder="Enter your password"
                 defaultValue="password123"
               />
@@ -237,7 +247,7 @@ export default function Dashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-amber-500 card">
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-amber-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/requests')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Pending Requests</p>
@@ -254,7 +264,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-blue-500 card">
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-blue-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/rooms')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Occupancy Rate</p>
@@ -271,7 +281,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-emerald-500 card">
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-emerald-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/analytics')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Revenue Today</p>
@@ -288,7 +298,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-indigo-500 card">
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-indigo-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/staff')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Active Staff</p>
@@ -327,15 +337,19 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
-            <div className="h-64 flex items-end space-x-2 mt-8">
+            <div className="h-64 flex items-end space-x-2 mt-8 cursor-pointer hover:opacity-90 transition-opacity" onClick={() => router.push('/analytics')}>
               {occupancyData.map((data, index) => (
-                <div key={index} className="flex flex-col items-center flex-1">
-                  <div className="text-xs text-slate-500 mb-1">{data.occupancy}%</div>
+                <div key={index} className="flex flex-col items-center flex-1 group">
+                  <div className="text-xs text-slate-500 mb-1 group-hover:text-teal-600 transition-colors">
+                    {data.occupancy}%
+                  </div>
                   <div 
-                    className="w-full bg-gradient-to-t from-teal-500 to-teal-400 rounded-t-lg hover:from-teal-600 hover:to-teal-500 transition-all duration-300"
-                    style={{ height: `${data.occupancy * 0.8}%` }}
+                    className="w-full bg-gradient-to-t from-teal-400 to-teal-600 rounded-t transition-all duration-300 group-hover:from-teal-500 group-hover:to-teal-700"
+                    style={{ height: `${(data.occupancy / 100) * 200}px` }}
                   ></div>
-                  <div className="text-xs text-slate-500 mt-1">{data.date}</div>
+                  <div className="text-xs text-slate-600 mt-1 group-hover:text-slate-800 transition-colors">
+                    {data.day}
+                  </div>
                 </div>
               ))}
             </div>
@@ -360,15 +374,19 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
-            <div className="h-64 flex items-end space-x-2 mt-8">
+            <div className="h-64 flex items-end space-x-2 mt-8 cursor-pointer hover:opacity-90 transition-opacity" onClick={() => router.push('/analytics')}>
               {revenueData.map((data, index) => (
-                <div key={index} className="flex flex-col items-center flex-1">
-                  <div className="text-xs text-slate-500 mb-1">₹{(data.revenue / 1000).toFixed(1)}k</div>
+                <div key={index} className="flex flex-col items-center flex-1 group">
+                  <div className="text-xs text-slate-500 mb-1 group-hover:text-emerald-600 transition-colors">
+                    ₹{(data.revenue / 1000).toFixed(1)}k
+                  </div>
                   <div 
-                    className="w-full bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg hover:from-emerald-600 hover:to-emerald-500 transition-all duration-300"
-                    style={{ height: `${(data.revenue / 15000) * 80}%` }}
+                    className="w-full bg-gradient-to-t from-emerald-400 to-emerald-600 rounded-t transition-all duration-300 group-hover:from-emerald-500 group-hover:to-emerald-700"
+                    style={{ height: `${(data.revenue / 15000) * 200}px` }}
                   ></div>
-                  <div className="text-xs text-slate-500 mt-1">{data.date}</div>
+                  <div className="text-xs text-slate-600 mt-1 group-hover:text-slate-800 transition-colors">
+                    {data.day}
+                  </div>
                 </div>
               ))}
             </div>
@@ -380,69 +398,148 @@ export default function Dashboard() {
           <div className="lg:col-span-1 bg-white rounded-2xl shadow-md p-6 card">
             <h2 className="text-xl font-semibold text-slate-800 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-4">
-              <Link href="/requests" className="bg-gradient-to-br from-teal-500 to-teal-600 text-white py-4 px-4 rounded-xl text-center hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer">
+              <div 
+                className="bg-gradient-to-br from-teal-500 to-teal-600 text-white py-4 px-4 rounded-xl text-center hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => router.push('/requests')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
                 <span className="text-sm font-medium">View Requests</span>
-              </Link>
-              <Link href="/rooms" className="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-4 px-4 rounded-xl text-center hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer">
+              </div>
+              <div 
+                className="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-4 px-4 rounded-xl text-center hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => router.push('/rooms')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
                 </svg>
                 <span className="text-sm font-medium">Manage Rooms</span>
-              </Link>
-              <Link href="/analytics" className="bg-gradient-to-br from-purple-500 to-purple-600 text-white py-4 px-4 rounded-xl text-center hover:from-purple-600 hover:to-purple-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer">
+              </div>
+              <div 
+                className="bg-gradient-to-br from-purple-500 to-purple-600 text-white py-4 px-4 rounded-xl text-center hover:from-purple-600 hover:to-purple-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => router.push('/analytics')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <span className="text-sm font-medium">View Analytics</span>
-              </Link>
-              <Link href="/departments" className="bg-gradient-to-br from-amber-500 to-amber-600 text-white py-4 px-4 rounded-xl text-center hover:from-amber-600 hover:to-amber-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer">
+              </div>
+              <div 
+                className="bg-gradient-to-br from-amber-500 to-amber-600 text-white py-4 px-4 rounded-xl text-center hover:from-amber-600 hover:to-amber-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => router.push('/departments')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
                 <span className="text-sm font-medium">Departments</span>
-              </Link>
+              </div>
+              
+              {/* New Quick Action Buttons */}
+              <div 
+                className="bg-gradient-to-br from-rose-500 to-rose-600 text-white py-4 px-4 rounded-xl text-center hover:from-rose-600 hover:to-rose-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => {
+                  // Mock function to create a new guest request
+                  alert('Creating new guest request...');
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm font-medium">New Request</span>
+              </div>
+              <div 
+                className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white py-4 px-4 rounded-xl text-center hover:from-indigo-600 hover:to-indigo-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => {
+                  // Mock function to update room status
+                  alert('Updating room status...');
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span className="text-sm font-medium">Room Status</span>
+              </div>
+              <div 
+                className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white py-4 px-4 rounded-xl text-center hover:from-emerald-600 hover:to-emerald-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => {
+                  // Mock function to assign task
+                  alert('Assigning task...');
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                <span className="text-sm font-medium">Assign Task</span>
+              </div>
+              <div 
+                className="bg-gradient-to-br from-cyan-500 to-cyan-600 text-white py-4 px-4 rounded-xl text-center hover:from-cyan-600 hover:to-cyan-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
+                onClick={() => {
+                  // Mock function to send notification
+                  alert('Sending notification...');
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span className="text-sm font-medium">Notify Staff</span>
+              </div>
             </div>
 
-            {/* Department Performance */}
-            <h3 className="text-lg font-medium text-slate-800 mt-6 mb-4">Department Performance</h3>
+            {/* Daily Progress Visualization */}
+            <h3 className="text-lg font-medium text-slate-800 mt-6 mb-4">Daily Progress</h3>
             <div className="space-y-4">
-              <div>
+              {/* Housekeeping Progress */}
+              <div className="bg-slate-50 rounded-lg p-3">
                 <div className="flex justify-between mb-1">
                   <span className="text-sm font-medium text-slate-700">Housekeeping</span>
-                  <span className="text-sm font-medium text-slate-700">{performance.housekeeping}%</span>
+                  <span className="text-sm font-medium text-slate-700">65%</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2.5">
                   <div
-                    className="bg-emerald-500 h-2.5 rounded-full transition-all duration-500"
-                    style={{ width: `${performance.housekeeping}%` }}
+                    className="bg-emerald-500 h-2.5 rounded-full transition-all duration-500 hover:bg-emerald-600"
+                    style={{ width: '65%' }}
                   ></div>
                 </div>
+                <div className="flex justify-between text-xs text-slate-500 mt-1">
+                  <span>13/20 rooms</span>
+                  <span>Cleaned</span>
+                </div>
               </div>
-              <div>
+              
+              {/* Maintenance Progress */}
+              <div className="bg-slate-50 rounded-lg p-3">
                 <div className="flex justify-between mb-1">
                   <span className="text-sm font-medium text-slate-700">Maintenance</span>
-                  <span className="text-sm font-medium text-slate-700">{performance.maintenance}%</span>
+                  <span className="text-sm font-medium text-slate-700">40%</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2.5">
                   <div
-                    className="bg-blue-500 h-2.5 rounded-full transition-all duration-500"
-                    style={{ width: `${performance.maintenance}%` }}
+                    className="bg-amber-500 h-2.5 rounded-full transition-all duration-500 hover:bg-amber-600"
+                    style={{ width: '40%' }}
                   ></div>
+                </div>
+                <div className="flex justify-between text-xs text-slate-500 mt-1">
+                  <span>4/10 tasks</span>
+                  <span>Completed</span>
                 </div>
               </div>
-              <div>
+              
+              {/* Requests Progress */}
+              <div className="bg-slate-50 rounded-lg p-3">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Food & Beverage</span>
-                  <span className="text-sm font-medium text-slate-700">{performance.foodService}%</span>
+                  <span className="text-sm font-medium text-slate-700">Guest Requests</span>
+                  <span className="text-sm font-medium text-slate-700">75%</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2.5">
                   <div
-                    className="bg-amber-500 h-2.5 rounded-full transition-all duration-500"
-                    style={{ width: `${performance.foodService}%` }}
+                    className="bg-blue-500 h-2.5 rounded-full transition-all duration-500 hover:bg-blue-600"
+                    style={{ width: '75%' }}
                   ></div>
+                </div>
+                <div className="flex justify-between text-xs text-slate-500 mt-1">
+                  <span>15/20 requests</span>
+                  <span>Resolved</span>
                 </div>
               </div>
             </div>
@@ -452,11 +549,32 @@ export default function Dashboard() {
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-md p-6 card">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-slate-800">Recent Activity</h2>
-              <button className="text-sm text-teal-600 hover:text-teal-800 font-medium">View All</button>
+              <button className="text-sm text-teal-600 hover:text-teal-800 font-medium cursor-pointer" onClick={() => router.push('/reports')}>
+                View All
+              </button>
             </div>
             <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
               {activity.map((item: any) => (
-                <div key={item.id} className={`${getActivityColor(item.type, item.status)} pl-4 py-3 bg-slate-50 rounded-lg transition-all duration-300 hover:shadow-md animate-fade-in`}>
+                <div 
+                  key={item.id} 
+                  className={`${getActivityColor(item.type, item.status)} pl-4 py-3 bg-slate-50 rounded-lg transition-all duration-300 hover:shadow-md animate-fade-in cursor-pointer`}
+                  onClick={() => {
+                    // Navigate to appropriate page based on activity type
+                    switch(item.type) {
+                      case 'request':
+                        router.push('/requests');
+                        break;
+                      case 'room':
+                        router.push('/rooms');
+                        break;
+                      case 'staff':
+                        router.push('/staff');
+                        break;
+                      default:
+                        router.push('/reports');
+                    }
+                  }}
+                >
                   <div className="flex justify-between">
                     <h3 className="font-medium text-slate-800">{item.title}</h3>
                     <span className="text-xs text-slate-500">{new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
@@ -467,40 +585,59 @@ export default function Dashboard() {
             </div>
 
             {/* Recent Requests */}
-            <h3 className="text-lg font-medium text-slate-800 mt-6 mb-4">Recent Requests</h3>
+            <h3 
+              className="text-lg font-medium text-slate-800 mt-6 mb-4 cursor-pointer hover:text-teal-600 transition-colors" 
+              onClick={() => router.push('/requests')}
+            >
+              Recent Requests
+            </h3>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-200">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Guest</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Room</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Request</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Department</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Priority</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Guest</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Room</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Request</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Department</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Priority</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-slate-200">
-                  {requests.map((request: any) => (
-                    <tr key={request.id} className="hover:bg-slate-50 transition-all duration-300 animate-fade-in">
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-slate-800">
+                  {requests.slice(0, 5).map((request: any) => (
+                    <tr 
+                      key={request.id} 
+                      className="hover:bg-slate-50 transition-all duration-300 cursor-pointer"
+                      onClick={() => router.push(`/requests/${request.id}`)}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
-                            <span className="text-white text-xs font-medium">{request.guestName.charAt(0)}</span>
+                          <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
+                            <span className="text-white font-bold">{request.guestName.charAt(0)}</span>
                           </div>
-                          <div className="ml-2">{request.guestName}</div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-slate-900">{request.guestName}</div>
+                          </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-600">{request.roomNumber}</td>
-                      <td className="px-4 py-3 text-sm text-slate-600">{request.title}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-600">{request.department}</td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPriorityColor(request.priority)}`}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                        Room {request.roomNumber}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                        {request.title}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs leading-5 font-semibold rounded-full ${getDepartmentClass(request.department)}`}>
+                          {request.department}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs leading-5 font-semibold rounded-full ${getPriorityClass(request.priority)}`}>
                           {request.priority}
                         </span>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(request.status)}`}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs leading-5 font-semibold rounded-full ${getStatusClass(request.status)}`}>
                           {request.status}
                         </span>
                       </td>
@@ -512,9 +649,19 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Housekeeping Analytics */}
+        <div className="mb-8">
+          <HousekeepingAnalytics />
+        </div>
+
+        {/* Staff Leaderboard */}
+        <div className="mb-8">
+          <StaffLeaderboard />
+        </div>
+
         {/* Additional Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-rose-500 card">
+          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-rose-500 card cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1" onClick={() => router.push('/requests')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Maintenance Requests</p>
@@ -532,7 +679,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-amber-500 card">
+          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-amber-500 card cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1" onClick={() => router.push('/analytics')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Avg. Response Time</p>
@@ -549,7 +696,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-emerald-500 card">
+          <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-emerald-500 card cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1" onClick={() => router.push('/reports')}>
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Guest Satisfaction</p>
@@ -557,38 +704,12 @@ export default function Dashboard() {
               </div>
               <div className="bg-emerald-100 p-3 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10h-2M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
             </div>
             <div className="mt-4">
               <span className="text-xs text-emerald-500">↑ 2% from last week</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Room Status Overview */}
-        <div className="bg-white rounded-2xl shadow-md p-6 card">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-slate-800">Room Status Overview</h2>
-            <button className="text-sm text-teal-600 hover:text-teal-800 font-medium">View All Rooms</button>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-emerald-50 rounded-xl p-4 text-center hover:bg-emerald-100 transition duration-300 cursor-pointer animate-pulse-slow">
-              <p className="text-2xl font-bold text-emerald-700">{stats.availableRooms}</p>
-              <p className="text-sm text-emerald-600">Clean Rooms</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-4 text-center hover:bg-amber-100 transition duration-300 cursor-pointer animate-pulse-slow">
-              <p className="text-2xl font-bold text-amber-700">{stats.occupiedRooms}</p>
-              <p className="text-sm text-amber-600">Dirty Rooms</p>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-4 text-center hover:bg-blue-100 transition duration-300 cursor-pointer animate-pulse-slow">
-              <p className="text-2xl font-bold text-blue-700">8</p>
-              <p className="text-sm text-blue-600">Inspected</p>
-            </div>
-            <div className="bg-rose-50 rounded-xl p-4 text-center hover:bg-rose-100 transition duration-300 cursor-pointer animate-pulse-slow">
-              <p className="text-2xl font-bold text-rose-700">2</p>
-              <p className="text-sm text-rose-600">Out of Order</p>
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import Header from '../../components/Header'
 import HousekeepingAnalytics from '../../components/HousekeepingAnalytics'
 import StaffLeaderboard from '../../components/StaffLeaderboard'
 import MobileNavigation from '../../components/MobileNavigation'
+import OfflineIndicator from '../../components/OfflineIndicator'
 import apiService from '../../utils/apiService'
 import MobileDashboard from './page-mobile'
 
@@ -279,6 +280,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <OfflineIndicator />
       <Header user={user} onLogout={handleLogout} />
 
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">

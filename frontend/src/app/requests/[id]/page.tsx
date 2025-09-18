@@ -6,7 +6,7 @@ import Header from '../../../components/Header'
 import MobileNavigation from '../../../components/MobileNavigation'
 import MobileRequestDetail from './page-mobile'
 
-export default function RequestDetail({ params }: { params: { id: string } }) {
+export default function RequestDetail({ params }: any) {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function RequestDetail({ params }: { params: { id: string } }) {
   // Desktop version would go here in a real implementation
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <Header />
+      <Header user={null} onLogout={() => {}} />
       
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-md p-8 text-center">

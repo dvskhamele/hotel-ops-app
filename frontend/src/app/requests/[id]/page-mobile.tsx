@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Header from '../../components/Header'
-import MobileNavigation from '../../components/MobileNavigation'
+import Header from '../../../components/Header'
+import MobileNavigation from '../../../components/MobileNavigation'
 
 interface User {
   name: string;

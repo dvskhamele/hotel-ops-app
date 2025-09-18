@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove the output: 'export' configuration to allow dynamic routes
   // Remove the rewrites configuration to avoid proxy issues
 }
 

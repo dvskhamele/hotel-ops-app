@@ -13,7 +13,8 @@ const BackgroundSyncHandler: React.FC = () => {
     const registerBackgroundSync = async () => {
       if ('serviceWorker' in navigator && 'sync' in window) {
         try {
-          const swRegistration = await navigator.serviceWorker.ready
+          // Type assertion to avoid TypeScript error
+          const swRegistration: any = await navigator.serviceWorker.ready
           await swRegistration.sync.register('sync-dashboard-data')
           console.log('[PWA] Background sync registered')
         } catch (error) {
@@ -28,8 +29,8 @@ const BackgroundSyncHandler: React.FC = () => {
     const setupPeriodicSync = async () => {
       if ('serviceWorker' in navigator && 'periodicSync' in window) {
         try {
-          const swRegistration = await navigator.serviceWorker.ready
-          const status = await navigator.permissions.query({ name: 'periodic-background-sync' as any })
+          const swRegistration: any = await navigator.serviceWorker.ready
+          const status = await (navigator as any).permissions.query({ name: 'periodic-background-sync' })
           
           if (status.state === 'granted') {
             await swRegistration.periodicSync.register('update-dashboard', {

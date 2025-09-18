@@ -65,7 +65,7 @@ const useServiceWorker = () => {
       const enableBackgroundSync = async () => {
         if ('serviceWorker' in navigator && 'sync' in window) {
           try {
-            const swRegistration = await navigator.serviceWorker.ready
+            const swRegistration: any = await navigator.serviceWorker.ready
             await swRegistration.sync.register('sync-dashboard-data')
             console.log('[SW] Background sync registered')
           } catch (error) {
@@ -78,7 +78,7 @@ const useServiceWorker = () => {
       const enablePeriodicSync = async () => {
         if ('serviceWorker' in navigator && 'periodicSync' in window) {
           try {
-            const swRegistration = await navigator.serviceWorker.ready
+            const swRegistration: any = await navigator.serviceWorker.ready
             await swRegistration.periodicSync.register('update-dashboard', {
               minInterval: 24 * 60 * 60 * 1000 // 24 hours
             })

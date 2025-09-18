@@ -1,15 +1,11 @@
+'use client'
+
 import './globals.css'
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import PWAInstaller from '../components/PWAInstaller'
 import { PWAProvider } from '../context/PWAContext'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'HotelOps - Hotel Operations Management',
-  description: 'Manage hotel operations efficiently',
-}
 
 export default function RootLayout({
   children,
@@ -26,6 +22,8 @@ export default function RootLayout({
           <meta name="theme-color" content="#0d9488" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <link rel="manifest" href="/manifest.json" />
+          <title>HotelOps - Hotel Operations Management</title>
+          <meta name="description" content="Manage hotel operations efficiently" />
         </head>
         <body className={inter.className}>
           {children}

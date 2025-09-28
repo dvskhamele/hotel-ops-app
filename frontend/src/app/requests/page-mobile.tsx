@@ -12,7 +12,7 @@ interface User {
 
 interface Request {
   id: string;
-  guestName: string;
+  patientName: string;
   roomNumber: string;
   title: string;
   description: string;
@@ -49,75 +49,75 @@ export default function MobileRequests() {
     const mockRequests: Request[] = [
       {
         id: '1001',
-        guestName: 'Emma Davis',
+        patientName: 'John Smith',
         roomNumber: '201',
-        title: 'Extra Pillows',
-        description: 'Guest needs additional pillows for their stay',
-        department: 'HOUSEKEEPING',
-        priority: 'MEDIUM',
+        title: 'Pain Medication',
+        description: 'Patient requests additional pain medication for post-operative care',
+        department: 'PHARMACY',
+        priority: 'HIGH',
         status: 'IN_PROGRESS',
-        createdAt: '2023-05-15T10:30:00Z',
-        updatedAt: '2023-05-15T11:15:00Z'
+        createdAt: '2023-09-28T10:30:00Z',
+        updatedAt: '2023-09-28T11:15:00Z'
       },
       {
         id: '1002',
-        guestName: 'James Wilson',
+        patientName: 'Mary Johnson',
         roomNumber: '305',
-        title: 'TV Not Working',
-        description: 'Television is not turning on in the room',
-        department: 'MAINTENANCE',
-        priority: 'HIGH',
+        title: 'X-ray Request',
+        description: 'X-ray of chest requested by attending physician',
+        department: 'RADIOLOGY',
+        priority: 'URGENT',
         status: 'PENDING',
-        createdAt: '2023-05-15T09:45:00Z',
-        updatedAt: '2023-05-15T09:45:00Z'
+        createdAt: '2023-09-28T09:45:00Z',
+        updatedAt: '2023-09-28T09:45:00Z'
       },
       {
         id: '1003',
-        guestName: 'Olivia Martinez',
+        patientName: 'Robert Williams',
         roomNumber: '108',
-        title: 'Room Service',
-        description: 'Guest wants to order breakfast to room',
-        department: 'FOOD_SERVICE',
-        priority: 'LOW',
+        title: 'Dietary Consultation',
+        description: 'Patient needs consultation with dietitian for diabetes management',
+        department: 'NUTRITION',
+        priority: 'MEDIUM',
         status: 'COMPLETED',
-        createdAt: '2023-05-14T08:20:00Z',
-        updatedAt: '2023-05-14T09:00:00Z'
+        createdAt: '2023-09-27T08:20:00Z',
+        updatedAt: '2023-09-27T09:00:00Z'
       },
       {
         id: '1004',
-        guestName: 'William Taylor',
+        patientName: 'Patricia Davis',
         roomNumber: '402',
-        title: 'Late Checkout',
-        description: 'Guest requests to check out at 2 PM instead of 12 PM',
-        department: 'CONCIERGE',
+        title: 'Physical Therapy',
+        description: 'Patient requires physical therapy session for post-surgery recovery',
+        department: 'PHYSICAL_THERAPY',
         priority: 'MEDIUM',
         status: 'COMPLETED',
-        createdAt: '2023-05-14T07:15:00Z',
-        updatedAt: '2023-05-14T07:30:00Z'
+        createdAt: '2023-09-27T07:15:00Z',
+        updatedAt: '2023-09-27T07:30:00Z'
       },
       {
         id: '1005',
-        guestName: 'Sophia Anderson',
+        patientName: 'James Wilson',
         roomNumber: '207',
-        title: 'Wi-Fi Issues',
-        description: 'Guest reports slow internet connection in room',
-        department: 'MAINTENANCE',
-        priority: 'URGENT',
+        title: 'Lab Test - CBC',
+        description: 'Complete blood count test requested by attending physician',
+        department: 'LABORATORY',
+        priority: 'HIGH',
         status: 'PENDING',
-        createdAt: '2023-05-13T20:30:00Z',
-        updatedAt: '2023-05-13T20:30:00Z'
+        createdAt: '2023-09-26T20:30:00Z',
+        updatedAt: '2023-09-26T20:30:00Z'
       },
       {
         id: '1006',
-        guestName: 'Michael Brown',
+        patientName: 'Sarah Miller',
         roomNumber: '312',
-        title: 'Extra Towels',
-        description: 'Guest needs additional towels for the pool',
-        department: 'HOUSEKEEPING',
-        priority: 'LOW',
+        title: 'Nebulizer Treatment',
+        description: 'Patient needs nebulizer treatment for respiratory condition',
+        department: 'RESPIRATORY_THERAPY',
+        priority: 'MEDIUM',
         status: 'IN_PROGRESS',
-        createdAt: '2023-05-13T16:45:00Z',
-        updatedAt: '2023-05-13T17:00:00Z'
+        createdAt: '2023-09-26T16:45:00Z',
+        updatedAt: '2023-09-26T17:00:00Z'
       }
     ]
     
@@ -137,7 +137,7 @@ export default function MobileRequests() {
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       result = result.filter(request => 
-        request.guestName.toLowerCase().includes(query) ||
+        request.patientName.toLowerCase().includes(query) ||
         request.roomNumber.includes(query) ||
         request.title.toLowerCase().includes(query) ||
         request.description.toLowerCase().includes(query)
@@ -199,7 +199,7 @@ export default function MobileRequests() {
         {/* Header */}
         <div className="mb-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-slate-800">Guest Requests</h1>
+            <h1 className="text-2xl font-bold text-slate-800">Medical Requests</h1>
             <button 
               className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-teal-700 transition"
               onClick={() => router.push('/requests/new')}
@@ -207,7 +207,7 @@ export default function MobileRequests() {
               + New
             </button>
           </div>
-          <p className="text-slate-600 text-sm mt-1">Manage all guest requests in one place</p>
+          <p className="text-slate-600 text-sm mt-1">Manage all patient requests in one place</p>
         </div>
 
         {/* Filters */}
@@ -219,7 +219,7 @@ export default function MobileRequests() {
               <input
                 type="text"
                 id="search"
-                placeholder="Search by guest, room, or request..."
+                placeholder="Search by patient, room, or request..."
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -269,10 +269,10 @@ export default function MobileRequests() {
                   <div>
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold">{request.guestName.charAt(0)}</span>
+                        <span className="text-white font-bold">{request.patientName.charAt(0)}</span>
                       </div>
                       <div className="ml-3">
-                        <h3 className="text-sm font-medium text-slate-900">{request.guestName}</h3>
+                        <h3 className="text-sm font-medium text-slate-900">{request.patientName}</h3>
                         <p className="text-xs text-slate-500">Room {request.roomNumber}</p>
                       </div>
                     </div>

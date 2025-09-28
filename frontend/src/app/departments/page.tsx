@@ -31,67 +31,67 @@ export default function Departments() {
     const mockDepartments = [
       {
         id: 1,
-        name: 'Housekeeping',
-        description: 'Responsible for maintaining cleanliness and hygiene throughout the hotel',
-        head: 'Alice Johnson',
+        name: 'Emergency',
+        description: 'Handles emergency cases and urgent medical situations',
+        head: 'Dr. Jack Roberts',
         phone: '+1234567890',
-        email: 'housekeeping@hotel.com',
-        staffCount: 12,
+        email: 'emergency@hospital.com',
+        staffCount: 20,
         openRequests: 8,
         completedToday: 15
       },
       {
         id: 2,
-        name: 'Maintenance',
-        description: 'Handles all repair and maintenance tasks throughout the property',
-        head: 'David Wilson',
+        name: 'Cardiology',
+        description: 'Specializes in heart and cardiovascular treatments',
+        head: 'Dr. Alice Johnson',
         phone: '+1234567891',
-        email: 'maintenance@hotel.com',
-        staffCount: 6,
+        email: 'cardiology@hospital.com',
+        staffCount: 15,
         openRequests: 5,
         completedToday: 7
       },
       {
         id: 3,
-        name: 'Food & Beverage',
-        description: 'Manages all dining services including restaurants and room service',
-        head: 'Frank Miller',
+        name: 'Surgery',
+        description: 'Performs surgical procedures and operations',
+        head: 'Dr. Michael Chen',
         phone: '+1234567892',
-        email: 'f&b@hotel.com',
+        email: 'surgery@hospital.com',
         staffCount: 18,
         openRequests: 12,
         completedToday: 28
       },
       {
         id: 4,
-        name: 'Front Desk',
-        description: 'Handles guest check-ins, check-outs, and general inquiries',
-        head: 'Kate Williams',
+        name: 'Internal Medicine',
+        description: 'Specializes in adult medicine and general health issues',
+        head: 'Dr. Frank Miller',
         phone: '+1234567893',
-        email: 'frontdesk@hotel.com',
-        staffCount: 8,
+        email: 'internal@hospital.com',
+        staffCount: 12,
         openRequests: 3,
         completedToday: 22
       },
       {
         id: 5,
-        name: 'Concierge',
-        description: 'Assists guests with reservations, recommendations, and special requests',
-        head: 'Michael Brown',
+        name: 'Pharmacy',
+        description: 'Manages medications and pharmaceutical services',
+        head: 'Pharmacist Sarah Thompson',
         phone: '+1234567894',
-        email: 'concierge@hotel.com',
-        staffCount: 4,
+        email: 'pharmacy@hospital.com',
+        staffCount: 8,
         openRequests: 7,
         completedToday: 9
       },
       {
         id: 6,
-        name: 'Security',
-        description: 'Ensures the safety and security of guests and property',
-        head: 'Robert Taylor',
+        name: 'Nursing',
+        description: 'Provides patient care and assistance to medical staff',
+        head: 'Nurse Carol Davis',
         phone: '+1234567895',
-        email: 'security@hotel.com',
-        staffCount: 6,
+        email: 'nursing@hospital.com',
+        staffCount: 30,
         openRequests: 1,
         completedToday: 3
       }
@@ -146,7 +146,7 @@ export default function Departments() {
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-slate-800">Department Coordination</h2>
-            <p className="text-slate-600">Manage and coordinate between hotel departments</p>
+            <p className="text-slate-600">Manage and coordinate between hospital departments</p>
           </div>
           <button 
             className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
@@ -269,51 +269,17 @@ export default function Departments() {
               <thead className="bg-slate-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Department</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Housekeeping</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Maintenance</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Food & Beverage</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Front Desk</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Concierge</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Security</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Emergency</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Cardiology</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Surgery</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Internal Medicine</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Pharmacy</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Nursing</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-slate-200">
                 <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Housekeeping</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
-                      High
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
-                      High
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-rose-100 text-rose-800">
-                      Low
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Maintenance</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
-                      High
-                    </span>
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Emergency</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
@@ -326,8 +292,13 @@ export default function Departments() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
@@ -337,12 +308,7 @@ export default function Departments() {
                   </td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Food & Beverage</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
-                    </span>
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Cardiology</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
                       Medium
@@ -360,13 +326,81 @@ export default function Departments() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Front Desk</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Surgery</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
+                      Medium
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Internal Medicine</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
+                      Medium
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Pharmacy</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
+                    </span>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
                       High
@@ -388,22 +422,17 @@ export default function Departments() {
                       High
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
-                      High
-                    </span>
-                  </td>
                 </tr>
                 <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Concierge</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Nursing</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                      High
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
@@ -416,38 +445,9 @@ export default function Departments() {
                       High
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">Security</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
-                    </span>
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
                       High
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">
-                      High
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                      Medium
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
@@ -467,36 +467,36 @@ export default function Departments() {
           <div className="space-y-4">
             <div className="border border-slate-200 rounded-lg p-4">
               <div className="flex justify-between">
-                <h4 className="font-medium text-slate-800">Housekeeping → Front Desk</h4>
+                <h4 className="font-medium text-slate-800">Emergency → Cardiology</h4>
                 <span className="text-xs text-slate-500">2 hours ago</span>
               </div>
-              <p className="text-sm text-slate-600 mt-2">Room 205 is now clean and ready for check-in.</p>
+              <p className="text-sm text-slate-600 mt-2">Patient in ER with suspected heart attack. Cardiologist consultation requested.</p>
               <div className="mt-3 flex justify-between items-center">
-                <span className="text-xs text-slate-500">From: Alice Johnson</span>
+                <span className="text-xs text-slate-500">From: Dr. Jack Roberts</span>
                 <button className="text-xs text-teal-600 hover:text-teal-800">Reply</button>
               </div>
             </div>
             
             <div className="border border-slate-200 rounded-lg p-4">
               <div className="flex justify-between">
-                <h4 className="font-medium text-slate-800">Maintenance → Housekeeping</h4>
+                <h4 className="font-medium text-slate-800">Nursing → Pharmacy</h4>
                 <span className="text-xs text-slate-500">5 hours ago</span>
               </div>
-              <p className="text-sm text-slate-600 mt-2">AC unit in Room 302 has been repaired. Please inspect and confirm.</p>
+              <p className="text-sm text-slate-600 mt-2">Patient in Room 302 requires insulin injection. Please prepare and deliver.</p>
               <div className="mt-3 flex justify-between items-center">
-                <span className="text-xs text-slate-500">From: David Wilson</span>
+                <span className="text-xs text-slate-500">From: Nurse Carol Davis</span>
                 <button className="text-xs text-teal-600 hover:text-teal-800">Reply</button>
               </div>
             </div>
             
             <div className="border border-slate-200 rounded-lg p-4">
               <div className="flex justify-between">
-                <h4 className="font-medium text-slate-800">Front Desk → Food & Beverage</h4>
+                <h4 className="font-medium text-slate-800">Surgery → Internal Medicine</h4>
                 <span className="text-xs text-slate-500">1 day ago</span>
               </div>
-              <p className="text-sm text-slate-600 mt-2">Guest in Room 108 has requested late checkout until 2pm. Please adjust room service timing.</p>
+              <p className="text-sm text-slate-600 mt-2">Patient scheduled for surgery tomorrow. Pre-operative evaluation completed by internal medicine.</p>
               <div className="mt-3 flex justify-between items-center">
-                <span className="text-xs text-slate-500">From: Kate Williams</span>
+                <span className="text-xs text-slate-500">From: Dr. Michael Chen</span>
                 <button className="text-xs text-teal-600 hover:text-teal-800">Reply</button>
               </div>
             </div>

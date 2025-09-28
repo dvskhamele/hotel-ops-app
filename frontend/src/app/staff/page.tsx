@@ -33,17 +33,17 @@ export default function Staff() {
 
     // Mock data for prototype
     const mockStaff = [
-      { id: 1, name: 'Alice Johnson', department: 'Housekeeping', position: 'Supervisor', status: 'Active', email: 'alice.johnson@example.com', phone: '+1234567890', hireDate: '2022-01-15', performance: 92, schedule: '9:00 AM - 5:00 PM' },
-      { id: 2, name: 'Bob Smith', department: 'Housekeeping', position: 'Staff', status: 'Active', email: 'bob.smith@example.com', phone: '+1234567891', hireDate: '2022-03-22', performance: 87, schedule: '9:00 AM - 5:00 PM' },
-      { id: 3, name: 'Carol Davis', department: 'Housekeeping', position: 'Staff', status: 'Offline', email: 'carol.davis@example.com', phone: '+1234567892', hireDate: '2021-11-05', performance: 95, schedule: '9:00 AM - 5:00 PM' },
-      { id: 4, name: 'David Wilson', department: 'Maintenance', position: 'Supervisor', status: 'Active', email: 'david.wilson@example.com', phone: '+1234567893', hireDate: '2020-07-18', performance: 88, schedule: '8:00 AM - 4:00 PM' },
-      { id: 5, name: 'Eva Brown', department: 'Maintenance', position: 'Staff', status: 'Break', email: 'eva.brown@example.com', phone: '+1234567894', hireDate: '2023-02-10', performance: 91, schedule: '8:00 AM - 4:00 PM' },
-      { id: 6, name: 'Frank Miller', department: 'Food & Beverage', position: 'Manager', status: 'Active', email: 'frank.miller@example.com', phone: '+1234567895', hireDate: '2019-05-30', performance: 96, schedule: '7:00 AM - 3:00 PM' },
-      { id: 7, name: 'Grace Lee', department: 'Food & Beverage', position: 'Staff', status: 'Active', email: 'grace.lee@example.com', phone: '+1234567896', hireDate: '2022-09-14', performance: 89, schedule: '7:00 AM - 3:00 PM' },
-      { id: 8, name: 'Henry Taylor', department: 'Food & Beverage', position: 'Staff', status: 'Active', email: 'henry.taylor@example.com', phone: '+1234567897', hireDate: '2023-01-20', performance: 93, schedule: '7:00 AM - 3:00 PM' },
-      { id: 9, name: 'Ivy Chen', department: 'Food & Beverage', position: 'Staff', status: 'Offline', email: 'ivy.chen@example.com', phone: '+1234567898', hireDate: '2022-12-03', performance: 85, schedule: '7:00 AM - 3:00 PM' },
-      { id: 10, name: 'Jack Roberts', department: 'Front Desk', position: 'Receptionist', status: 'Active', email: 'jack.roberts@example.com', phone: '+1234567899', hireDate: '2021-04-12', performance: 94, schedule: '6:00 AM - 2:00 PM' },
-      { id: 11, name: 'Kate Williams', department: 'Front Desk', position: 'Manager', status: 'Active', email: 'kate.williams@example.com', phone: '+1234567800', hireDate: '2020-09-08', performance: 97, schedule: '6:00 AM - 2:00 PM' }
+      { id: 1, name: 'Dr. Alice Johnson', department: 'Cardiology', position: 'Attending Physician', status: 'Active', email: 'alice.johnson@hospital.com', phone: '+1234567890', hireDate: '2022-01-15', performance: 92, schedule: '9:00 AM - 5:00 PM' },
+      { id: 2, name: 'Dr. Michael Chen', department: 'Surgery', position: 'Surgeon', status: 'Active', email: 'michael.chen@hospital.com', phone: '+1234567891', hireDate: '2022-03-22', performance: 87, schedule: '9:00 AM - 5:00 PM' },
+      { id: 3, name: 'Nurse Carol Davis', department: 'Emergency', position: 'Registered Nurse', status: 'Offline', email: 'carol.davis@hospital.com', phone: '+1234567892', hireDate: '2021-11-05', performance: 95, schedule: '9:00 AM - 5:00 PM' },
+      { id: 4, name: 'Dr. David Wilson', department: 'Orthopedics', position: 'Consultant', status: 'Active', email: 'david.wilson@hospital.com', phone: '+1234567893', hireDate: '2020-07-18', performance: 88, schedule: '8:00 AM - 4:00 PM' },
+      { id: 5, name: 'Nurse Eva Brown', department: 'ICU', position: 'ICU Nurse', status: 'Break', email: 'eva.brown@hospital.com', phone: '+1234567894', hireDate: '2023-02-10', performance: 91, schedule: '8:00 AM - 4:00 PM' },
+      { id: 6, name: 'Dr. Frank Miller', department: 'Internal Medicine', position: 'Chief of Medicine', status: 'Active', email: 'frank.miller@hospital.com', phone: '+1234567895', hireDate: '2019-05-30', performance: 96, schedule: '7:00 AM - 3:00 PM' },
+      { id: 7, name: 'Nurse Grace Lee', department: 'Pediatrics', position: 'Staff Nurse', status: 'Active', email: 'grace.lee@hospital.com', phone: '+1234567896', hireDate: '2022-09-14', performance: 89, schedule: '7:00 AM - 3:00 PM' },
+      { id: 8, name: 'Dr. Henry Taylor', department: 'Neurology', position: 'Neurologist', status: 'Active', email: 'henry.taylor@hospital.com', phone: '+1234567897', hireDate: '2023-01-20', performance: 93, schedule: '7:00 AM - 3:00 PM' },
+      { id: 9, name: 'Nurse Ivy Chen', department: 'ICU', position: 'Critical Care Nurse', status: 'Offline', email: 'ivy.chen@hospital.com', phone: '+1234567898', hireDate: '2022-12-03', performance: 85, schedule: '7:00 AM - 3:00 PM' },
+      { id: 10, name: 'Dr. Jack Roberts', department: 'Emergency', position: 'ER Physician', status: 'Active', email: 'jack.roberts@hospital.com', phone: '+1234567899', hireDate: '2021-04-12', performance: 94, schedule: '6:00 AM - 2:00 PM' },
+      { id: 11, name: 'Dr. Kate Williams', department: 'Administration', position: 'Chief Medical Officer', status: 'Active', email: 'kate.williams@hospital.com', phone: '+1234567800', hireDate: '2020-09-08', performance: 97, schedule: '6:00 AM - 2:00 PM' }
     ]
     
     setStaff(mockStaff)
@@ -146,8 +146,8 @@ export default function Staff() {
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">Staff Management</h2>
-            <p className="text-slate-600">Manage your hotel staff and track performance</p>
+            <h2 className="text-2xl font-bold text-slate-800">Medical Staff Management</h2>
+            <p className="text-slate-600">Manage your hospital medical staff and track performance</p>
           </div>
           <button 
             className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
@@ -467,15 +467,15 @@ export default function Staff() {
               <div className="flex justify-between items-start">
                 <h4 className="font-medium text-blue-800">Top Performer</h4>
               </div>
-              <p className="text-xl font-bold text-blue-700 mt-2">Kate Williams</p>
+              <p className="text-xl font-bold text-blue-700 mt-2">Dr. Kate Williams</p>
               <p className="text-sm text-blue-600">97% performance score</p>
             </div>
             <div className="border border-amber-200 bg-amber-50 rounded-lg p-4 hover:bg-amber-100 transition duration-300 cursor-pointer">
               <div className="flex justify-between items-start">
                 <h4 className="font-medium text-amber-800">Department Performance</h4>
               </div>
-              <p className="text-xl font-bold text-amber-700 mt-2">Food & Beverage</p>
-              <p className="text-sm text-amber-600">Avg. 91% performance</p>
+              <p className="text-xl font-bold text-amber-700 mt-2">Cardiology</p>
+              <p className="text-sm text-amber-600">Avg. 92% performance</p>
             </div>
             <div className="border border-emerald-200 bg-emerald-50 rounded-lg p-4 hover:bg-emerald-100 transition duration-300 cursor-pointer">
               <div className="flex justify-between items-start">

@@ -123,7 +123,7 @@ loadData();
 
 // Root route
 app.get('/', (req, res) => {
-  res.json({ message: 'Hotel Operations Management API' });
+  res.json({ message: 'Hospital Operations Management API' });
 });
 
 // Authentication routes
@@ -162,14 +162,14 @@ app.get('/api/dashboard/stats', (req, res) => {
   
   const stats = {
     pendingRequests: data.requests.filter(r => r.status === 'PENDING').length,
-    occupiedRooms: data.rooms.filter(r => r.status === 'DIRTY' || r.status === 'INSPECTED').length,
-    availableRooms: data.rooms.filter(r => r.status === 'CLEAN').length,
+    occupiedRooms: data.rooms.filter(r => r.status === 'occupied' || r.status === 'discharged').length,
+    availableRooms: data.rooms.filter(r => r.status === 'available').length,
     staffActive: data.staff.filter(s => s.status === 'Active').length,
-    maintenanceRequests: data.requests.filter(r => r.department === 'Maintenance').length,
+    urgentRequests: data.requests.filter(r => r.priority === 'URGENT').length,
     avgResponseTime: avgResponseTime,
-    guestSatisfaction: 94,
-    revenueToday: 12500,
-    occupancyRate: 65
+    patientSatisfaction: 94,
+    dailyRevenue: 12500,
+    occupancyRate: Math.round((data.rooms.filter(r => r.status === 'occupied').length / data.rooms.length) * 100)
   };
   
   res.json(stats);

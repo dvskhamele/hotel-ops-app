@@ -22,8 +22,8 @@ export default function RootLayout({
           <meta name="theme-color" content="#0d9488" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <link rel="manifest" href="/manifest.json" />
-          <title>HotelOps - Hotel Operations Management</title>
-          <meta name="description" content="Manage hotel operations efficiently" />
+          <title>HospitalOps - Hospital Operations Management</title>
+          <meta name="description" content="Manage hospital operations efficiently" />
         </head>
         <body className={inter.className}>
           {children}

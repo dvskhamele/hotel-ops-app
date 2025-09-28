@@ -1,4 +1,4 @@
-// Reporting service for guest request analytics and staff performance metrics
+// Reporting service for medical request analytics and staff performance metrics
 class ReportingService {
   // Calculate average response time for completed requests
   static calculateAverageResponseTime(requests) {

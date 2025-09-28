@@ -1,15 +1,15 @@
-# Hotel Operations Management System
+# Hospital Management System
 
-A comprehensive hotel management system with features for room status tracking, guest request management, staff scheduling, and analytics.
+A comprehensive hospital management system with features for patient room management, medical request handling, staff scheduling, and medical inventory tracking.
 
 ## Features
 
-- **Dashboard Analytics**: Real-time insights into hotel performance
-- **Room Management**: Track room status, housekeeping tasks, and maintenance requests
-- **Guest Request System**: Streamline guest requests with priority management
-- **Staff Management**: Track staff performance, schedules, and department assignments
-- **Inventory Tracking**: Monitor hotel inventory levels with automated alerts
-- **Reporting & Analytics**: Generate detailed reports on occupancy, revenue, and staff performance
+- **Dashboard Analytics**: Real-time insights into hospital performance
+- **Patient Room Management**: Track patient room status and cleaning tasks
+- **Medical Request System**: Streamline patient medical requests with priority management
+- **Staff Management**: Track medical staff performance, schedules, and department assignments
+- **Pharmacy Management**: Monitor medication inventory levels with automated alerts
+- **Reporting & Analytics**: Generate detailed reports on patient care, staff performance, and operational efficiency
 
 ## Pricing
 

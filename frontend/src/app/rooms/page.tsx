@@ -10,7 +10,7 @@ export default function Rooms() {
   const [selectedFloor, setSelectedFloor] = useState('')
   const [sortBy, setSortBy] = useState('number')
   const [sortOrder, setSortOrder] = useState('asc')
-  const [stats, setStats] = useState({ clean: 0, dirty: 0, inspected: 0, outOfOrder: 0, total: 0 })
+  const [stats, setStats] = useState({ occupied: 0, available: 0, clean: 0, discharged: 0, maintenance: 0, total: 0 })
   const [user, setUser] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [showAddRoomModal, setShowAddRoomModal] = useState(false)
@@ -39,11 +39,12 @@ export default function Rooms() {
       setRooms(roomData.rooms);
       
       // Calculate stats
-      const clean = roomData.rooms.filter((r: any) => r.status === 'CLEAN').length;
-      const dirty = roomData.rooms.filter((r: any) => r.status === 'DIRTY').length;
-      const inspected = roomData.rooms.filter((r: any) => r.status === 'INSPECTED').length;
-      const outOfOrder = roomData.rooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
-      setStats({ clean, dirty, inspected, outOfOrder, total: roomData.rooms.length });
+      const occupied = roomData.rooms.filter((r: any) => r.status === 'occupied').length;
+      const available = roomData.rooms.filter((r: any) => r.status === 'available').length;
+      const clean = roomData.rooms.filter((r: any) => r.status === 'clean').length;
+      const discharged = roomData.rooms.filter((r: any) => r.status === 'discharged').length;
+      const maintenance = roomData.rooms.filter((r: any) => r.status === 'maintenance').length;
+      setStats({ occupied, available, clean, discharged, maintenance, total: roomData.rooms.length });
       setError('');
     } catch (err) {
       console.error('Error fetching rooms:', err);
@@ -51,28 +52,29 @@ export default function Rooms() {
       
       // Use mock data if API fails
       const mockRooms = [
-        { id: 1, number: '101', floor: 1, type: 'Standard', status: 'CLEAN', updatedAt: new Date().toISOString() },
-        { id: 2, number: '102', floor: 1, type: 'Standard', status: 'DIRTY', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 3, number: '103', floor: 1, type: 'Deluxe', status: 'INSPECTED', updatedAt: new Date(Date.now() - 7200000).toISOString() },
-        { id: 4, number: '104', floor: 1, type: 'Suite', status: 'OUT_OF_ORDER', updatedAt: new Date(Date.now() - 10800000).toISOString() },
-        { id: 5, number: '201', floor: 2, type: 'Standard', status: 'CLEAN', updatedAt: new Date().toISOString() },
-        { id: 6, number: '202', floor: 2, type: 'Standard', status: 'DIRTY', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 7, number: '203', floor: 2, type: 'Deluxe', status: 'CLEAN', updatedAt: new Date().toISOString() },
-        { id: 8, number: '204', floor: 2, type: 'Suite', status: 'DIRTY', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 9, number: '301', floor: 3, type: 'Standard', status: 'CLEAN', updatedAt: new Date().toISOString() },
-        { id: 10, number: '302', floor: 3, type: 'Standard', status: 'DIRTY', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 11, number: '303', floor: 3, type: 'Deluxe', status: 'INSPECTED', updatedAt: new Date(Date.now() - 7200000).toISOString() },
-        { id: 12, number: '304', floor: 3, type: 'Suite', status: 'CLEAN', updatedAt: new Date().toISOString() }
+        { id: 1, number: '101', floor: 1, type: 'General Ward', status: 'occupied', updatedAt: new Date().toISOString() },
+        { id: 2, number: '102', floor: 1, type: 'General Ward', status: 'available', updatedAt: new Date(Date.now() - 3600000).toISOString() },
+        { id: 3, number: '103', floor: 1, type: 'Private Room', status: 'clean', updatedAt: new Date(Date.now() - 7200000).toISOString() },
+        { id: 4, number: '104', floor: 1, type: 'ICU', status: 'maintenance', updatedAt: new Date(Date.now() - 10800000).toISOString() },
+        { id: 5, number: '201', floor: 2, type: 'General Ward', status: 'occupied', updatedAt: new Date().toISOString() },
+        { id: 6, number: '202', floor: 2, type: 'General Ward', status: 'occupied', updatedAt: new Date(Date.now() - 3600000).toISOString() },
+        { id: 7, number: '203', floor: 2, type: 'Private Room', status: 'occupied', updatedAt: new Date().toISOString() },
+        { id: 8, number: '204', floor: 2, type: 'Semi-Private', status: 'discharged', updatedAt: new Date(Date.now() - 3600000).toISOString() },
+        { id: 9, number: '301', floor: 3, type: 'General Ward', status: 'available', updatedAt: new Date().toISOString() },
+        { id: 10, number: '302', floor: 3, type: 'General Ward', status: 'occupied', updatedAt: new Date(Date.now() - 3600000).toISOString() },
+        { id: 11, number: '303', floor: 3, type: 'Private Room', status: 'clean', updatedAt: new Date(Date.now() - 7200000).toISOString() },
+        { id: 12, number: '304', floor: 3, type: 'Maternity Ward', status: 'available', updatedAt: new Date().toISOString() }
       ];
       
       setRooms(mockRooms);
       
       // Calculate stats
-      const clean = mockRooms.filter((r: any) => r.status === 'CLEAN').length;
-      const dirty = mockRooms.filter((r: any) => r.status === 'DIRTY').length;
-      const inspected = mockRooms.filter((r: any) => r.status === 'INSPECTED').length;
-      const outOfOrder = mockRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
-      setStats({ clean, dirty, inspected, outOfOrder, total: mockRooms.length });
+      const occupied = mockRooms.filter((r: any) => r.status === 'occupied').length;
+      const available = mockRooms.filter((r: any) => r.status === 'available').length;
+      const clean = mockRooms.filter((r: any) => r.status === 'clean').length;
+      const discharged = mockRooms.filter((r: any) => r.status === 'discharged').length;
+      const maintenance = mockRooms.filter((r: any) => r.status === 'maintenance').length;
+      setStats({ occupied, available, clean, discharged, maintenance, total: mockRooms.length });
     } finally {
       setLoading(false);
     }
@@ -92,11 +94,12 @@ export default function Rooms() {
         room.id === roomId ? { ...room, status: newStatus } : room
       );
       
-      const clean = updatedRooms.filter((r: any) => r.status === 'CLEAN').length;
-      const dirty = updatedRooms.filter((r: any) => r.status === 'DIRTY').length;
-      const inspected = updatedRooms.filter((r: any) => r.status === 'INSPECTED').length;
-      const outOfOrder = updatedRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
-      setStats({ clean, dirty, inspected, outOfOrder, total: updatedRooms.length });
+      const occupied = updatedRooms.filter((r: any) => r.status === 'occupied').length;
+      const available = updatedRooms.filter((r: any) => r.status === 'available').length;
+      const clean = updatedRooms.filter((r: any) => r.status === 'clean').length;
+      const discharged = updatedRooms.filter((r: any) => r.status === 'discharged').length;
+      const maintenance = updatedRooms.filter((r: any) => r.status === 'maintenance').length;
+      setStats({ occupied, available, clean, discharged, maintenance, total: updatedRooms.length });
       
       // Show success message
       setError('This is a Demo version - Changes saved successfully in localStorage');
@@ -114,23 +117,26 @@ export default function Rooms() {
         room.id === roomId ? { ...room, status: newStatus } : room
       );
       
-      const clean = updatedRooms.filter((r: any) => r.status === 'CLEAN').length;
-      const dirty = updatedRooms.filter((r: any) => r.status === 'DIRTY').length;
-      const inspected = updatedRooms.filter((r: any) => r.status === 'INSPECTED').length;
-      const outOfOrder = updatedRooms.filter((r: any) => r.status === 'OUT_OF_ORDER').length;
-      setStats({ clean, dirty, inspected, outOfOrder, total: updatedRooms.length });
+      const occupied = updatedRooms.filter((r: any) => r.status === 'occupied').length;
+      const available = updatedRooms.filter((r: any) => r.status === 'available').length;
+      const clean = updatedRooms.filter((r: any) => r.status === 'clean').length;
+      const discharged = updatedRooms.filter((r: any) => r.status === 'discharged').length;
+      const maintenance = updatedRooms.filter((r: any) => r.status === 'maintenance').length;
+      setStats({ occupied, available, clean, discharged, maintenance, total: updatedRooms.length });
     }
   };
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case 'CLEAN':
-        return 'bg-emerald-100 text-emerald-800'
-      case 'DIRTY':
-        return 'bg-amber-100 text-amber-800'
-      case 'INSPECTED':
+      case 'occupied':
         return 'bg-blue-100 text-blue-800'
-      case 'OUT_OF_ORDER':
+      case 'available':
+        return 'bg-emerald-100 text-emerald-800'
+      case 'clean':
+        return 'bg-teal-100 text-teal-800'
+      case 'discharged':
+        return 'bg-amber-100 text-amber-800'
+      case 'maintenance':
         return 'bg-rose-100 text-rose-800'
       default:
         return 'bg-gray-100 text-gray-800'
@@ -139,14 +145,16 @@ export default function Rooms() {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'CLEAN':
+      case 'occupied':
+        return 'Occupied'
+      case 'available':
+        return 'Available'
+      case 'clean':
         return 'Clean'
-      case 'DIRTY':
-        return 'Dirty'
-      case 'INSPECTED':
-        return 'Inspected'
-      case 'OUT_OF_ORDER':
-        return 'Out of Order'
+      case 'discharged':
+        return 'Discharged'
+      case 'maintenance':
+        return 'Under Maintenance'
       default:
         return status
     }
@@ -190,18 +198,19 @@ export default function Rooms() {
     setRooms([...rooms, roomToAdd])
     
     // Update stats
-    const clean = newRoom.status === 'CLEAN' ? stats.clean + 1 : stats.clean
-    const dirty = newRoom.status === 'DIRTY' ? stats.dirty + 1 : stats.dirty
-    const inspected = newRoom.status === 'INSPECTED' ? stats.inspected + 1 : stats.inspected
-    const outOfOrder = newRoom.status === 'OUT_OF_ORDER' ? stats.outOfOrder + 1 : stats.outOfOrder
-    setStats({ clean, dirty, inspected, outOfOrder, total: stats.total + 1 })
+    const occupied = newRoom.status === 'occupied' ? stats.occupied + 1 : stats.occupied
+    const available = newRoom.status === 'available' ? stats.available + 1 : stats.available
+    const clean = newRoom.status === 'clean' ? stats.clean + 1 : stats.clean
+    const discharged = newRoom.status === 'discharged' ? stats.discharged + 1 : stats.discharged
+    const maintenance = newRoom.status === 'maintenance' ? stats.maintenance + 1 : stats.maintenance
+    setStats({ occupied, available, clean, discharged, maintenance, total: stats.total + 1 })
     
     // Reset form and close modal
     setNewRoom({
       number: '',
       floor: 1,
-      type: 'Standard',
-      status: 'CLEAN'
+      type: 'General Ward',
+      status: 'available'
     })
     setShowAddRoomModal(false)
   }
@@ -209,26 +218,31 @@ export default function Rooms() {
   // Function to get room status icon
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'CLEAN':
+      case 'occupied':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.243L15.657 12z" />
+          </svg>
+        )
+      case 'available':
         return (
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
           </svg>
         )
-      case 'DIRTY':
+      case 'clean':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          </svg>
+        )
+      case 'discharged':
         return (
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
           </svg>
         )
-      case 'INSPECTED':
-        return (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-            <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
-          </svg>
-        )
-      case 'OUT_OF_ORDER':
+      case 'maintenance':
         return (
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-rose-500" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -254,8 +268,8 @@ export default function Rooms() {
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">Room Management</h2>
-            <p className="text-slate-600">Manage room statuses and housekeeping tasks</p>
+            <h2 className="text-2xl font-bold text-slate-800">Patient Room Management</h2>
+            <p className="text-slate-600">Manage patient room statuses and cleaning tasks</p>
           </div>
           <button 
             className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
@@ -275,22 +289,26 @@ export default function Rooms() {
         )}
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
           <div className="bg-white rounded-xl shadow p-4 text-center border-l-4 border-slate-500">
             <p className="text-2xl font-bold text-slate-800">{stats.total}</p>
             <p className="text-sm text-slate-600">Total Rooms</p>
           </div>
+          <div className="bg-blue-50 rounded-xl shadow p-4 text-center border-l-4 border-blue-500">
+            <p className="text-2xl font-bold text-blue-700">{stats.occupied}</p>
+            <p className="text-sm text-blue-600">Occupied</p>
+          </div>
           <div className="bg-emerald-50 rounded-xl shadow p-4 text-center border-l-4 border-emerald-500">
-            <p className="text-2xl font-bold text-emerald-700">{stats.clean}</p>
-            <p className="text-sm text-emerald-600">Clean</p>
+            <p className="text-2xl font-bold text-emerald-700">{stats.available}</p>
+            <p className="text-sm text-emerald-600">Available</p>
+          </div>
+          <div className="bg-teal-50 rounded-xl shadow p-4 text-center border-l-4 border-teal-500">
+            <p className="text-2xl font-bold text-teal-700">{stats.clean}</p>
+            <p className="text-sm text-teal-600">Clean</p>
           </div>
           <div className="bg-amber-50 rounded-xl shadow p-4 text-center border-l-4 border-amber-500">
-            <p className="text-2xl font-bold text-amber-700">{stats.dirty}</p>
-            <p className="text-sm text-amber-600">Dirty</p>
-          </div>
-          <div className="bg-blue-50 rounded-xl shadow p-4 text-center border-l-4 border-blue-500">
-            <p className="text-2xl font-bold text-blue-700">{stats.inspected}</p>
-            <p className="text-sm text-blue-600">Inspected</p>
+            <p className="text-2xl font-bold text-amber-700">{stats.discharged}</p>
+            <p className="text-sm text-amber-600">Discharged</p>
           </div>
         </div>
 
@@ -316,10 +334,11 @@ export default function Rooms() {
                 onChange={(e) => setSelectedStatus(e.target.value)}
               >
                 <option value="">All Statuses</option>
-                <option value="CLEAN">Clean</option>
-                <option value="DIRTY">Dirty</option>
-                <option value="INSPECTED">Inspected</option>
-                <option value="OUT_OF_ORDER">Out of Order</option>
+                <option value="occupied">Occupied</option>
+                <option value="available">Available</option>
+                <option value="clean">Clean</option>
+                <option value="discharged">Discharged</option>
+                <option value="maintenance">Under Maintenance</option>
               </select>
             </div>
             <div>
@@ -413,20 +432,24 @@ export default function Rooms() {
               {/* Legend */}
               <div className="flex flex-wrap gap-4 mb-6">
                 <div className="flex items-center">
+                  <div className="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+                  <span className="text-sm text-slate-700">Occupied</span>
+                </div>
+                <div className="flex items-center">
                   <div className="w-4 h-4 bg-emerald-500 rounded mr-2"></div>
+                  <span className="text-sm text-slate-700">Available</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-teal-500 rounded mr-2"></div>
                   <span className="text-sm text-slate-700">Clean</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-4 h-4 bg-amber-500 rounded mr-2"></div>
-                  <span className="text-sm text-slate-700">Dirty</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-4 h-4 bg-blue-500 rounded mr-2"></div>
-                  <span className="text-sm text-slate-700">Inspected</span>
+                  <span className="text-sm text-slate-700">Discharged</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-4 h-4 bg-rose-500 rounded mr-2"></div>
-                  <span className="text-sm text-slate-700">Out of Order</span>
+                  <span className="text-sm text-slate-700">Maintenance</span>
                 </div>
               </div>
               
@@ -443,15 +466,17 @@ export default function Rooms() {
                           <div
                             key={room.id}
                             className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
-                              room.status === 'CLEAN'
-                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                                : room.status === 'DIRTY'
-                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                                : room.status === 'INSPECTED'
+                              room.status === 'occupied'
                                 ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                : room.status === 'available'
+                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                : room.status === 'clean'
+                                ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
+                                : room.status === 'discharged'
+                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
                                 : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
                             }`}
-                            onClick={() => updateRoomStatus(room.id, room.status === 'CLEAN' ? 'DIRTY' : room.status === 'DIRTY' ? 'INSPECTED' : room.status === 'INSPECTED' ? 'CLEAN' : 'DIRTY')}
+                            onClick={() => updateRoomStatus(room.id, room.status === 'occupied' ? 'discharged' : room.status === 'discharged' ? 'clean' : room.status === 'clean' ? 'available' : 'occupied')}
                           >
                             <div className="flex justify-between items-start">
                               <div>
@@ -460,12 +485,14 @@ export default function Rooms() {
                               </div>
                               <div
                                 className={`p-1 rounded-full ${
-                                  room.status === 'CLEAN'
-                                    ? 'bg-emerald-100'
-                                    : room.status === 'DIRTY'
-                                    ? 'bg-amber-100'
-                                    : room.status === 'INSPECTED'
+                                  room.status === 'occupied'
                                     ? 'bg-blue-100'
+                                    : room.status === 'available'
+                                    ? 'bg-emerald-100'
+                                    : room.status === 'clean'
+                                    ? 'bg-teal-100'
+                                    : room.status === 'discharged'
+                                    ? 'bg-amber-100'
                                     : 'bg-rose-100'
                                 }`}
                               >
@@ -499,15 +526,17 @@ export default function Rooms() {
                           <div
                             key={room.id}
                             className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
-                              room.status === 'CLEAN'
-                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                                : room.status === 'DIRTY'
-                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                                : room.status === 'INSPECTED'
+                              room.status === 'occupied'
                                 ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                : room.status === 'available'
+                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                : room.status === 'clean'
+                                ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
+                                : room.status === 'discharged'
+                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
                                 : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
                             }`}
-                            onClick={() => updateRoomStatus(room.id, room.status === 'CLEAN' ? 'DIRTY' : room.status === 'DIRTY' ? 'INSPECTED' : room.status === 'INSPECTED' ? 'CLEAN' : 'DIRTY')}
+                            onClick={() => updateRoomStatus(room.id, room.status === 'occupied' ? 'discharged' : room.status === 'discharged' ? 'clean' : room.status === 'clean' ? 'available' : 'occupied')}
                           >
                             <div className="flex justify-between items-start">
                               <div>
@@ -516,12 +545,14 @@ export default function Rooms() {
                               </div>
                               <div
                                 className={`p-1 rounded-full ${
-                                  room.status === 'CLEAN'
-                                    ? 'bg-emerald-100'
-                                    : room.status === 'DIRTY'
-                                    ? 'bg-amber-100'
-                                    : room.status === 'INSPECTED'
+                                  room.status === 'occupied'
                                     ? 'bg-blue-100'
+                                    : room.status === 'available'
+                                    ? 'bg-emerald-100'
+                                    : room.status === 'clean'
+                                    ? 'bg-teal-100'
+                                    : room.status === 'discharged'
+                                    ? 'bg-amber-100'
                                     : 'bg-rose-100'
                                 }`}
                               >
@@ -555,15 +586,17 @@ export default function Rooms() {
                           <div
                             key={room.id}
                             className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
-                              room.status === 'CLEAN'
-                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                                : room.status === 'DIRTY'
-                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                                : room.status === 'INSPECTED'
+                              room.status === 'occupied'
                                 ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                : room.status === 'available'
+                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                : room.status === 'clean'
+                                ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
+                                : room.status === 'discharged'
+                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
                                 : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
                             }`}
-                            onClick={() => updateRoomStatus(room.id, room.status === 'CLEAN' ? 'DIRTY' : room.status === 'DIRTY' ? 'INSPECTED' : room.status === 'INSPECTED' ? 'CLEAN' : 'DIRTY')}
+                            onClick={() => updateRoomStatus(room.id, room.status === 'occupied' ? 'discharged' : room.status === 'discharged' ? 'clean' : room.status === 'clean' ? 'available' : 'occupied')}
                           >
                             <div className="flex justify-between items-start">
                               <div>
@@ -572,12 +605,14 @@ export default function Rooms() {
                               </div>
                               <div
                                 className={`p-1 rounded-full ${
-                                  room.status === 'CLEAN'
-                                    ? 'bg-emerald-100'
-                                    : room.status === 'DIRTY'
-                                    ? 'bg-amber-100'
-                                    : room.status === 'INSPECTED'
+                                  room.status === 'occupied'
                                     ? 'bg-blue-100'
+                                    : room.status === 'available'
+                                    ? 'bg-emerald-100'
+                                    : room.status === 'clean'
+                                    ? 'bg-teal-100'
+                                    : room.status === 'discharged'
+                                    ? 'bg-amber-100'
                                     : 'bg-rose-100'
                                 }`}
                               >
@@ -690,10 +725,11 @@ export default function Rooms() {
                           onChange={(e) => updateRoomStatus(room.id, e.target.value)}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <option value="CLEAN">Clean</option>
-                          <option value="DIRTY">Dirty</option>
-                          <option value="INSPECTED">Inspected</option>
-                          <option value="OUT_OF_ORDER">Out of Order</option>
+                          <option value="occupied">Occupied</option>
+                          <option value="available">Available</option>
+                          <option value="clean">Clean</option>
+                          <option value="discharged">Discharged</option>
+                          <option value="maintenance">Under Maintenance</option>
                         </select>
                       </div>
                     </td>
@@ -752,9 +788,12 @@ export default function Rooms() {
                     value={newRoom.type}
                     onChange={(e) => setNewRoom({...newRoom, type: e.target.value})}
                   >
-                    <option value="Standard">Standard</option>
-                    <option value="Deluxe">Deluxe</option>
-                    <option value="Suite">Suite</option>
+                    <option value="General Ward">General Ward</option>
+                    <option value="Private Room">Private Room</option>
+                    <option value="Semi-Private">Semi-Private</option>
+                    <option value="ICU">ICU</option>
+                    <option value="Maternity Ward">Maternity Ward</option>
+                    <option value="Emergency">Emergency</option>
                   </select>
                 </div>
                 <div>
@@ -764,10 +803,11 @@ export default function Rooms() {
                     value={newRoom.status}
                     onChange={(e) => setNewRoom({...newRoom, status: e.target.value})}
                   >
-                    <option value="CLEAN">Clean</option>
-                    <option value="DIRTY">Dirty</option>
-                    <option value="INSPECTED">Inspected</option>
-                    <option value="OUT_OF_ORDER">Out of Order</option>
+                    <option value="available">Available</option>
+                    <option value="occupied">Occupied</option>
+                    <option value="clean">Clean</option>
+                    <option value="discharged">Discharged</option>
+                    <option value="maintenance">Under Maintenance</option>
                   </select>
                 </div>
               </div>

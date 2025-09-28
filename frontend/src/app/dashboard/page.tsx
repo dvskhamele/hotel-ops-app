@@ -230,7 +230,7 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
         <div className="bg-white p-8 rounded-2xl shadow-xl w-96">
-          <h1 className="text-2xl font-bold mb-6 text-center text-slate-800">Hotel Operations Login</h1>
+                      <h1 className="text-2xl font-bold mb-6 text-center text-slate-800">Hospital Operations Login</h1>
           <form onSubmit={(e) => {
             e.preventDefault()
             // Mock login for prototype - in a real app, this would call the API
@@ -289,7 +289,7 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-3xl font-bold text-slate-800">Good morning, {user?.name}</h1>
-              <p className="text-slate-600">Here's what's happening with your hotel today.</p>
+              <p className="text-slate-600">Here's what's happening with your hospital today.</p>
             </div>
             <div className="mt-4 md:mt-0">
               <div className="flex items-center space-x-2">
@@ -313,7 +313,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-amber-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/requests')}>
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-500">Pending Requests</p>
+                <p className="text-sm font-medium text-slate-500">Pending Medical Requests</p>
                 <p className="text-3xl font-bold text-slate-800 mt-1">{stats.pendingRequests}</p>
               </div>
               <div className="bg-amber-100 p-3 rounded-full">
@@ -330,7 +330,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-blue-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/rooms')}>
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-500">Occupancy Rate</p>
+                <p className="text-sm font-medium text-slate-500">Patient Occupancy Rate</p>
                 <p className="text-3xl font-bold text-slate-800 mt-1">{stats.occupancyRate}%</p>
               </div>
               <div className="bg-blue-100 p-3 rounded-full">
@@ -347,8 +347,8 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-emerald-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/analytics')}>
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-500">Revenue Today</p>
-                <p className="text-3xl font-bold text-slate-800 mt-1">₹{stats.revenueToday.toLocaleString()}</p>
+                <p className="text-sm font-medium text-slate-500">Daily Revenue</p>
+                <p className="text-3xl font-bold text-slate-800 mt-1">₹{stats.dailyRevenue.toLocaleString()}</p>
               </div>
               <div className="bg-emerald-100 p-3 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -364,7 +364,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-indigo-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/staff')}>
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-500">Active Staff</p>
+                <p className="text-sm font-medium text-slate-500">Active Medical Staff</p>
                 <p className="text-3xl font-bold text-slate-800 mt-1">{stats.staffActive}</p>
               </div>
               <div className="bg-indigo-100 p-3 rounded-full">
@@ -624,6 +624,7 @@ export default function Dashboard() {
                   onClick={() => {
                     // Navigate to appropriate page based on activity type
                     switch(item.type) {
+                      case 'medicalRequest':
                       case 'request':
                         router.push('/requests');
                         break;
@@ -632,6 +633,9 @@ export default function Dashboard() {
                         break;
                       case 'staff':
                         router.push('/staff');
+                        break;
+                      case 'patient':
+                        router.push('/patients');
                         break;
                       default:
                         router.push('/reports');
@@ -727,8 +731,8 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-rose-500 card cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1" onClick={() => router.push('/requests')}>
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-500">Maintenance Requests</p>
-                <p className="text-3xl font-bold text-slate-800 mt-1">{stats.maintenanceRequests}</p>
+                <p className="text-sm font-medium text-slate-500">Urgent Medical Requests</p>
+                <p className="text-3xl font-bold text-slate-800 mt-1">{stats.urgentRequests}</p>
               </div>
               <div className="bg-rose-100 p-3 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -738,7 +742,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="mt-4">
-              <span className="text-xs text-rose-500">3 urgent</span>
+              <span className="text-xs text-rose-500">3 critical</span>
             </div>
           </div>
 
@@ -762,8 +766,8 @@ export default function Dashboard() {
           <div className="bg-white rounded-2xl shadow-md p-6 border-l-4 border-emerald-500 card cursor-pointer hover:shadow-lg transition duration-300 transform hover:-translate-y-1" onClick={() => router.push('/reports')}>
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-500">Guest Satisfaction</p>
-                <p className="text-3xl font-bold text-slate-800 mt-1">{stats.guestSatisfaction}%</p>
+                <p className="text-sm font-medium text-slate-500">Patient Satisfaction</p>
+                <p className="text-3xl font-bold text-slate-800 mt-1">{stats.patientSatisfaction}%</p>
               </div>
               <div className="bg-emerald-100 p-3 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

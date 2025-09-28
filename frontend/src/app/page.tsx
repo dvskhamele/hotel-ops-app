@@ -12,7 +12,7 @@ export default function HomePage() {
   const features = [
     {
       title: "Dashboard Analytics",
-      description: "Real-time insights into hotel performance with customizable widgets and visualizations.",
+      description: "Real-time insights into hospital performance with customizable widgets and visualizations.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -20,8 +20,8 @@ export default function HomePage() {
       )
     },
     {
-      title: "Room Management",
-      description: "Track room status, housekeeping tasks, and maintenance requests with real-time updates.",
+      title: "Patient Room Management",
+      description: "Track patient room status, cleaning tasks, and discharge planning with real-time updates.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
@@ -29,8 +29,8 @@ export default function HomePage() {
       )
     },
     {
-      title: "Guest Request System",
-      description: "Streamline guest requests with priority management and department assignment.",
+      title: "Medical Request System",
+      description: "Streamline patient requests and medical orders with priority management and department assignment.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -39,7 +39,7 @@ export default function HomePage() {
     },
     {
       title: "Staff Management",
-      description: "Track staff performance, schedules, and department assignments.",
+      description: "Track medical staff performance, schedules, and department assignments.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -47,8 +47,8 @@ export default function HomePage() {
       )
     },
     {
-      title: "Inventory Tracking",
-      description: "Monitor hotel inventory levels with automated alerts and reordering suggestions.",
+      title: "Medical Supplies Tracking",
+      description: "Monitor hospital inventory levels with automated alerts and reordering suggestions.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -57,7 +57,7 @@ export default function HomePage() {
     },
     {
       title: "Reporting & Analytics",
-      description: "Generate detailed reports on occupancy, revenue, guest satisfaction, and staff performance.",
+      description: "Generate detailed reports on patient care, staff performance, and operational efficiency.",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -69,14 +69,14 @@ export default function HomePage() {
   const pricingPlans = [
     {
       id: 'template',
-      name: 'Full Hotel Management System',
+      name: 'Full Hospital Management System',
       price: '$4000',
-      description: 'Complete hotel management system with PWA compatibility',
+      description: 'Complete hospital management system with PWA compatibility',
       features: [
         'Progressive Web App (PWA) compatible',
         'Real-time dashboard analytics',
-        'Room status tracking & housekeeping management',
-        'Guest request system with priority routing',
+        'Patient room status tracking & housekeeping management',
+        'Medical request system with priority routing',
         'Staff performance monitoring',
         'Inventory management with alerts',
         'Mobile-responsive interface',
@@ -97,22 +97,23 @@ export default function HomePage() {
         'Comprehensive API documentation',
         'Load balancing & auto-scaling',
         'Data encryption & security protocols',
-        '99.9% uptime SLA'
+        'HIPAA compliance ready'
       ],
       cta: 'Get Enterprise Backend'
     },
     {
       id: 'full',
-      name: 'Complete HotelOps Suite',
+      name: 'Complete HospitalOps Suite',
       price: '$8000',
-      description: 'End-to-end hotel operations with AI-powered insights',
+      description: 'End-to-end hospital operations with AI-powered insights',
       features: [
-        'Full Hotel Management System',
+        'Full Hospital Management System',
         'Enterprise Backend Infrastructure',
         'AI-powered analytics & predictive insights',
         'Custom integrations & API connectors',
         'Advanced reporting & data visualization',
-        'Multi-property management',
+        'Patient management system',
+        'Pharmacy management system',
         '24/7 dedicated support',
         'Regular updates & feature releases'
       ],
@@ -123,20 +124,20 @@ export default function HomePage() {
 
   const benefits = [
     "Reduce operational costs by up to 30%",
-    "Improve guest satisfaction scores",
+    "Improve patient satisfaction scores",
     "Streamline staff workflows",
-    "Real-time visibility into hotel operations",
+    "Real-time visibility into hospital operations",
     "Data-driven decision making",
     "Mobile-responsive interface for on-the-go access"
   ]
 
   const useCases = [
-    "Hotel chains seeking centralized management",
-    "Independent hotels wanting to modernize operations",
-    "Resort properties with diverse service offerings",
-    "Boutique hotels needing guest experience optimization",
-    "Conference centers managing large groups",
-    "Vacation rentals requiring automated systems"
+    "Hospital systems seeking centralized management",
+    "Independent hospitals wanting to modernize operations",
+    "Medical centers with diverse service offerings",
+    "Clinics needing patient experience optimization",
+    "Emergency departments managing high volumes",
+    "Specialized units requiring automated systems"
   ]
 
   const technologies = [
@@ -165,7 +166,7 @@ export default function HomePage() {
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                   </svg>
                 </div>
-                <span className="ml-2 text-xl font-bold text-slate-800">HotelOps</span>
+                <span className="ml-2 text-xl font-bold text-slate-800">HospitalOps</span>
               </div>
             </div>
             <nav className="hidden md:flex space-x-10 flex-wrap">
@@ -197,11 +198,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6">
-              Modern Hotel Operations Management
+              Modern Hospital Operations Management
             </h1>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-10">
-              Streamline your hotel operations with our comprehensive management system. 
-              From room status tracking to guest request management, we've got you covered.
+              Streamline your hospital operations with our comprehensive management system. 
+              From patient room tracking to medical request management, we've got you covered.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button 
@@ -379,9 +380,9 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-teal-500 to-teal-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Transform Your Hotel Operations?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Transform Your Hospital Operations?</h2>
           <p className="text-xl text-teal-100 max-w-3xl mx-auto mb-10">
-            Join hundreds of hotels already using HotelOps to streamline their operations and improve guest satisfaction.
+            Join hundreds of hospitals already using HospitalOps to streamline their operations and improve patient care.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button 
@@ -411,10 +412,10 @@ export default function HomePage() {
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                   </svg>
                 </div>
-                <span className="ml-2 text-xl font-bold text-white">HotelOps</span>
+                <span className="ml-2 text-xl font-bold text-white">HospitalOps</span>
               </div>
               <p className="mt-4 text-sm">
-                Modern hotel operations management for the digital age.
+                Modern hospital operations management for the digital age.
               </p>
             </div>
             <div>
@@ -446,7 +447,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-slate-800 mt-12 pt-8 text-sm text-center">
-            <p>© 2023 HotelOps. All rights reserved.</p>
+            <p>© 2023 HospitalOps. All rights reserved.</p>
           </div>
         </div>
       </footer>

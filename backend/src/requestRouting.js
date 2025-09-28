@@ -3,24 +3,36 @@ class RequestRoutingService {
   // Define keywords that map to departments
   static getDepartmentKeywords() {
     return {
+      'Pharmacy': [
+        'medication', 'prescription', 'pills', 'drug', 'pharmacy', 'pain', 
+        'painkiller', 'aspirin', 'ibuprofen', 'insulin', 'antibiotic'
+      ],
+      'Laboratory': [
+        'lab', 'test', 'blood', 'urine', 'analysis', 'sample', 'culture',
+        'lab results', 'blood work', 'cbc', 'chemistry', 'pathology',
+        'urinalysis', 'microbiology'
+      ],
+      'Radiology': [
+        'x-ray', 'scan', 'imaging', 'ct', 'mri', 'radiology', 'xray',
+        'ultrasound', 'echo', 'radiation', 'image', 'film', 'contrast'
+      ],
+      'Nursing': [
+        'nurse', 'nursing', 'temperature', 'vital signs', 'checkup',
+        'blood pressure', 'bp', 'oxygen', 'pulse', 'iv', 'catheter',
+        'wound care', 'dressing', 'bedpan', 'bed'
+      ],
+      'Nutrition': [
+        'diet', 'food', 'meal', 'dietitian', 'nutritious', 'diabetic',
+        'low sodium', 'clear liquid', 'pureed', 'soft diet', 'feeding'
+      ],
+      'Physical Therapy': [
+        'pt', 'physical therapy', 'exercise', 'mobility', 'walk', 'movement',
+        'rehabilitation', 'therapy', 'motion', 'strength', 'balance'
+      ],
       'Housekeeping': [
-        'clean', 'towels', 'sheets', 'linens', 'room service', 'dirty', 
-        'maid', 'housekeeping', 'bed', 'bathroom', 'amenities', 'pillow'
-      ],
-      'Maintenance': [
-        'fix', 'broken', 'repair', 'leak', 'plumbing', 'electrical', 
-        'ac', 'air conditioning', 'heating', 'hot water', 'tv', 'wifi',
-        'internet', 'light', 'outlet', 'window', 'door', 'lock'
-      ],
-      'Food & Beverage': [
-        'food', 'drink', 'meal', 'breakfast', 'lunch', 'dinner', 
-        'room service', 'restaurant', 'bar', 'beverage', 'snack',
-        'coffee', 'tea', 'water', 'wine', 'beer'
-      ],
-      'Front Desk': [
-        'checkin', 'checkout', 'reservation', 'bill', 'payment', 
-        'key', 'late checkout', 'early checkin', 'parking', 'baggage',
-        'concierge', 'recommendation', 'tour', 'taxi'
+        'clean', 'sheets', 'linens', 'room service', 'dirty', 
+        'housekeeping', 'bed', 'bathroom', 'amenities', 'pillow',
+        'laundry', 'waste', 'disposal', 'disinfection', 'sanitizing'
       ]
     };
   }
@@ -39,8 +51,8 @@ class RequestRoutingService {
       }
     }
     
-    // Default to Front Desk if no keywords match
-    return 'Front Desk';
+    // Default to Nursing if no keywords match
+    return 'Nursing';
   }
   
   // Get priority level based on keywords
@@ -49,14 +61,16 @@ class RequestRoutingService {
     
     // Urgent keywords
     const urgentKeywords = [
-      'emergency', 'urgent', 'immediately', 'asap', 'broken', 'leak', 
-      'security', 'medical', 'help', 'stuck', 'locked out'
+      'emergency', 'urgent', 'immediately', 'asap', 'critical', 'crisis', 
+      'medical', 'help', 'pain', 'bleeding', 'severe', 'acute',
+      'chest pain', 'difficulty breathing', 'allergic reaction',
+      'heart attack', 'stroke', 'seizure'
     ];
     
     // High priority keywords
     const highPriorityKeywords = [
       'soon', 'quick', 'fast', 'hurry', 'important', 'needed', 
-      'dirty', 'clean', 'late', 'early'
+      'prescription', 'medication', 'lab', 'test', 'results'
     ];
     
     // Check for urgent keywords
@@ -81,28 +95,40 @@ class RequestRoutingService {
   static getEstimatedResponseTime(department, priority) {
     const responseTimes = {
       'URGENT': {
-        'Maintenance': 15,
-        'Housekeeping': 30,
-        'Food & Beverage': 20,
-        'Front Desk': 10
+        'Pharmacy': 10,
+        'Laboratory': 15,
+        'Radiology': 20,
+        'Nursing': 5,
+        'Nutrition': 30,
+        'Physical Therapy': 60,
+        'Housekeeping': 45
       },
       'HIGH': {
-        'Maintenance': 60,
-        'Housekeeping': 45,
-        'Food & Beverage': 30,
-        'Front Desk': 20
+        'Pharmacy': 30,
+        'Laboratory': 45,
+        'Radiology': 60,
+        'Nursing': 15,
+        'Nutrition': 60,
+        'Physical Therapy': 120,
+        'Housekeeping': 90
       },
       'MEDIUM': {
-        'Maintenance': 120,
-        'Housekeeping': 90,
-        'Food & Beverage': 45,
-        'Front Desk': 30
+        'Pharmacy': 90,
+        'Laboratory': 120,
+        'Radiology': 240,
+        'Nursing': 30,
+        'Nutrition': 180,
+        'Physical Therapy': 240,
+        'Housekeeping': 120
       },
       'LOW': {
-        'Maintenance': 240,
-        'Housekeeping': 120,
-        'Food & Beverage': 60,
-        'Front Desk': 45
+        'Pharmacy': 240,
+        'Laboratory': 360,
+        'Radiology': 480,
+        'Nursing': 60,
+        'Nutrition': 480,
+        'Physical Therapy': 1440,
+        'Housekeeping': 240
       }
     };
     

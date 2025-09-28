@@ -34,16 +34,16 @@ export default function Inventory() {
 
     // Mock data for prototype
     const mockInventory = [
-      { id: 1, name: 'Luxury Towels', category: 'Linens', quantity: 150, minStock: 100, supplier: 'Premium Linens Co.', price: 12.99, lastOrdered: '2023-08-15' },
-      { id: 2, name: 'Hotel Shampoo', category: 'Toiletries', quantity: 85, minStock: 50, supplier: 'Spa Essentials', price: 3.50, lastOrdered: '2023-08-20' },
-      { id: 3, name: 'Coffee Beans', category: 'Food & Beverage', quantity: 25, minStock: 20, supplier: 'Gourmet Coffee Supply', price: 18.75, lastOrdered: '2023-09-01' },
-      { id: 4, name: 'Cleaning Supplies', category: 'Housekeeping', quantity: 40, minStock: 30, supplier: 'CleanCo', price: 8.99, lastOrdered: '2023-08-25' },
-      { id: 5, name: 'Wine Glasses', category: 'Dining', quantity: 75, minStock: 50, supplier: 'Fine Glassware', price: 9.25, lastOrdered: '2023-07-30' },
-      { id: 6, name: 'Bed Sheets', category: 'Linens', quantity: 95, minStock: 80, supplier: 'Premium Linens Co.', price: 24.50, lastOrdered: '2023-08-10' },
-      { id: 7, name: 'Conditioner', category: 'Toiletries', quantity: 45, minStock: 50, supplier: 'Spa Essentials', price: 3.75, lastOrdered: '2023-08-20' },
-      { id: 8, name: 'Chocolate Assortment', category: 'Food & Beverage', quantity: 15, minStock: 20, supplier: 'Gourmet Delights', price: 22.50, lastOrdered: '2023-09-05' },
-      { id: 9, name: 'Trash Bags', category: 'Housekeeping', quantity: 120, minStock: 100, supplier: 'CleanCo', price: 15.99, lastOrdered: '2023-08-28' },
-      { id: 10, name: 'Silverware Set', category: 'Dining', quantity: 60, minStock: 50, supplier: 'Fine Glassware', price: 12.75, lastOrdered: '2023-08-05' }
+      { id: 1, name: 'Lisinopril 10mg', category: 'Cardiovascular', quantity: 150, minStock: 50, supplier: 'MediSupply Co.', price: 0.50, lastOrdered: '2023-08-15' },
+      { id: 2, name: 'Metformin 500mg', category: 'Diabetes', quantity: 85, minStock: 40, supplier: 'Diabetes Care Supply', price: 0.75, lastOrdered: '2023-08-20' },
+      { id: 3, name: 'Albuterol Inhaler', category: 'Respiratory', quantity: 25, minStock: 15, supplier: 'RespCare Supply', price: 25.00, lastOrdered: '2023-09-01' },
+      { id: 4, name: 'Aspirin 81mg', category: 'Cardiovascular', quantity: 400, minStock: 100, supplier: 'Generic Pharma', price: 0.10, lastOrdered: '2023-08-25' },
+      { id: 5, name: 'Levothyroxine 50mcg', category: 'Endocrine', quantity: 75, minStock: 30, supplier: 'EndoPharma Supply', price: 1.20, lastOrdered: '2023-07-30' },
+      { id: 6, name: 'Loratadine 10mg', category: 'Allergy', quantity: 95, minStock: 20, supplier: 'Allergy Relief Inc.', price: 0.80, lastOrdered: '2023-08-10' },
+      { id: 7, name: 'Omeprazole 20mg', category: 'GI', quantity: 120, minStock: 50, supplier: 'GI Health Supply', price: 0.95, lastOrdered: '2023-08-20' },
+      { id: 8, name: 'Amoxicillin 500mg', category: 'Antibiotic', quantity: 65, minStock: 30, supplier: 'Antibiotic Specialists', price: 0.65, lastOrdered: '2023-09-05' },
+      { id: 9, name: 'Ibuprofen 200mg', category: 'Pain Relief', quantity: 200, minStock: 80, supplier: 'Pain Relief Co.', price: 0.15, lastOrdered: '2023-08-28' },
+      { id: 10, name: 'Atorvastatin 20mg', category: 'Cardiovascular', quantity: 88, minStock: 40, supplier: 'Cardio Health Supply', price: 1.10, lastOrdered: '2023-08-05' }
     ]
     
     setInventory(mockInventory)
@@ -136,8 +136,8 @@ export default function Inventory() {
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">Inventory Management</h2>
-            <p className="text-slate-600">Track and manage hotel inventory</p>
+            <h2 className="text-2xl font-bold text-slate-800">Pharmacy Management</h2>
+            <p className="text-slate-600">Track and manage hospital pharmaceutical inventory</p>
           </div>
           <button 
             className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-2 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition duration-300 shadow-md flex items-center"
@@ -434,15 +434,15 @@ export default function Inventory() {
               <div className="flex justify-between items-start">
                 <h4 className="font-medium text-blue-800">Top Categories</h4>
               </div>
-              <p className="text-xl font-bold text-blue-700 mt-2">Toiletries</p>
-              <p className="text-sm text-blue-600">32% of inventory</p>
+              <p className="text-xl font-bold text-blue-700 mt-2">Medications</p>
+              <p className="text-sm text-blue-600">45% of inventory</p>
             </div>
             <div className="border border-emerald-200 bg-emerald-50 rounded-lg p-4 hover:bg-emerald-100 transition duration-300 cursor-pointer">
               <div className="flex justify-between items-start">
                 <h4 className="font-medium text-emerald-800">Monthly Spend</h4>
               </div>
-              <p className="text-xl font-bold text-emerald-700 mt-2">₹12,450</p>
-              <p className="text-sm text-emerald-600">↓ 5% from last month</p>
+              <p className="text-xl font-bold text-emerald-700 mt-2">₹24,875</p>
+              <p className="text-sm text-emerald-600">↑ 3% from last month</p>
             </div>
           </div>
         </div>

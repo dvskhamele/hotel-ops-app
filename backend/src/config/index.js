@@ -2,7 +2,7 @@
 const config = {
   // Development settings
   development: {
-    port: process.env.PORT || 3001,
+    port: process.env.PORT || 5001,
     database: {
       type: process.env.DB_TYPE || 'file', // file, postgres, mysql, mongodb, supabase
       url: process.env.DATABASE_URL || './data.json',
@@ -13,7 +13,7 @@ const config = {
       expiresIn: '24h'
     },
     cors: {
-      origin: process.env.CORS_ORIGIN || 'http://localhost:3000'
+      origin: process.env.CORS_ORIGIN || 'http://localhost:3002'
     }
   },
   

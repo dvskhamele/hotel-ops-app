@@ -1,6 +1,6 @@
 // API Service for Hotel Operations Management
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 
-                     (typeof window !== 'undefined' ? '/api' : 'http://localhost:3001/api');
+                     (typeof window !== 'undefined' ? 'http://localhost:5001' : 'http://localhost:5001');
 
 // In production, use real API instead of mock data
 // For this prototype, we'll use mock data with localStorage persistence

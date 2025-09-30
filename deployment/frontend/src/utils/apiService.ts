@@ -1,6 +1,6 @@
 // API Service for Hotel Operations Management
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 
-                     (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:3000/api');
+                     (typeof window !== 'undefined' ? window.location.origin + '/api' : 'http://localhost:5001');
 
 // In production, always use mock data
 const USE_MOCK_DATA = process.env.NODE_ENV === 'production';

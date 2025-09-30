@@ -199,6 +199,14 @@ export default function VIP() {
     return diffDays;
   }
 
+  // Function to get satisfaction emoji based on score
+  const getSatisfactionEmoji = (score: number) => {
+    if (score >= 95) return '🌟';
+    if (score >= 90) return '👍';
+    if (score >= 80) return '👌';
+    return '⚠️';
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">

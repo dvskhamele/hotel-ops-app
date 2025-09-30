@@ -31,19 +31,184 @@ export default function Staff() {
       setUser({ name: 'Admin User', role: 'ADMIN' } as any)
     }
 
-    // Mock data for prototype
+    // Mock data for prototype with attendance information
     const mockStaff = [
-      { id: 1, name: 'Dr. Alice Johnson', department: 'Cardiology', position: 'Attending Physician', status: 'Active', email: 'alice.johnson@hospital.com', phone: '+1234567890', hireDate: '2022-01-15', performance: 92, schedule: '9:00 AM - 5:00 PM' },
-      { id: 2, name: 'Dr. Michael Chen', department: 'Surgery', position: 'Surgeon', status: 'Active', email: 'michael.chen@hospital.com', phone: '+1234567891', hireDate: '2022-03-22', performance: 87, schedule: '9:00 AM - 5:00 PM' },
-      { id: 3, name: 'Nurse Carol Davis', department: 'Emergency', position: 'Registered Nurse', status: 'Offline', email: 'carol.davis@hospital.com', phone: '+1234567892', hireDate: '2021-11-05', performance: 95, schedule: '9:00 AM - 5:00 PM' },
-      { id: 4, name: 'Dr. David Wilson', department: 'Orthopedics', position: 'Consultant', status: 'Active', email: 'david.wilson@hospital.com', phone: '+1234567893', hireDate: '2020-07-18', performance: 88, schedule: '8:00 AM - 4:00 PM' },
-      { id: 5, name: 'Nurse Eva Brown', department: 'ICU', position: 'ICU Nurse', status: 'Break', email: 'eva.brown@hospital.com', phone: '+1234567894', hireDate: '2023-02-10', performance: 91, schedule: '8:00 AM - 4:00 PM' },
-      { id: 6, name: 'Dr. Frank Miller', department: 'Internal Medicine', position: 'Chief of Medicine', status: 'Active', email: 'frank.miller@hospital.com', phone: '+1234567895', hireDate: '2019-05-30', performance: 96, schedule: '7:00 AM - 3:00 PM' },
-      { id: 7, name: 'Nurse Grace Lee', department: 'Pediatrics', position: 'Staff Nurse', status: 'Active', email: 'grace.lee@hospital.com', phone: '+1234567896', hireDate: '2022-09-14', performance: 89, schedule: '7:00 AM - 3:00 PM' },
-      { id: 8, name: 'Dr. Henry Taylor', department: 'Neurology', position: 'Neurologist', status: 'Active', email: 'henry.taylor@hospital.com', phone: '+1234567897', hireDate: '2023-01-20', performance: 93, schedule: '7:00 AM - 3:00 PM' },
-      { id: 9, name: 'Nurse Ivy Chen', department: 'ICU', position: 'Critical Care Nurse', status: 'Offline', email: 'ivy.chen@hospital.com', phone: '+1234567898', hireDate: '2022-12-03', performance: 85, schedule: '7:00 AM - 3:00 PM' },
-      { id: 10, name: 'Dr. Jack Roberts', department: 'Emergency', position: 'ER Physician', status: 'Active', email: 'jack.roberts@hospital.com', phone: '+1234567899', hireDate: '2021-04-12', performance: 94, schedule: '6:00 AM - 2:00 PM' },
-      { id: 11, name: 'Dr. Kate Williams', department: 'Administration', position: 'Chief Medical Officer', status: 'Active', email: 'kate.williams@hospital.com', phone: '+1234567800', hireDate: '2020-09-08', performance: 97, schedule: '6:00 AM - 2:00 PM' }
+      { 
+        id: 1, 
+        name: 'Dr. Alice Johnson', 
+        department: 'Cardiology', 
+        position: 'Attending Physician', 
+        status: 'Active', 
+        email: 'alice.johnson@hospital.com', 
+        phone: '+1234567890', 
+        hireDate: '2022-01-15', 
+        performance: 92, 
+        schedule: '9:00 AM - 5:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 20, absentDays: 2, leaveDays: 0 },
+        lastAttendance: '2023-09-28',
+        monthlyAttendanceRate: 90.9
+      },
+      { 
+        id: 2, 
+        name: 'Dr. Michael Chen', 
+        department: 'Surgery', 
+        position: 'Surgeon', 
+        status: 'Active', 
+        email: 'michael.chen@hospital.com', 
+        phone: '+1234567891', 
+        hireDate: '2022-03-22', 
+        performance: 87, 
+        schedule: '9:00 AM - 5:00 PM',
+        employeeType: 'Freelancer',
+        attendance: { totalDays: 15, presentDays: 14, absentDays: 1, leaveDays: 0 },
+        lastAttendance: '2023-09-27',
+        monthlyAttendanceRate: 93.3
+      },
+      { 
+        id: 3, 
+        name: 'Nurse Carol Davis', 
+        department: 'Emergency', 
+        position: 'Registered Nurse', 
+        status: 'Offline', 
+        email: 'carol.davis@hospital.com', 
+        phone: '+1234567892', 
+        hireDate: '2021-11-05', 
+        performance: 95, 
+        schedule: '9:00 AM - 5:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 21, absentDays: 0, leaveDays: 1 },
+        lastAttendance: '2023-09-26',
+        monthlyAttendanceRate: 95.5
+      },
+      { 
+        id: 4, 
+        name: 'Dr. David Wilson', 
+        department: 'Orthopedics', 
+        position: 'Consultant', 
+        status: 'Active', 
+        email: 'david.wilson@hospital.com', 
+        phone: '+1234567893', 
+        hireDate: '2020-07-18', 
+        performance: 88, 
+        schedule: '8:00 AM - 4:00 PM',
+        employeeType: 'Freelancer',
+        attendance: { totalDays: 10, presentDays: 9, absentDays: 1, leaveDays: 0 },
+        lastAttendance: '2023-09-28',
+        monthlyAttendanceRate: 90.0
+      },
+      { 
+        id: 5, 
+        name: 'Nurse Eva Brown', 
+        department: 'ICU', 
+        position: 'ICU Nurse', 
+        status: 'Break', 
+        email: 'eva.brown@hospital.com', 
+        phone: '+1234567894', 
+        hireDate: '2023-02-10', 
+        performance: 91, 
+        schedule: '8:00 AM - 4:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 18, absentDays: 2, leaveDays: 2 },
+        lastAttendance: '2023-09-25',
+        monthlyAttendanceRate: 81.8
+      },
+      { 
+        id: 6, 
+        name: 'Dr. Frank Miller', 
+        department: 'Internal Medicine', 
+        position: 'Chief of Medicine', 
+        status: 'Active', 
+        email: 'frank.miller@hospital.com', 
+        phone: '+1234567895', 
+        hireDate: '2019-05-30', 
+        performance: 96, 
+        schedule: '7:00 AM - 3:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 22, absentDays: 0, leaveDays: 0 },
+        lastAttendance: '2023-09-28',
+        monthlyAttendanceRate: 100.0
+      },
+      { 
+        id: 7, 
+        name: 'Nurse Grace Lee', 
+        department: 'Pediatrics', 
+        position: 'Staff Nurse', 
+        status: 'Active', 
+        email: 'grace.lee@hospital.com', 
+        phone: '+1234567896', 
+        hireDate: '2022-09-14', 
+        performance: 89, 
+        schedule: '7:00 AM - 3:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 20, absentDays: 1, leaveDays: 1 },
+        lastAttendance: '2023-09-27',
+        monthlyAttendanceRate: 90.9
+      },
+      { 
+        id: 8, 
+        name: 'Dr. Henry Taylor', 
+        department: 'Neurology', 
+        position: 'Neurologist', 
+        status: 'Active', 
+        email: 'henry.taylor@hospital.com', 
+        phone: '+1234567897', 
+        hireDate: '2023-01-20', 
+        performance: 93, 
+        schedule: '7:00 AM - 3:00 PM',
+        employeeType: 'Freelancer',
+        attendance: { totalDays: 8, presentDays: 7, absentDays: 1, leaveDays: 0 },
+        lastAttendance: '2023-09-25',
+        monthlyAttendanceRate: 87.5
+      },
+      { 
+        id: 9, 
+        name: 'Nurse Ivy Chen', 
+        department: 'ICU', 
+        position: 'Critical Care Nurse', 
+        status: 'Offline', 
+        email: 'ivy.chen@hospital.com', 
+        phone: '+1234567898', 
+        hireDate: '2022-12-03', 
+        performance: 85, 
+        schedule: '7:00 AM - 3:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 19, absentDays: 3, leaveDays: 0 },
+        lastAttendance: '2023-09-24',
+        monthlyAttendanceRate: 86.4
+      },
+      { 
+        id: 10, 
+        name: 'Dr. Jack Roberts', 
+        department: 'Emergency', 
+        position: 'ER Physician', 
+        status: 'Active', 
+        email: 'jack.roberts@hospital.com', 
+        phone: '+1234567899', 
+        hireDate: '2021-04-12', 
+        performance: 94, 
+        schedule: '6:00 AM - 2:00 PM',
+        employeeType: 'Freelancer',
+        attendance: { totalDays: 12, presentDays: 11, absentDays: 1, leaveDays: 0 },
+        lastAttendance: '2023-09-27',
+        monthlyAttendanceRate: 91.7
+      },
+      { 
+        id: 11, 
+        name: 'Dr. Kate Williams', 
+        department: 'Administration', 
+        position: 'Chief Medical Officer', 
+        status: 'Active', 
+        email: 'kate.williams@hospital.com', 
+        phone: '+1234567800', 
+        hireDate: '2020-09-08', 
+        performance: 97, 
+        schedule: '6:00 AM - 2:00 PM',
+        employeeType: 'Full-time',
+        attendance: { totalDays: 22, presentDays: 21, absentDays: 0, leaveDays: 1 },
+        lastAttendance: '2023-09-28',
+        monthlyAttendanceRate: 95.5
+      }
     ]
     
     setStaff(mockStaff)
@@ -137,6 +302,59 @@ export default function Staff() {
     if (performance >= 90) return '👍'
     if (performance >= 80) return '👌'
     return '⚠️'
+  }
+
+  // Function to get employee type badge
+  const getEmployeeTypeBadge = (employeeType: string) => {
+    if (employeeType === 'Freelancer') {
+      return 'bg-purple-100 text-purple-800'
+    }
+    return 'bg-blue-100 text-blue-800'
+  }
+
+  // Function to mark attendance for a staff member
+  const markAttendance = (staffId: number, status: 'present' | 'absent' | 'leave') => {
+    setStaff(prevStaff => 
+      prevStaff.map(member => {
+        if (member.id === staffId) {
+          const updatedMember = { ...member };
+          const today = new Date().toISOString().split('T')[0];
+          updatedMember.lastAttendance = today;
+          
+          // Update attendance statistics
+          if (status === 'present') {
+            updatedMember.attendance.presentDays += 1;
+          } else if (status === 'absent') {
+            updatedMember.attendance.absentDays += 1;
+          } else if (status === 'leave') {
+            updatedMember.attendance.leaveDays += 1;
+          }
+          
+          updatedMember.attendance.totalDays += 1;
+          updatedMember.monthlyAttendanceRate = 
+            (updatedMember.attendance.presentDays / updatedMember.attendance.totalDays) * 100;
+          
+          return updatedMember;
+        }
+        return member;
+      })
+    );
+  }
+
+  // Function to get attendance color
+  const getAttendanceColor = (rate: number) => {
+    if (rate >= 95) return 'bg-emerald-500';
+    if (rate >= 90) return 'bg-teal-500';
+    if (rate >= 80) return 'bg-amber-500';
+    return 'bg-rose-500';
+  }
+
+  // Function to get attendance label
+  const getAttendanceLabel = (rate: number) => {
+    if (rate >= 95) return 'Excellent';
+    if (rate >= 90) return 'Good';
+    if (rate >= 80) return 'Fair';
+    return 'Poor';
   }
 
   return (
@@ -305,12 +523,14 @@ export default function Staff() {
                     <p className="text-sm font-medium text-slate-800">{member.schedule}</p>
                   </div>
                   <div className="bg-slate-50 rounded-lg p-2">
-                    <p className="text-xs text-slate-500">Hire Date</p>
-                    <p className="text-sm font-medium text-slate-800">{new Date(member.hireDate).toLocaleDateString()}</p>
+                    <p className="text-xs text-slate-500">Employee Type</p>
+                    <span className={`text-xs px-2 py-1 rounded-full ${getEmployeeTypeBadge(member.employeeType)}`}>
+                      {member.employeeType}
+                    </span>
                   </div>
                   <div className="bg-slate-50 rounded-lg p-2">
                     <p className="text-xs text-slate-500">Attendance</p>
-                    <p className="text-sm font-medium text-slate-800">{member.attendance || 'N/A'}</p>
+                    <p className="text-sm font-medium text-slate-800">{member.monthlyAttendanceRate?.toFixed(1)}%</p>
                   </div>
                 </div>
                 

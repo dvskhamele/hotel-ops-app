@@ -519,9 +519,9 @@ app.get('*', (req, res) => {
   } else {
     // Fallback to API response if frontend files are not found
     res.json({ 
-      message: 'Hotel Operations Management API', 
+      message: 'Hospital Operations Management API', 
       version: '1.0.0',
-      description: 'This is the backend API for HotelOps. For the frontend, please visit the deployed frontend URL.',
+      description: 'This is the backend API for SuperHealth. For the frontend, please visit the deployed frontend URL.',
       available_endpoints: [
         'GET /api/dashboard/stats',
         'GET /api/dashboard/activity',
@@ -545,5 +545,5 @@ app.get('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Hotel Operations Management server running on http://localhost:${PORT}`);
+  console.log(`Hospital Operations Management server running on http://localhost:${PORT}`);
 });

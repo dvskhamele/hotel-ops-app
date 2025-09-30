@@ -18,12 +18,12 @@ export default function RootLayout({
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-title" content="HotelOps" />
+          <meta name="apple-mobile-web-app-title" content="SuperHealth" />
           <meta name="theme-color" content="#0d9488" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <link rel="manifest" href="/manifest.json" />
-          <title>HospitalOps - Hospital Operations Management</title>
-          <meta name="description" content="Manage hospital operations efficiently" />
+          <title>SuperHealth - Hospital Operations Management</title>
+          <meta name="description" content="Experience care like never before with our world-class hospital management system" />
         </head>
         <body className={inter.className}>
           {children}

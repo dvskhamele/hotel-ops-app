@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
-# ║                            🏨 HOTEL OPS LAUNCHER                            ║
-# ║                    Professional Hotel Operations Management                   ║
+# ║                          🏥 HOSPITAL OPS LAUNCHER                           ║
+# ║                    Professional Hospital Operations Management              ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 # ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -20,7 +20,7 @@ WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
 # Emojis for visual appeal
-HOTEL="🏨"
+HOSPITAL="🏥"
 SUCCESS="✅"
 ERROR="❌"
 WARNING="⚠️"
@@ -33,10 +33,10 @@ CHECK="✔️"
 CROSS="✖️"
 
 # Application configuration
-BASE_DIR="/Users/test/startups/hotelmanagement/hotel-ops-app"
+BASE_DIR="/Users/test/startups/hospitalmanagement/hospital-ops-app"
 FRONTEND_PORT=3000
 BACKEND_PORT=3001
-APP_NAME="HotelOps"
+APP_NAME="HospitalOps"
 VERSION="1.0.0"
 
 # ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -45,8 +45,8 @@ VERSION="1.0.0"
 
 print_header() {
     echo -e "${CYAN}╔══════════════════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║${NC}                              ${HOTEL} ${APP_NAME} ${HOTEL}                             ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}                        Professional Hotel Management                         ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                              ${HOSPITAL} ${APP_NAME} ${HOSPITAL}                           ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                      Professional Hospital Management                      ${CYAN}║${NC}"
     echo -e "${CYAN}╚══════════════════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -82,7 +82,7 @@ check_prerequisites() {
     
     # Check if we're in the right directory
     if [ ! -d "$BASE_DIR" ]; then
-        print_error "HotelOps directory not found at $BASE_DIR"
+        print_error "HospitalOps directory not found at $BASE_DIR"
         exit 1
     fi
     
@@ -222,21 +222,21 @@ enhance_backend() {
         echo -e "  ${STAR} Authentication: POST /api/auth/login"
         echo -e "  ${STAR} Dashboard Stats: GET /api/dashboard/stats"
         echo -e "  ${STAR} Recent Activity: GET /api/dashboard/activity"
-        echo -e "  ${STAR} Room Management: GET/PUT /api/rooms/*"
+        echo -e "  ${STAR} Patient Room Management: GET/PUT /api/rooms/*"
         echo -e "  ${STAR} Staff Management: GET/PUT /api/staff/*"
-        echo -e "  ${STAR} Guest Requests: GET/PUT /api/requests/*"
-        echo -e "  ${STAR} Inventory: GET/PUT /api/inventory/*"
+        echo -e "  ${STAR} Patient Requests: GET/PUT /api/requests/*"
+        echo -e "  ${STAR} Pharmacy Inventory: GET/PUT /api/inventory/*"
         echo -e "  ${STAR} Departments: GET /api/departments"
         echo ""
         
         # Show backend services
         echo -e "${PURPLE}Available Backend Services:${NC}"
-        echo -e "  ${HEART} Hotel Service - Core hotel operations"
-        echo -e "  ${HEART} Room Service - Room status management"
-        echo -e "  ${HEART} Staff Service - Employee management"
-        echo -e "  ${HEART} Request Service - Guest request handling"
-        echo -e "  ${HEART} Inventory Service - Asset tracking"
-        echo -e "  ${HEART} Department Service - Department coordination"
+        echo -e "  ${HEART} Hospital Service - Core hospital operations"
+        echo -e "  ${HEART} Patient Room Service - Room status management"
+        echo -e "  ${HEART} Staff Service - Medical staff management"
+        echo -e "  ${HEART} Request Service - Patient request handling"
+        echo -e "  ${HEART} Inventory Service - Pharmacy & medical supplies tracking"
+        echo -e "  ${HEART} Department Service - Medical department coordination"
         echo ""
         
         print_success "Backend enhancement completed!"
@@ -292,7 +292,7 @@ start_application() {
         echo -e "${BLUE}Frontend:${NC} http://localhost:${FRONTEND_PORT}"
         echo -e "${BLUE}Backend API:${NC} http://localhost:${BACKEND_PORT}"
         echo ""
-        echo -e "${PURPLE}Happy hotel managing! 🏨${NC}"
+        echo -e "${PURPLE}Happy hospital managing! 🏥${NC}"
     else
         print_error "Failed to start ${APP_NAME} application"
         echo "Please check the error messages above for details."
@@ -307,8 +307,8 @@ start_application() {
 show_welcome() {
     clear
     print_header
-    echo -e "${WHITE}Welcome to ${APP_NAME} - The Ultimate Hotel Operations Management System${NC}"
-    echo -e "${CYAN}Streamlining hotel operations with cutting-edge technology${NC}"
+    echo -e "${WHITE}Welcome to ${APP_NAME} - The Ultimate Hospital Operations Management System${NC}"
+    echo -e "${CYAN}Streamlining hospital operations with cutting-edge technology${NC}"
     echo ""
 }
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
-# ║                           🏨 HOTEL OPS LAUNCHER                            ║
-# ║                      Quick Access to Hotel Operations                      ║
+# ║                          🏥 SUPERHEALTH LAUNCHER                           ║
+# ║                     Quick Access to Hospital Operations                    ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 # Colors
@@ -16,7 +16,7 @@ WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
 # Emojis
-HOTEL="🏨"
+HOSPITAL="🏥"
 SUCCESS="✅"
 ERROR="❌"
 WARNING="⚠️"
@@ -25,13 +25,13 @@ OPEN="🌐"
 HEART="💖"
 
 # Base directory
-BASE_DIR="/Users/test/startups/hotelmanagement/hotel-ops-app"
+BASE_DIR="/Users/test/startups/hospitalmanagement/hospital-ops-app"
 
 # Print header
 print_header() {
     echo -e "${CYAN}╔══════════════════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║${NC}                           ${HOTEL} HOTEL OPS LAUNCHER ${HOTEL}                          ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}                      Quick Access to Hotel Operations                      ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                          ${HOSPITAL} SUPERHEALTH LAUNCHER ${HOSPITAL}                         ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                    Quick Access to Hospital Operations                    ${CYAN}║${NC}"
     echo -e "${CYAN}╚══════════════════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -63,7 +63,7 @@ main() {
     
     # Check if directory exists
     if [ ! -d "$BASE_DIR" ]; then
-        print_error "HotelOps directory not found at $BASE_DIR"
+        print_error "SuperHealth directory not found at $BASE_DIR"
         exit 1
     fi
     
@@ -76,22 +76,22 @@ main() {
     fi
     
     print_info "📍 Current directory: $(pwd)"
-    print_info "📄 Opening HotelOps application..."
+    print_info "📄 Opening SuperHealth application..."
     echo ""
     
     # Try to open in browser
     if command -v open &> /dev/null; then
         # macOS
         open "index.html"
-        print_success "HotelOps opened in your default browser!"
+        print_success "SuperHealth opened in your default browser!"
     elif command -v xdg-open &> /dev/null; then
         # Linux
         xdg-open "index.html"
-        print_success "HotelOps opened in your default browser!"
+        print_success "SuperHealth opened in your default browser!"
     elif command -v cmd &> /dev/null; then
         # Windows
         cmd /c start index.html
-        print_success "HotelOps opened in your default browser!"
+        print_success "SuperHealth opened in your default browser!"
     else
         # Fallback
         ABSOLUTE_PATH="file://$(pwd)/index.html"
@@ -106,8 +106,8 @@ main() {
     fi
     
     echo ""
-    print_info "🏨 ${WHITE}Welcome to HotelOps!${NC} ${HEART}"
-    print_info "✨ Enjoy managing your hotel operations!"
+    print_info "🏥 ${WHITE}Welcome to SuperHealth!${NC} ${HEART}"
+    print_info "✨ Experience care like never before!"
     echo ""
 }
 

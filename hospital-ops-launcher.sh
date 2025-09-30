@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# HotelOps Simple Launcher Script
-# This script opens the HotelOps application in the default browser
+# HospitalOps Simple Launcher Script
+# This script opens the HospitalOps application in the default browser
 
-echo "🏨 HotelOps Launcher"
-echo "==================="
+echo "🏥 SuperHealth Launcher"
+echo "======================="
 
 # Define the base directory
-BASE_DIR="/Users/test/startups/hotelmanagement/hotel-ops-app"
+BASE_DIR="/Users/test/startups/hospitalmanagement/hospital-ops-app"
 
 # Check if the directory exists
 if [ ! -d "$BASE_DIR" ]; then
-    echo "❌ Error: HotelOps directory not found at $BASE_DIR"
+    echo "❌ Error: SuperHealth directory not found at $BASE_DIR"
     exit 1
 fi
 
@@ -31,7 +31,7 @@ fi
 # For Linux, we would use 'xdg-open'
 # For Windows, we would use 'start'
 
-echo "🚀 Opening HotelOps application..."
+echo "🚀 Opening SuperHealth application..."
 
 # Try to open in the default browser
 if command -v open &> /dev/null; then
@@ -55,6 +55,6 @@ else
     exit 1
 fi
 
-echo "✅ HotelOps application opened in your default browser!"
+echo "✅ SuperHealth application opened in your default browser!"
 echo "If it didn't open, please manually open the file:"
 echo "   file://$(pwd)/index.html"

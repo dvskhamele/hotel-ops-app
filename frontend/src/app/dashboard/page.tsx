@@ -23,7 +23,7 @@ export default function Dashboard() {
     staffActive: 0,
     maintenanceRequests: 0,
     avgResponseTime: 0,
-    guestSatisfaction: 0
+    patientSatisfaction: 0
   })
   const [activity, setActivity] = useState<any[]>([])
   const [rooms, setRooms] = useState<any[]>([])
@@ -182,14 +182,22 @@ export default function Dashboard() {
 
   const getDepartmentClass = (department: string) => {
     switch (department) {
-      case 'HOUSEKEEPING':
+      case 'PATIENT_CARE':
         return 'bg-blue-100 text-blue-800'
-      case 'MAINTENANCE':
+      case 'MEDICAL_EQUIPMENT':
         return 'bg-amber-100 text-amber-800'
-      case 'CONCIERGE':
+      case 'PHARMACY':
         return 'bg-emerald-100 text-emerald-800'
-      case 'FOOD_SERVICE':
+      case 'LABORATORY':
         return 'bg-rose-100 text-rose-800'
+      case 'HOUSEKEEPING':
+        return 'bg-indigo-100 text-indigo-800'
+      case 'MAINTENANCE':
+        return 'bg-purple-100 text-purple-800'
+      case 'FOOD_SERVICE':
+        return 'bg-cyan-100 text-cyan-800'
+      case 'ADMINISTRATION':
+        return 'bg-amber-100 text-amber-800'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -230,7 +238,7 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
         <div className="bg-white p-8 rounded-2xl shadow-xl w-96">
-                      <h1 className="text-2xl font-bold mb-6 text-center text-slate-800">Hospital Operations Login</h1>
+                      <h1 className="text-2xl font-bold mb-6 text-center text-slate-800">SuperHealth Login</h1>
           <form onSubmit={(e) => {
             e.preventDefault()
             // Mock login for prototype - in a real app, this would call the API
@@ -248,7 +256,7 @@ export default function Dashboard() {
                 id="email"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition input text-slate-800 bg-white"
                 placeholder="Enter your email"
-                defaultValue="admin@hotelops.com"
+                defaultValue="admin@superhealth.com"
               />
             </div>
             <div className="mb-6">
@@ -289,7 +297,7 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-3xl font-bold text-slate-800">Good morning, {user?.name}</h1>
-              <p className="text-slate-600">Here's what's happening with your hospital today.</p>
+              <p className="text-slate-600">Here's what's happening with SuperHealth Hospital today.</p>
             </div>
             <div className="mt-4 md:mt-0">
               <div className="flex items-center space-x-2">
@@ -502,8 +510,8 @@ export default function Dashboard() {
               <div 
                 className="bg-gradient-to-br from-rose-500 to-rose-600 text-white py-4 px-4 rounded-xl text-center hover:from-rose-600 hover:to-rose-700 transition duration-300 shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center cursor-pointer"
                 onClick={() => {
-                  // Mock function to create a new guest request
-                  alert('Creating new guest request...');
+                  // Mock function to create a new medical request
+                  alert('Creating new medical request...');
                 }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -552,10 +560,10 @@ export default function Dashboard() {
             {/* Daily Progress Visualization */}
             <h3 className="text-lg font-medium text-slate-800 mt-6 mb-4">Daily Progress</h3>
             <div className="space-y-4">
-              {/* Housekeeping Progress */}
+              {/* Patient Care Progress */}
               <div className="bg-slate-50 rounded-lg p-3">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Housekeeping</span>
+                  <span className="text-sm font-medium text-slate-700">Patient Care</span>
                   <span className="text-sm font-medium text-slate-700">65%</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2.5">
@@ -565,15 +573,15 @@ export default function Dashboard() {
                   ></div>
                 </div>
                 <div className="flex justify-between text-xs text-slate-500 mt-1">
-                  <span>13/20 rooms</span>
-                  <span>Cleaned</span>
+                  <span>13/20 patients</span>
+                  <span>Cared</span>
                 </div>
               </div>
               
-              {/* Maintenance Progress */}
+              {/* Medical Equipment Maintenance Progress */}
               <div className="bg-slate-50 rounded-lg p-3">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Maintenance</span>
+                  <span className="text-sm font-medium text-slate-700">Medical Equipment</span>
                   <span className="text-sm font-medium text-slate-700">40%</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2.5">
@@ -583,15 +591,15 @@ export default function Dashboard() {
                   ></div>
                 </div>
                 <div className="flex justify-between text-xs text-slate-500 mt-1">
-                  <span>4/10 tasks</span>
-                  <span>Completed</span>
+                  <span>4/10 devices</span>
+                  <span>Maintained</span>
                 </div>
               </div>
               
-              {/* Requests Progress */}
+              {/* Medical Requests Progress */}
               <div className="bg-slate-50 rounded-lg p-3">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-slate-700">Guest Requests</span>
+                  <span className="text-sm font-medium text-slate-700">Medical Requests</span>
                   <span className="text-sm font-medium text-slate-700">75%</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2.5">
@@ -622,24 +630,28 @@ export default function Dashboard() {
                   key={item.id} 
                   className={`${getActivityColor(item.type, item.status)} pl-4 py-3 bg-slate-50 rounded-lg transition-all duration-300 hover:shadow-md animate-fade-in cursor-pointer`}
                   onClick={() => {
-                    // Navigate to appropriate page based on activity type
                     switch(item.type) {
-                      case 'medicalRequest':
-                      case 'request':
-                        router.push('/requests');
-                        break;
-                      case 'room':
-                        router.push('/rooms');
-                        break;
-                      case 'staff':
-                        router.push('/staff');
-                        break;
-                      case 'patient':
-                        router.push('/patients');
-                        break;
-                      default:
-                        router.push('/reports');
-                    }
+                    case 'medicalRequest':
+                    case 'patientRequest':
+                    case 'request':
+                      router.push('/requests');
+                      break;
+                    case 'patient':
+                    case 'room':
+                      router.push('/rooms');
+                      break;
+                    case 'staff':
+                      router.push('/staff');
+                      break;
+                    case 'pharmacy':
+                      router.push('/pharmacy');
+                      break;
+                    case 'inventory':
+                      router.push('/inventory');
+                      break;
+                    default:
+                      router.push('/reports');
+                  }
                   }}
                 >
                   <div className="flex justify-between">
@@ -656,13 +668,13 @@ export default function Dashboard() {
               className="text-lg font-medium text-slate-800 mt-6 mb-4 cursor-pointer hover:text-teal-600 transition-colors" 
               onClick={() => router.push('/requests')}
             >
-              Recent Requests
+              Recent Medical Requests
             </h3>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-200">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Guest</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Patient</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Room</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Request</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Department</th>
@@ -680,10 +692,10 @@ export default function Dashboard() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold">{request.guestName.charAt(0)}</span>
+                            <span className="text-white font-bold">{request.patientName?.charAt(0) || request.guestName.charAt(0)}</span>
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-slate-900">{request.guestName}</div>
+                            <div className="text-sm font-medium text-slate-900">{request.patientName || request.guestName}</div>
                           </div>
                         </div>
                       </td>

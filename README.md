@@ -1,21 +1,32 @@
-# Hospital Management System
+# SuperHealth - Hospital Management System
 
-A comprehensive hospital management system with features for patient room management, medical request handling, staff scheduling, and medical inventory tracking.
+A comprehensive hospital management system with features for patient management, pharmacy operations, patient room management, medical request handling, staff scheduling, and medical inventory tracking.
 
 ## Features
 
-- **Dashboard Analytics**: Real-time insights into hospital performance
-- **Patient Room Management**: Track patient room status and cleaning tasks
+- **Patient Management System**: Comprehensive patient registration, demographics, and care coordination
+- **Patient Room Management**: Track patient room status and care protocols with private room management
 - **Medical Request System**: Streamline patient medical requests with priority management
-- **Staff Management**: Track medical staff performance, schedules, and department assignments
-- **Pharmacy Management**: Monitor medication inventory levels with automated alerts
+- **Medical Staff Management**: Track medical staff performance, schedules, and department assignments
+- **Pharmacy Management System**: Monitor medication inventory levels with automated alerts and dispensing management
+- **Advanced Diagnostics**: Real-time tracking of medical equipment like MRI, CT, X-Ray, and other advanced systems
 - **Reporting & Analytics**: Generate detailed reports on patient care, staff performance, and operational efficiency
 
-## Pricing
+## SuperHealth Experience
 
-- **Template**: $0 - Basic frontend template with core UI components
-- **Backend**: $5000 - Complete backend API with database integration
-- **Full Application**: $10,000 - Complete hotel management system with frontend and backend
+### Experience Care Like Never Before
+Trusted expertise from a world-class hospital, delivering a transformative patient experience like no other.
+
+### Private Rooms Only
+Private rooms are quieter and safer than shared rooms and better for your recovery. So Superhealth does not have any room sharing. Every patient gets their own private room, comfortably appointed for you and your attendant.
+
+### Advanced Equipment for Rapid, Accurate Diagnoses
+- Advanced 1.5T MRI
+- 160 SLICE LOW DOSE CARDIAC CT
+- Digital XRAY
+- HD DIGITAL MAMMOGRAPHY
+- Wireless Ultrasound
+- ECG, ECHO, TMT
 
 ## Technologies
 
@@ -41,7 +52,7 @@ A comprehensive hospital management system with features for patient room manage
 
 2. Install dependencies:
    ```bash
-   cd hotel-ops-app
+   cd hospital-ops-app
    npm install
    ```
 
@@ -58,21 +69,6 @@ A comprehensive hospital management system with features for patient room manage
    ```
 
 5. Open your browser to http://localhost:3001
-
-## Deployment
-
-### Vercel Deployment
-
-1. Push the code to a GitHub repository
-2. Connect the repository to Vercel
-3. Vercel will automatically detect the project and deploy it
-
-### Environment Variables
-
-For production deployment, set the following environment variables:
-
-- `PORT` - Port to run the server on (default: 3001)
-- `NODE_ENV` - Environment (development/production)
 
 ## Development
 

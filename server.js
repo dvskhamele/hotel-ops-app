@@ -1228,7 +1228,7 @@ const frontendPath = path.join(__dirname, 'frontend/out');
 app.use(express.static(frontendPath));
 
 // Serve frontend for all other routes (this should be last)
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   // For static export with Next.js, we should serve index.html for all routes
   // to let client-side routing handle the navigation
   const indexPath = path.join(frontendPath, 'index.html');

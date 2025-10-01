@@ -352,10 +352,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div>
-                <p className="text-sm font-medium text-slate-500">Revenue Today</p>
-                <p className="text-3xl font-bold text-slate-800 mt-1">₹{stats.revenueToday?.toLocaleString() || '0'}</p>
-              </div>
+          <p className="text-3xl font-bold text-slate-800 mt-1">₹{stats.dailyRevenue?.toLocaleString() || '0'}</p>
 
           <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 p-6 border-l-4 border-indigo-500 card cursor-pointer transform hover:-translate-y-1" onClick={() => router.push('/staff')}>
             <div className="flex justify-between items-start">

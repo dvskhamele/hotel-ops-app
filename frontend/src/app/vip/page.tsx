@@ -405,7 +405,7 @@ export default function VIP() {
                         style={{ width: `${patient.satisfactionScore || 0}%` }}
                       ></div>
                       <span className="text-xs font-bold text-slate-800 flex items-center">
-                        {patient.satisfactionScore}% {getSatisfactionEmoji(patient.satisfactionScore || 0)}
+                        {patient.satisfactionScore}% {!getSatisfactionEmoji ? 'N/A' : getSatisfactionEmoji(patient.satisfactionScore || 0)}
                       </span>
                     </div>
                 

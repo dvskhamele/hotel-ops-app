@@ -4,6 +4,14 @@ import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
 
 export default function VIP() {
+  // Helper function for satisfaction emoji
+  const getSatisfactionEmoji = (score: number) => {
+    if (score >= 95) return '🌟';
+    if (score >= 90) return '👍';
+    if (score >= 80) return '👌';
+    return '⚠️';
+  };
+
   const [vipPatients, setVipPatients] = useState<any[]>([])
   const [selectedStatus, setSelectedStatus] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')

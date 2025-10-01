@@ -396,7 +396,7 @@ export default function MobileDashboard() {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-2xl font-bold text-slate-800 mt-1">₹{stats.revenueToday.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-slate-800 mt-1">₹{stats.revenueToday?.toLocaleString() || '0'}</p>
                 )}
               </div>
               <div className="bg-emerald-100 p-2 rounded-full">

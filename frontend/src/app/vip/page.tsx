@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
-import { getSatisfactionEmoji } from '../../utils/helpers'
 
 export default function VIP() {
   const [vipPatients, setVipPatients] = useState<any[]>([])

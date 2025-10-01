@@ -275,7 +275,7 @@ export default function Dashboard() {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm font-medium text-slate-500">Revenue Today</p>
-                <p className="text-3xl font-bold text-slate-800 mt-1">₹{stats.revenueToday.toLocaleString()}</p>
+                <p className="text-3xl font-bold text-slate-800 mt-1">₹{stats.revenueToday?.toLocaleString() || '0'}</p>
               </div>
               <div className="bg-emerald-100 p-3 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

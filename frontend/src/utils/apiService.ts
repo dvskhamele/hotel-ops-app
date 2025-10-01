@@ -27,7 +27,7 @@ interface DashboardStats {
     staffActive: number;
     maintenanceRequests: number;
     avgResponseTime: number;
-    guestSatisfaction: number;
+    patientSatisfaction: number;
   };
 }
 
@@ -189,7 +189,7 @@ class APIService {
           staffActive: 24,
           maintenanceRequests: 8,
           avgResponseTime: 32,
-          guestSatisfaction: 94
+          patientSatisfaction: 94
         }
       };
     }

@@ -1,32 +1,20 @@
 {
   "name": "hospital-management-system",
   "version": "1.0.0",
-  "description": "Complete Hospital Management System - Patient & Pharmacy Management",
-  "main": "server.js",
+  "description": "SuperHealth Hospital Management System",
+  "main": "index.js",
   "scripts": {
     "build": "cd frontend && npm run build",
-    "start": "node server.js",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && npm run dev",
-    "postbuild": "echo 'Frontend built successfully'"
+    "start": "cd frontend && npm start",
+    "dev": "cd frontend && npm run dev"
   },
   "keywords": [
     "hospital",
     "management",
-    "operations",
-    "patient",
-    "pharmacy"
+    "healthcare",
+    "nextjs",
+    "react"
   ],
-  "author": "Hospital Operations Team",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "http-proxy-middleware": "^2.0.6"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.0"
-  }
+  "author": "SuperHealth Team",
+  "license": "UNLICENSED"
 }

@@ -11,7 +11,7 @@ export default function SignupPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    hotelName: '',
+    hospitalName: '',
     phoneNumber: ''
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -52,6 +52,7 @@ export default function SignupPage() {
       localStorage.setItem('token', 'fake-jwt-token')
       setIsLoading(false)
       router.push('/dashboard')
+      setSuccess(true)
     }, 1000)
   }
 
@@ -63,9 +64,9 @@ export default function SignupPage() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-teal-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
             </svg>
-            HotelOps
+            SuperHealth
           </Link>
-          <p className="mt-2 text-slate-400">Streamline your hotel operations</p>
+          <p className="mt-2 text-slate-400">Hospital Management System</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -83,7 +84,7 @@ export default function SignupPage() {
                   </div>
                   <div className="ml-3">
                     <h3 className="text-sm font-medium text-emerald-800">
-                      Account created successfully! Redirecting to login...
+                      Account created successfully! Redirecting to dashboard...
                     </h3>
                   </div>
                 </div>
@@ -147,19 +148,19 @@ export default function SignupPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="hotelName" className="block text-sm font-medium text-slate-700">
-                    Hotel Name
+                  <label htmlFor="hospitalName" className="block text-sm font-medium text-slate-700">
+                    Hospital Name
                   </label>
                   <div className="mt-1">
                     <input
-                      id="hotelName"
-                      name="hotelName"
+                      id="hospitalName"
+                      name="hospitalName"
                       type="text"
                       required
-                      value={formData.hotelName}
+                      value={formData.hospitalName}
                       onChange={handleChange}
                       className="appearance-none block w-full px-4 py-3 border border-slate-300 rounded-lg shadow-sm placeholder-slate-400 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
-                      placeholder="Enter your hotel name"
+                      placeholder="Enter your hospital name"
                     />
                   </div>
                 </div>

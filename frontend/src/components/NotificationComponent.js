@@ -18,11 +18,15 @@ const NotificationComponent = ({ user }) => {
   const fetchNotifications = async () => {
     try {
       const response = await apiService.getNotifications()
-      setNotifications(response.notifications)
-      const unread = response.notifications.filter(n => !n.isRead).length
+      const notificationData = response?.notifications || []
+      setNotifications(notificationData)
+      const unread = notificationData.filter(n => !n.isRead).length
       setUnreadCount(unread)
     } catch (error) {
       console.error('Error fetching notifications:', error)
+      // Set default values if API fails
+      setNotifications([])
+      setUnreadCount(0)
     }
   }
 

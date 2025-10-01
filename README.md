@@ -1,85 +1,96 @@
-# SuperHealth - Hospital Management System
+# SuperHealth Hospital Management System
 
-A comprehensive hospital management system with features for patient management, pharmacy operations, patient room management, medical request handling, staff scheduling, and medical inventory tracking.
+A comprehensive hospital management system built with Next.js 13+ and Tailwind CSS.
 
 ## Features
 
-- **Patient Management System**: Comprehensive patient registration, demographics, and care coordination
-- **Patient Room Management**: Track patient room status and care protocols with private room management
-- **Medical Request System**: Streamline patient medical requests with priority management
-- **Medical Staff Management**: Track medical staff performance, schedules, and department assignments
-- **Pharmacy Management System**: Monitor medication inventory levels with automated alerts and dispensing management
-- **Advanced Diagnostics**: Real-time tracking of medical equipment like MRI, CT, X-Ray, and other advanced systems
-- **Reporting & Analytics**: Generate detailed reports on patient care, staff performance, and operational efficiency
+- Patient Management
+- Room & Bed Management
+- Doctor Scheduling
+- Staff Management
+- Pharmacy Management
+- Insurance Claims Processing
+- VIP Patient Services
+- Emergency Department Coordination
+- Waiting Time Optimization
+- Analytics & Reporting
 
-## SuperHealth Experience
+## Tech Stack
 
-### Experience Care Like Never Before
-Trusted expertise from a world-class hospital, delivering a transformative patient experience like no other.
+- Next.js 15.1.0 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
+- Recharts for data visualization
 
-### Private Rooms Only
-Private rooms are quieter and safer than shared rooms and better for your recovery. So Superhealth does not have any room sharing. Every patient gets their own private room, comfortably appointed for you and your attendant.
+## Deployment Instructions
 
-### Advanced Equipment for Rapid, Accurate Diagnoses
-- Advanced 1.5T MRI
-- 160 SLICE LOW DOSE CARDIAC CT
-- Digital XRAY
-- HD DIGITAL MAMMOGRAPHY
-- Wireless Ultrasound
-- ECG, ECHO, TMT
+### Deploy to Vercel
 
-## Technologies
-
-- **Frontend**: Next.js 13+, TypeScript, Tailwind CSS, React
-- **Backend**: Node.js, Express
-- **Database**: MongoDB (in full version)
-- **Authentication**: JWT
-- **Deployment**: Vercel
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
+1. Create a new project on [Vercel](https://vercel.com)
+2. Connect your Git repository (GitHub, GitLab, or Bitbucket)
+3. Set the root directory to `/frontend`
+4. Use the default build settings:
+   - Build Command: `next build`
+   - Output Directory: `.next`
+5. Add environment variables if needed:
+   ```
+   NEXT_PUBLIC_API_URL=https://your-api-url.com/api
    ```
 
-2. Install dependencies:
-   ```bash
-   cd hospital-ops-app
-   npm install
-   ```
+### Manual Deployment
 
-3. Build the frontend:
-   ```bash
-   cd frontend
-   npm run build
-   cd ..
-   ```
+1. Install dependencies:
+```bash
+npm install
+```
 
-4. Start the server:
-   ```bash
-   npm start
-   ```
+2. Build the application:
+```bash
+npm run build
+```
 
-5. Open your browser to http://localhost:3001
+3. Start the application:
+```bash
+npm start
+```
 
 ## Development
 
-To run in development mode:
+To run the development server:
 
 ```bash
 npm run dev
 ```
 
-This will start both the frontend and backend servers.
+The application will be available at http://localhost:3002
+
+## Folder Structure
+
+```
+/frontend
+  /src
+    /app          # Next.js App Router pages
+    /components   # Reusable UI components
+    /utils        # Utility functions and services
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the `/frontend` directory:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a pull request
 
 ## License
 
-MIT License
+This project is proprietary and confidential.

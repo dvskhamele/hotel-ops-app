@@ -139,8 +139,8 @@ export default function WaitingTime() {
     return departmentMatch && priorityMatch && searchMatch
   })
 
-  // Sort ambulances
-  const sortedAmbulances = [...filteredAmbulances].sort((a, b) => {
+  // Sort waiting times
+  const sortedWaitingTimes = [...filteredWaitingTimes].sort((a, b) => {
     if (a[sortBy] < b[sortBy]) {
       return sortOrder === 'asc' ? -1 : 1;
     }

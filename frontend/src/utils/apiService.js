@@ -12,12 +12,17 @@ class ApiService {
   // Mock data for when backend is not available
   getMockDashboardStats() {
     return Promise.resolve({
-      pendingRequests: 12,
-      occupiedRooms: 42,
-      availableRooms: 8,
-      totalStaff: 24,
-      guestSatisfaction: 94,
-      revenue: 12500
+      stats: {
+        pendingRequests: 12,
+        occupiedRooms: 42,
+        availableRooms: 8,
+        revenueToday: 12500,
+        occupancyRate: 84,
+        staffActive: 24,
+        maintenanceRequests: 5,
+        avgResponseTime: 28,
+        patientSatisfaction: 94
+      }
     });
   }
 
@@ -55,29 +60,31 @@ class ApiService {
   }
 
   getMockNotifications() {
-    return Promise.resolve([
-      {
-        id: 1,
-        title: 'New guest request',
-        message: 'John Doe needs extra towels in Room 205',
-        time: '2 minutes ago',
-        read: false
-      },
-      {
-        id: 2,
-        title: 'Room status updated',
-        message: 'Room 103 has been marked as Clean',
-        time: '1 hour ago',
-        read: false
-      },
-      {
-        id: 3,
-        title: 'Maintenance required',
-        message: 'Leaky faucet reported in Room 302',
-        time: '2 hours ago',
-        read: true
-      }
-    ]);
+    return Promise.resolve({
+      notifications: [
+        {
+          id: 1,
+          title: 'New guest request',
+          message: 'John Doe needs extra towels in Room 205',
+          time: '2 minutes ago',
+          isRead: false
+        },
+        {
+          id: 2,
+          title: 'Room status updated',
+          message: 'Room 103 has been marked as Clean',
+          time: '1 hour ago',
+          isRead: false
+        },
+        {
+          id: 3,
+          title: 'Maintenance required',
+          message: 'Leaky faucet reported in Room 302',
+          time: '2 hours ago',
+          isRead: true
+        }
+      ]
+    });
   }
 
   // Authentication

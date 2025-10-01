@@ -58,7 +58,7 @@ export default function Patients() {
       const critical = mockPatients.filter(p => p.status === 'Critical').length;
       const stable = mockPatients.filter(p => p.status === 'Stable').length;
       
-      setStats({ total, admitted, discharged, critical, stable, total: mockPatients.length });
+      setStats({ total, admitted, discharged, critical, stable });
     } catch (err) {
       console.error('Error fetching patients:', err);
     } finally {
@@ -139,7 +139,7 @@ export default function Patients() {
     const critical = newPatient.status === 'Critical' ? stats.critical + 1 : stats.critical;
     const stable = newPatient.status === 'Stable' ? stats.stable + 1 : stats.stable;
     
-    setStats({ total, admitted, discharged, critical, stable, total: total })
+    setStats({ total, admitted, discharged, critical, stable })
     
     // Reset form and close modal
     setNewPatient({

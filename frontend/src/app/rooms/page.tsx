@@ -18,8 +18,9 @@ export default function Rooms() {
   const [newRoom, setNewRoom] = useState({
     number: '',
     floor: 1,
-    type: 'Standard',
-    status: 'CLEAN'
+    type: 'General Ward',
+    status: 'available',
+    numberOfBeds: 1
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -50,31 +51,176 @@ export default function Rooms() {
       console.error('Error fetching rooms:', err);
       setError('This is a Demo version - In the real version, you will get actual data from the backend');
       
-      // Use mock data if API fails
+      // Use mock data if API fails - Enhanced with bed information
       const mockRooms = [
-        { id: 1, number: '101', floor: 1, type: 'General Ward', status: 'occupied', updatedAt: new Date().toISOString() },
-        { id: 2, number: '102', floor: 1, type: 'General Ward', status: 'available', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 3, number: '103', floor: 1, type: 'Private Room', status: 'clean', updatedAt: new Date(Date.now() - 7200000).toISOString() },
-        { id: 4, number: '104', floor: 1, type: 'ICU', status: 'maintenance', updatedAt: new Date(Date.now() - 10800000).toISOString() },
-        { id: 5, number: '201', floor: 2, type: 'General Ward', status: 'occupied', updatedAt: new Date().toISOString() },
-        { id: 6, number: '202', floor: 2, type: 'General Ward', status: 'occupied', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 7, number: '203', floor: 2, type: 'Private Room', status: 'occupied', updatedAt: new Date().toISOString() },
-        { id: 8, number: '204', floor: 2, type: 'Semi-Private', status: 'discharged', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 9, number: '301', floor: 3, type: 'General Ward', status: 'available', updatedAt: new Date().toISOString() },
-        { id: 10, number: '302', floor: 3, type: 'General Ward', status: 'occupied', updatedAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 11, number: '303', floor: 3, type: 'Private Room', status: 'clean', updatedAt: new Date(Date.now() - 7200000).toISOString() },
-        { id: 12, number: '304', floor: 3, type: 'Maternity Ward', status: 'available', updatedAt: new Date().toISOString() }
+        { 
+          id: 1, 
+          number: '101', 
+          floor: 1, 
+          type: 'General Ward', 
+          status: 'occupied', 
+          updatedAt: new Date().toISOString(),
+          beds: [
+            { id: 1, bedNumber: 'B001', patientName: 'John Smith', status: 'occupied' },
+            { id: 2, bedNumber: 'B002', patientName: 'Robert Johnson', status: 'occupied' }
+          ]
+        },
+        { 
+          id: 2, 
+          number: '102', 
+          floor: 1, 
+          type: 'General Ward', 
+          status: 'available', 
+          updatedAt: new Date(Date.now() - 3600000).toISOString(),
+          beds: [
+            { id: 3, bedNumber: 'B003', patientName: '', status: 'available' },
+            { id: 4, bedNumber: 'B004', patientName: '', status: 'available' }
+          ]
+        },
+        { 
+          id: 3, 
+          number: '103', 
+          floor: 1, 
+          type: 'Private Room', 
+          status: 'clean', 
+          updatedAt: new Date(Date.now() - 7200000).toISOString(),
+          beds: [
+            { id: 5, bedNumber: 'B005', patientName: '', status: 'available' }
+          ]
+        },
+        { 
+          id: 4, 
+          number: '104', 
+          floor: 1, 
+          type: 'ICU', 
+          status: 'maintenance', 
+          updatedAt: new Date(Date.now() - 10800000).toISOString(),
+          beds: [
+            { id: 6, bedNumber: 'B006', patientName: '', status: 'maintenance' }
+          ]
+        },
+        { 
+          id: 5, 
+          number: '201', 
+          floor: 2, 
+          type: 'General Ward', 
+          status: 'occupied', 
+          updatedAt: new Date().toISOString(),
+          beds: [
+            { id: 7, bedNumber: 'B007', patientName: 'Mary Williams', status: 'occupied' },
+            { id: 8, bedNumber: 'B008', patientName: 'David Brown', status: 'occupied' }
+          ]
+        },
+        { 
+          id: 6, 
+          number: '202', 
+          floor: 2, 
+          type: 'General Ward', 
+          status: 'occupied', 
+          updatedAt: new Date(Date.now() - 3600000).toISOString(),
+          beds: [
+            { id: 9, bedNumber: 'B009', patientName: 'Patricia Davis', status: 'occupied' },
+            { id: 10, bedNumber: 'B010', patientName: 'James Wilson', status: 'occupied' }
+          ]
+        },
+        { 
+          id: 7, 
+          number: '203', 
+          floor: 2, 
+          type: 'Private Room', 
+          status: 'occupied', 
+          updatedAt: new Date().toISOString(),
+          beds: [
+            { id: 11, bedNumber: 'B011', patientName: 'Sarah Miller', status: 'occupied' }
+          ]
+        },
+        { 
+          id: 8, 
+          number: '204', 
+          floor: 2, 
+          type: 'Semi-Private', 
+          status: 'discharged', 
+          updatedAt: new Date(Date.now() - 3600000).toISOString(),
+          beds: [
+            { id: 12, bedNumber: 'B012', patientName: 'Michael Taylor', status: 'discharged' },
+            { id: 13, bedNumber: 'B013', patientName: 'Emily Anderson', status: 'discharged' }
+          ]
+        },
+        { 
+          id: 9, 
+          number: '301', 
+          floor: 3, 
+          type: 'General Ward', 
+          status: 'available', 
+          updatedAt: new Date().toISOString(),
+          beds: [
+            { id: 14, bedNumber: 'B014', patientName: '', status: 'available' },
+            { id: 15, bedNumber: 'B015', patientName: '', status: 'available' }
+          ]
+        },
+        { 
+          id: 10, 
+          number: '302', 
+          floor: 3, 
+          type: 'General Ward', 
+          status: 'occupied', 
+          updatedAt: new Date(Date.now() - 3600000).toISOString(),
+          beds: [
+            { id: 16, bedNumber: 'B016', patientName: 'Christopher Moore', status: 'occupied' },
+            { id: 17, bedNumber: 'B017', patientName: 'Jennifer Martin', status: 'occupied' }
+          ]
+        },
+        { 
+          id: 11, 
+          number: '303', 
+          floor: 3, 
+          type: 'Private Room', 
+          status: 'clean', 
+          updatedAt: new Date(Date.now() - 7200000).toISOString(),
+          beds: [
+            { id: 18, bedNumber: 'B018', patientName: '', status: 'available' }
+          ]
+        },
+        { 
+          id: 12, 
+          number: '304', 
+          floor: 3, 
+          type: 'Maternity Ward', 
+          status: 'available', 
+          updatedAt: new Date().toISOString(),
+          beds: [
+            { id: 19, bedNumber: 'B019', patientName: '', status: 'available' },
+            { id: 20, bedNumber: 'B020', patientName: '', status: 'available' }
+          ]
+        }
       ];
       
       setRooms(mockRooms);
       
-      // Calculate stats
-      const occupied = mockRooms.filter((r: any) => r.status === 'occupied').length;
-      const available = mockRooms.filter((r: any) => r.status === 'available').length;
-      const clean = mockRooms.filter((r: any) => r.status === 'clean').length;
-      const discharged = mockRooms.filter((r: any) => r.status === 'discharged').length;
-      const maintenance = mockRooms.filter((r: any) => r.status === 'maintenance').length;
-      setStats({ occupied, available, clean, discharged, maintenance, total: mockRooms.length });
+      // Calculate stats based on beds instead of rooms
+      let occupied = 0, available = 0, clean = 0, discharged = 0, maintenance = 0;
+      for (const room of mockRooms) {
+        for (const bed of room.beds) {
+          switch (bed.status) {
+            case 'occupied':
+              occupied++;
+              break;
+            case 'available':
+              available++;
+              break;
+            case 'clean':
+              clean++;
+              break;
+            case 'discharged':
+              discharged++;
+              break;
+            case 'maintenance':
+              maintenance++;
+              break;
+          }
+        }
+      }
+      setStats({ occupied, available, clean, discharged, maintenance, total: occupied + available + clean + discharged + maintenance });
     } finally {
       setLoading(false);
     }
@@ -189,30 +335,52 @@ export default function Rooms() {
     // In a real app, you would call the API to add a room
     // For now, we'll just add to the local state
     const newId = rooms.length > 0 ? Math.max(...rooms.map((r: any) => r.id)) + 1 : 1
+    const newNumberOfBeds = newRoom.numberOfBeds || 1;
+    
+    // Create bed data for the room
+    const newBeds = [];
+    for (let i = 0; i < newNumberOfBeds; i++) {
+      newBeds.push({
+        id: Math.max(0, ...(rooms.flatMap((r: any) => r.beds || []).map((b: any) => b.id))) + i + 1,
+        bedNumber: `${newRoom.number}B${i + 1}`,
+        patientName: newRoom.status === 'occupied' ? `Patient in Room ${newRoom.number}` : '',
+        status: newRoom.status
+      });
+    }
+    
     const roomToAdd = {
       ...newRoom,
       id: newId,
-      updatedAt: new Date().toISOString()
-    }
+      updatedAt: new Date().toISOString(),
+      beds: newBeds
+    };
     
-    setRooms([...rooms, roomToAdd])
+    setRooms([...rooms, roomToAdd]);
     
-    // Update stats
-    const occupied = newRoom.status === 'occupied' ? stats.occupied + 1 : stats.occupied
-    const available = newRoom.status === 'available' ? stats.available + 1 : stats.available
-    const clean = newRoom.status === 'clean' ? stats.clean + 1 : stats.clean
-    const discharged = newRoom.status === 'discharged' ? stats.discharged + 1 : stats.discharged
-    const maintenance = newRoom.status === 'maintenance' ? stats.maintenance + 1 : stats.maintenance
-    setStats({ occupied, available, clean, discharged, maintenance, total: stats.total + 1 })
+    // Update stats based on the new beds
+    const occupied = newRoom.status === 'occupied' ? stats.occupied + newNumberOfBeds : stats.occupied;
+    const available = newRoom.status === 'available' ? stats.available + newNumberOfBeds : stats.available;
+    const clean = newRoom.status === 'clean' ? stats.clean + newNumberOfBeds : stats.clean;
+    const discharged = newRoom.status === 'discharged' ? stats.discharged + newNumberOfBeds : stats.discharged;
+    const maintenance = newRoom.status === 'maintenance' ? stats.maintenance + newNumberOfBeds : stats.maintenance;
+    setStats({ 
+      occupied, 
+      available, 
+      clean, 
+      discharged, 
+      maintenance, 
+      total: stats.total + newNumberOfBeds 
+    });
     
     // Reset form and close modal
     setNewRoom({
       number: '',
       floor: 1,
       type: 'General Ward',
-      status: 'available'
-    })
-    setShowAddRoomModal(false)
+      status: 'available',
+      numberOfBeds: 1
+    });
+    setShowAddRoomModal(false);
   }
 
   // Function to get room status icon
@@ -387,10 +555,10 @@ export default function Rooms() {
           </div>
         </div>
 
-        {/* Room Grid Visualization */}
+        {/* Bed-wise Room Grid Visualization */}
         <div className="bg-white rounded-xl shadow p-6 mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-slate-800">Interactive Room Map</h3>
+            <h3 className="text-lg font-semibold text-slate-800">Bed-wise Room Map</h3>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-slate-600">Sort:</span>
               <button 
@@ -408,7 +576,7 @@ export default function Rooms() {
             </div>
           </div>
           
-          {/* Room Map Visualization */}
+          {/* Room Map Visualization with Bed Details */}
           <div className="mb-6">
             {/* Floor Selector */}
             <div className="flex space-x-2 mb-4">
@@ -427,7 +595,7 @@ export default function Rooms() {
               ))}
             </div>
             
-            {/* Interactive Floor Plan */}
+            {/* Interactive Floor Plan with Beds */}
             <div className="border border-slate-200 rounded-xl p-6 bg-slate-50 relative">
               {/* Legend */}
               <div className="flex flex-wrap gap-4 mb-6">
@@ -453,61 +621,71 @@ export default function Rooms() {
                 </div>
               </div>
               
-              {/* Floor Plan Visualization */}
+              {/* Floor Plan Visualization with Beds */}
               <div className="relative">
                 {/* Floor 1 */}
                 {(!selectedFloor || selectedFloor === '1') && (
                   <div className={`mb-8 ${selectedFloor && selectedFloor !== '1' ? 'opacity-50' : ''}`}>
                     <h4 className="text-md font-medium text-slate-800 mb-3">Floor 1</h4>
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 gap-6">
                       {sortedRooms
                         .filter((room) => room.floor === 1)
                         .map((room) => (
-                          <div
-                            key={room.id}
-                            className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
-                              room.status === 'occupied'
-                                ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
-                                : room.status === 'available'
-                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                                : room.status === 'clean'
-                                ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
-                                : room.status === 'discharged'
-                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                                : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
-                            }`}
-                            onClick={() => updateRoomStatus(room.id, room.status === 'occupied' ? 'discharged' : room.status === 'discharged' ? 'clean' : room.status === 'clean' ? 'available' : 'occupied')}
-                          >
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h4 className="font-bold text-slate-800">Room {room.number}</h4>
-                                <p className="text-sm text-slate-600">{room.type}</p>
-                              </div>
-                              <div
-                                className={`p-1 rounded-full ${
-                                  room.status === 'occupied'
-                                    ? 'bg-blue-100'
-                                    : room.status === 'available'
-                                    ? 'bg-emerald-100'
-                                    : room.status === 'clean'
-                                    ? 'bg-teal-100'
-                                    : room.status === 'discharged'
-                                    ? 'bg-amber-100'
-                                    : 'bg-rose-100'
-                                }`}
-                              >
-                                {getStatusIcon(room.status)}
-                              </div>
-                            </div>
-                            <div className="mt-3">
-                              <span
-                                className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}
-                              >
-                                {getStatusText(room.status)}
+                          <div key={room.id}>
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-slate-800">Room {room.number} ({room.type})</h5>
+                              <span className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}>
+                                {getStatusText(room.status)} Room
                               </span>
                             </div>
-                            <div className="mt-2 text-xs text-slate-500">
-                              Click to change status
+                            <div className="grid grid-cols-4 gap-2 ml-4">
+                              {room.beds && room.beds.map((bed: any) => (
+                                <div
+                                  key={bed.id}
+                                  className={`rounded-lg p-2 border-2 transition-all duration-300 hover:shadow-md cursor-pointer ${
+                                    bed.status === 'occupied'
+                                      ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                      : bed.status === 'available'
+                                      ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                      : bed.status === 'clean'
+                                      ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
+                                      : bed.status === 'discharged'
+                                      ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
+                                      : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
+                                  }`}
+                                >
+                                  <div className="flex justify-between items-center">
+                                    <h6 className="font-medium text-slate-800">Bed {bed.bedNumber}</h6>
+                                    <div
+                                      className={`p-1 rounded-full ${
+                                        bed.status === 'occupied'
+                                          ? 'bg-blue-100'
+                                          : bed.status === 'available'
+                                          ? 'bg-emerald-100'
+                                          : bed.status === 'clean'
+                                          ? 'bg-teal-100'
+                                          : bed.status === 'discharged'
+                                          ? 'bg-amber-100'
+                                          : 'bg-rose-100'
+                                      }`}
+                                    >
+                                      {getStatusIcon(bed.status)}
+                                    </div>
+                                  </div>
+                                  <div className="mt-1">
+                                    <span
+                                      className={`px-1 py-0.5 text-xs rounded-full ${getStatusClass(bed.status)}`}
+                                    >
+                                      {getStatusText(bed.status)}
+                                    </span>
+                                  </div>
+                                  {bed.patientName && (
+                                    <div className="mt-1 text-xs truncate">
+                                      <div className="font-medium text-slate-700">{bed.patientName}</div>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
                             </div>
                           </div>
                         ))}
@@ -519,55 +697,65 @@ export default function Rooms() {
                 {(!selectedFloor || selectedFloor === '2') && (
                   <div className={`mb-8 ${selectedFloor && selectedFloor !== '2' ? 'opacity-50' : ''}`}>
                     <h4 className="text-md font-medium text-slate-800 mb-3">Floor 2</h4>
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 gap-6">
                       {sortedRooms
                         .filter((room) => room.floor === 2)
                         .map((room) => (
-                          <div
-                            key={room.id}
-                            className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
-                              room.status === 'occupied'
-                                ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
-                                : room.status === 'available'
-                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                                : room.status === 'clean'
-                                ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
-                                : room.status === 'discharged'
-                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                                : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
-                            }`}
-                            onClick={() => updateRoomStatus(room.id, room.status === 'occupied' ? 'discharged' : room.status === 'discharged' ? 'clean' : room.status === 'clean' ? 'available' : 'occupied')}
-                          >
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h4 className="font-bold text-slate-800">Room {room.number}</h4>
-                                <p className="text-sm text-slate-600">{room.type}</p>
-                              </div>
-                              <div
-                                className={`p-1 rounded-full ${
-                                  room.status === 'occupied'
-                                    ? 'bg-blue-100'
-                                    : room.status === 'available'
-                                    ? 'bg-emerald-100'
-                                    : room.status === 'clean'
-                                    ? 'bg-teal-100'
-                                    : room.status === 'discharged'
-                                    ? 'bg-amber-100'
-                                    : 'bg-rose-100'
-                                }`}
-                              >
-                                {getStatusIcon(room.status)}
-                              </div>
-                            </div>
-                            <div className="mt-3">
-                              <span
-                                className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}
-                              >
-                                {getStatusText(room.status)}
+                          <div key={room.id}>
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-slate-800">Room {room.number} ({room.type})</h5>
+                              <span className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}>
+                                {getStatusText(room.status)} Room
                               </span>
                             </div>
-                            <div className="mt-2 text-xs text-slate-500">
-                              Click to change status
+                            <div className="grid grid-cols-4 gap-2 ml-4">
+                              {room.beds && room.beds.map((bed: any) => (
+                                <div
+                                  key={bed.id}
+                                  className={`rounded-lg p-2 border-2 transition-all duration-300 hover:shadow-md cursor-pointer ${
+                                    bed.status === 'occupied'
+                                      ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                      : bed.status === 'available'
+                                      ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                      : bed.status === 'clean'
+                                      ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
+                                      : bed.status === 'discharged'
+                                      ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
+                                      : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
+                                  }`}
+                                >
+                                  <div className="flex justify-between items-center">
+                                    <h6 className="font-medium text-slate-800">Bed {bed.bedNumber}</h6>
+                                    <div
+                                      className={`p-1 rounded-full ${
+                                        bed.status === 'occupied'
+                                          ? 'bg-blue-100'
+                                          : bed.status === 'available'
+                                          ? 'bg-emerald-100'
+                                          : bed.status === 'clean'
+                                          ? 'bg-teal-100'
+                                          : bed.status === 'discharged'
+                                          ? 'bg-amber-100'
+                                          : 'bg-rose-100'
+                                      }`}
+                                    >
+                                      {getStatusIcon(bed.status)}
+                                    </div>
+                                  </div>
+                                  <div className="mt-1">
+                                    <span
+                                      className={`px-1 py-0.5 text-xs rounded-full ${getStatusClass(bed.status)}`}
+                                    >
+                                      {getStatusText(bed.status)}
+                                    </span>
+                                  </div>
+                                  {bed.patientName && (
+                                    <div className="mt-1 text-xs truncate">
+                                      <div className="font-medium text-slate-700">{bed.patientName}</div>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
                             </div>
                           </div>
                         ))}
@@ -579,55 +767,65 @@ export default function Rooms() {
                 {(!selectedFloor || selectedFloor === '3') && (
                   <div className={`${selectedFloor && selectedFloor !== '3' ? 'opacity-50' : ''}`}>
                     <h4 className="text-md font-medium text-slate-800 mb-3">Floor 3</h4>
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 gap-6">
                       {sortedRooms
                         .filter((room) => room.floor === 3)
                         .map((room) => (
-                          <div
-                            key={room.id}
-                            className={`rounded-xl p-4 border-2 transition-all duration-300 hover:shadow-md cursor-pointer transform hover:-translate-y-1 ${
-                              room.status === 'occupied'
-                                ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
-                                : room.status === 'available'
-                                ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
-                                : room.status === 'clean'
-                                ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
-                                : room.status === 'discharged'
-                                ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                                : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
-                            }`}
-                            onClick={() => updateRoomStatus(room.id, room.status === 'occupied' ? 'discharged' : room.status === 'discharged' ? 'clean' : room.status === 'clean' ? 'available' : 'occupied')}
-                          >
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h4 className="font-bold text-slate-800">Room {room.number}</h4>
-                                <p className="text-sm text-slate-600">{room.type}</p>
-                              </div>
-                              <div
-                                className={`p-1 rounded-full ${
-                                  room.status === 'occupied'
-                                    ? 'bg-blue-100'
-                                    : room.status === 'available'
-                                    ? 'bg-emerald-100'
-                                    : room.status === 'clean'
-                                    ? 'bg-teal-100'
-                                    : room.status === 'discharged'
-                                    ? 'bg-amber-100'
-                                    : 'bg-rose-100'
-                                }`}
-                              >
-                                {getStatusIcon(room.status)}
-                              </div>
-                            </div>
-                            <div className="mt-3">
-                              <span
-                                className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}
-                              >
-                                {getStatusText(room.status)}
+                          <div key={room.id}>
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-slate-800">Room {room.number} ({room.type})</h5>
+                              <span className={`px-2 py-1 text-xs rounded-full ${getStatusClass(room.status)}`}>
+                                {getStatusText(room.status)} Room
                               </span>
                             </div>
-                            <div className="mt-2 text-xs text-slate-500">
-                              Click to change status
+                            <div className="grid grid-cols-4 gap-2 ml-4">
+                              {room.beds && room.beds.map((bed: any) => (
+                                <div
+                                  key={bed.id}
+                                  className={`rounded-lg p-2 border-2 transition-all duration-300 hover:shadow-md cursor-pointer ${
+                                    bed.status === 'occupied'
+                                      ? 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                                      : bed.status === 'available'
+                                      ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100'
+                                      : bed.status === 'clean'
+                                      ? 'border-teal-200 bg-teal-50 hover:bg-teal-100'
+                                      : bed.status === 'discharged'
+                                      ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
+                                      : 'border-rose-200 bg-rose-50 hover:bg-rose-100'
+                                  }`}
+                                >
+                                  <div className="flex justify-between items-center">
+                                    <h6 className="font-medium text-slate-800">Bed {bed.bedNumber}</h6>
+                                    <div
+                                      className={`p-1 rounded-full ${
+                                        bed.status === 'occupied'
+                                          ? 'bg-blue-100'
+                                          : bed.status === 'available'
+                                          ? 'bg-emerald-100'
+                                          : bed.status === 'clean'
+                                          ? 'bg-teal-100'
+                                          : bed.status === 'discharged'
+                                          ? 'bg-amber-100'
+                                          : 'bg-rose-100'
+                                      }`}
+                                    >
+                                      {getStatusIcon(bed.status)}
+                                    </div>
+                                  </div>
+                                  <div className="mt-1">
+                                    <span
+                                      className={`px-1 py-0.5 text-xs rounded-full ${getStatusClass(bed.status)}`}
+                                    >
+                                      {getStatusText(bed.status)}
+                                    </span>
+                                  </div>
+                                  {bed.patientName && (
+                                    <div className="mt-1 text-xs truncate">
+                                      <div className="font-medium text-slate-700">{bed.patientName}</div>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
                             </div>
                           </div>
                         ))}
@@ -639,102 +837,108 @@ export default function Rooms() {
           </div>
         </div>
 
-        {/* Room Table */}
+        {/* Bed-wise Room Table */}
         <div className="bg-white rounded-xl shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-slate-200">
               <thead className="bg-slate-50">
                 <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Bed Details</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Room</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Floor</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Type</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Last Updated</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Bed Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Patient</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-slate-200">
-                {sortedRooms.map((room: any) => (
-                  <tr 
-                    key={room.id} 
-                    className="hover:bg-slate-50 transition-all duration-300 cursor-pointer"
-                    onClick={() => setShowEditRoomModal(true)}
-                  >
-                    <td 
-                      className="px-6 py-4 whitespace-nowrap cursor-pointer hover:bg-slate-100 transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowEditRoomModal(true);
-                      }}
+                {sortedRooms.flatMap((room: any) => 
+                  (room.beds || []).map((bed: any) => (
+                    <tr 
+                      key={bed.id} 
+                      className="hover:bg-slate-50 transition-all duration-300"
                     >
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
-                          <span className="text-white font-bold">{room.number}</span>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
+                            <span className="text-white font-bold">{bed.bedNumber}</span>
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-slate-900">Bed {bed.bedNumber}</div>
+                          </div>
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-slate-900">{room.number}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                        {room.number}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                        Floor {room.floor}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(bed.status)}`}>
+                          {getStatusText(bed.status)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                        {bed.patientName || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-2">
+                          <select
+                            className="px-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm text-slate-800 bg-white"
+                            value={bed.status}
+                            onChange={(e) => {
+                              // For demo, we'll update the bed status in the room's bed array
+                              const updatedRooms = rooms.map((r: any) => {
+                                if (r.id === room.id) {
+                                  return {
+                                    ...r,
+                                    beds: r.beds.map((b: any) => 
+                                      b.id === bed.id ? { ...b, status: e.target.value } : b
+                                    )
+                                  };
+                                }
+                                return r;
+                              });
+                              setRooms(updatedRooms);
+                              
+                              // Update stats
+                              let occupied = 0, available = 0, clean = 0, discharged = 0, maintenance = 0;
+                              for (const r of updatedRooms) {
+                                for (const b of r.beds) {
+                                  switch (b.status) {
+                                    case 'occupied':
+                                      occupied++;
+                                      break;
+                                    case 'available':
+                                      available++;
+                                      break;
+                                    case 'clean':
+                                      clean++;
+                                      break;
+                                    case 'discharged':
+                                      discharged++;
+                                      break;
+                                    case 'maintenance':
+                                      maintenance++;
+                                      break;
+                                  }
+                                }
+                              }
+                              setStats({ occupied, available, clean, discharged, maintenance, total: occupied + available + clean + discharged + maintenance });
+                            }}
+                          >
+                            <option value="available">Available</option>
+                            <option value="occupied">Occupied</option>
+                            <option value="clean">Clean</option>
+                            <option value="discharged">Discharged</option>
+                            <option value="maintenance">Under Maintenance</option>
+                          </select>
                         </div>
-                      </div>
-                    </td>
-                    <td 
-                      className="px-6 py-4 whitespace-nowrap text-sm text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Show floor edit modal
-                        alert(`Edit floor for room ${room.number}`);
-                      }}
-                    >
-                      Floor {room.floor}
-                    </td>
-                    <td 
-                      className="px-6 py-4 whitespace-nowrap text-sm text-slate-600 cursor-pointer hover:bg-slate-100 transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Show type edit modal
-                        alert(`Edit type for room ${room.number}`);
-                      }}
-                    >
-                      {room.type}
-                    </td>
-                    <td 
-                      className="px-6 py-4 whitespace-nowrap cursor-pointer hover:bg-slate-100 transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Show status edit modal
-                      }}
-                    >
-                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(room.status)}`}>
-                        {getStatusText(room.status)}
-                      </span>
-                    </td>
-                    <td 
-                      className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 cursor-pointer hover:bg-slate-100 transition-colors duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Show date edit modal
-                        alert(`Last updated: ${room.updatedAt ? new Date(room.updatedAt).toLocaleString() : 'N/A'}`);
-                      }}
-                    >
-                      {room.updatedAt ? new Date(room.updatedAt).toLocaleString() : 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
-                        <select
-                          className="px-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm text-slate-800 bg-white"
-                          value={room.status}
-                          onChange={(e) => updateRoomStatus(room.id, e.target.value)}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <option value="occupied">Occupied</option>
-                          <option value="available">Available</option>
-                          <option value="clean">Clean</option>
-                          <option value="discharged">Discharged</option>
-                          <option value="maintenance">Under Maintenance</option>
-                        </select>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -794,6 +998,18 @@ export default function Rooms() {
                     <option value="ICU">ICU</option>
                     <option value="Maternity Ward">Maternity Ward</option>
                     <option value="Emergency">Emergency</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Number of Beds</label>
+                  <select
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 bg-white"
+                    value={newRoom.numberOfBeds || 1}
+                    onChange={(e) => setNewRoom({...newRoom, numberOfBeds: parseInt(e.target.value)})}
+                  >
+                    {[1, 2, 3, 4].map(num => (
+                      <option key={num} value={num}>{num} bed{num > 1 ? 's' : ''}</option>
+                    ))}
                   </select>
                 </div>
                 <div>

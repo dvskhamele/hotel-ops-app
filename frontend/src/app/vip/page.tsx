@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header'
+import { getSatisfactionEmoji } from '../../utils/helpers'
 
 export default function VIP() {
   const [vipPatients, setVipPatients] = useState<any[]>([])
@@ -199,14 +200,6 @@ export default function VIP() {
     return diffDays;
   }
 
-  // Function to get satisfaction emoji based on score
-  const getSatisfactionEmoji = (score: number) => {
-    if (score >= 95) return '🌟';
-    if (score >= 90) return '👍';
-    if (score >= 80) return '👌';
-    return '⚠️';
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
@@ -396,26 +389,18 @@ export default function VIP() {
                   </div>
                 </div>
                 
-                <div className="mt-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-600">Visit History</span>
-                    <span className="text-sm font-bold text-slate-800">{patient.visitCount} visits</span>
-                  </div>
-                  <div className="flex items-center mt-1">
-                    <div className="w-full bg-slate-200 rounded-full h-2 mr-2">
+                <div className="flex items-center mt-1">
                       <div 
                         className={`h-2 rounded-full ${
-                          patient.satisfactionScore >= 95 ? 'bg-emerald-500' : 
-                          patient.satisfactionScore >= 90 ? 'bg-amber-500' : 'bg-rose-500'
+                          (patient.satisfactionScore || 0) >= 95 ? 'bg-emerald-500' : 
+                          (patient.satisfactionScore || 0) >= 90 ? 'bg-amber-500' : 'bg-rose-500'
                         }`}
-                        style={{ width: `${patient.satisfactionScore}%` }}
+                        style={{ width: `${patient.satisfactionScore || 0}%` }}
                       ></div>
+                      <span className="text-xs font-bold text-slate-800 flex items-center">
+                        {patient.satisfactionScore}% {getSatisfactionEmoji(patient.satisfactionScore || 0)}
+                      </span>
                     </div>
-                    <span className="text-xs font-bold text-slate-800 flex items-center">
-                      {patient.satisfactionScore}% {getSatisfactionEmoji(patient.satisfactionScore)}
-                    </span>
-                  </div>
-                </div>
                 
                 <div className="mt-4">
                   <div className="flex justify-between items-center">
@@ -549,11 +534,11 @@ export default function VIP() {
                       <div className="text-sm text-slate-600">
                         <div>Visits: {patient.visitCount}</div>
                         <div className="flex items-center">
-                          <span className="mr-1">Satisfaction:</span>
-                          <span className="font-medium text-slate-800 flex items-center">
-                            {patient.satisfactionScore}% {getSatisfactionEmoji(patient.satisfactionScore)}
-                          </span>
-                        </div>
+                            <span className="mr-1">Satisfaction:</span>
+                            <span className="font-medium text-slate-800 flex items-center">
+                              {patient.satisfactionScore}% {getSatisfactionEmoji(patient.satisfactionScore || 0)}
+                            </span>
+                          </div>
                         <div>Avg Stay: {patient.averageStay} days</div>
                       </div>
                     </td>
@@ -627,16 +612,16 @@ export default function VIP() {
                       acc[p.category] = (acc[p.category] || 0) + 1;
                       return acc;
                     }, {})
-                  ).sort((a, b) => b[1] - a[1])[0][0] : 'N/A'}
+                  ).sort((a: any, b: any) => b[1] - a[1])[0][0] : 'N/A'}
               </p>
               <p className="text-sm text-purple-600">
                 {vipPatients.length > 0 ? 
-                  `${Math.round((Object.values(
+                  `${Math.round(((Object.values(
                     vipPatients.reduce((acc: any, p) => {
                       acc[p.category] = (acc[p.category] || 0) + 1;
                       return acc;
-                    }, {})
-                  ).sort((a: any, b: any) => b - a)[0] / vipPatients.length) * 100)}% of patients` : ''}
+                    }, {}) as Record<string, number>
+                  ).sort((a: any, b: any) => b - a)[0] || 0) / vipPatients.length) * 100)}% of patients` : ''}
               </p>
             </div>
             <div className="border border-emerald-200 bg-emerald-50 rounded-lg p-4 hover:bg-emerald-100 transition duration-300 cursor-pointer">
